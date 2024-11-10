@@ -97,6 +97,32 @@ bundle install
 yarn install
 ```
 
+`/config/database.yml` を作成し下記内容を自分の PostgreSQL のパスワードに変更
+
+```yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: # 自身のパスワードをここに記載
+  host: localhost
+
+development:
+  <<: *default
+  database: tanbou-maps_development
+
+test:
+  <<: *default
+  database: tanbou-maps_test
+
+production:
+  <<: *default
+  database: tanbou-maps_production
+  username: postgres
+  password: <%= ENV["MY_APP_DATABASE_PASSWORD"] %>
+```
+
 下記コマンドで正常に開発用ローカルサーバーが立ち上がったら成功
 
 ```shell
