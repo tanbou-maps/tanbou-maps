@@ -32,6 +32,7 @@ console.log(
 
 import { createApp } from "vue";
 import App from "../vue/App.vue";
+import "../stylesheets/style.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(App).mount("#app");

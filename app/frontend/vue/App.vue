@@ -1,5 +1,6 @@
 <template>
   <p>{{ state.message }}</p>
+  <div class="text-3xl font-bold underline">Hello world!</div>
 </template>
 
 <script>
@@ -17,9 +18,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
-</style>
+<style scoped></style>
