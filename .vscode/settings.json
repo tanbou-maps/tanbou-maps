@@ -10,7 +10,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit" // 保存時にeslinterを実行させる
   },
-  "eslint.format.enable": false, // eslintでのいフォーマットを無効化
+  "eslint.format.enable": false, // eslintでのフォーマットを無効化
   /* --- HTML Settings --- */
   "[html]": {
     "editor.tabSize": 2 // Use 2 spaces for indentation
