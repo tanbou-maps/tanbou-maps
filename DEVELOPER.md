@@ -384,6 +384,22 @@ git pull origin develop --rebase
 git branch -d feature-foobar
 ```
 
+topic branch で作業中に `develop` branch に `Gemfile` や `package.json` に変更があった場合
+
+ライブラリの依存関係を保つために以下のコマンドを実行
+
+gem のインストール
+
+```shell
+bundle install
+```
+
+node_module のインストール
+
+```shell
+yarn install
+```
+
 エラーなく正常にできたら OK
 
 ## プロジェクト文書フォーマット
