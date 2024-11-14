@@ -269,14 +269,10 @@ bundle exec rails server
 - pull request までの流れ -> https://qiita.com/KosukeSone/items/5534cc07d1441d244fc1
 - pull request までの流れ(一番わかりやすい) -> https://qiita.com/kuuuuumiiiii/items/42d2d9ed11e3b29c22cf
 - リーモトブランチをもとにローカルブランチを作成 -> https://qiita.com/miriwo/items/53b319d3d3a3759b30a7
+- pull request の書き方 -> https://qiita.com/marumaru0113/items/c53db580b812f8f6d4da
+-
 
 ### Pull Request までの流れ
-
-GitHub の最新の `develop` branch を取得する
-
-```shell
-git pull origin develop --rebase
-```
 
 現在のブランチを確認
 
@@ -288,6 +284,12 @@ git branch
 
 ```shell
 git checkout -b develop origin/develop
+```
+
+現在立っている branch に GitHub の最新の `develop` branch を取得する
+
+```shell
+git pull origin develop --rebase
 ```
 
 branch が `develop` であることを確認
@@ -305,13 +307,17 @@ git branch
 | feature-\*  | 新機能開発中に使うブランチ                                                                   | develop    | develop                                                                |
 | hotfix-\*   | 公開中のもののバグ修正用ブランチ                                                             | develop    | develop                                                                |
 
-作業する branch を切る
-branch の命名規則は下記の通りとして、英語の小文字で行う
-上記の命名規則を基に branch を切る
+topic branch の命名規則は下記の通りとして、英語の小文字で行い、ケバブケースで単語をつなぐ
+
+上記の命名規則を基に topic branch を切る
 
 ```shell
 git checkout -b feature-*
 ```
+
+> checkout が無事にできたら コーディング開始
+
+> コーディングは topic branch 上でのみ行う
 
 ファイルを変更して変更したファイルを commit する
 
@@ -372,10 +378,26 @@ git checkout develop
 git pull origin develop --rebase
 ```
 
-ローカルの branch を削除する
+ローカルの topic branch を削除する
 
 ```shell
 git branch -d feature-foobar
+```
+
+topic branch で作業中に `develop` branch に `Gemfile` や `package.json` に変更があった場合
+
+ライブラリの依存関係を保つために以下のコマンドを実行
+
+gem のインストール
+
+```shell
+bundle install
+```
+
+node_module のインストール
+
+```shell
+yarn install
 ```
 
 エラーなく正常にできたら OK

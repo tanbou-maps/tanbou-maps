@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  spot_id: 1
+  hours_of_operation: MyText
+  access_info: MyText
+  contact_info: MyText
+  website_url: MyText
+  recommended_season: MyText
+  entry_fee: MyText
+
+two:
+  spot_id: 1
+  hours_of_operation: MyText
+  access_info: MyText
+  contact_info: MyText
+  website_url: MyText
+  recommended_season: MyText
+  entry_fee: MyText
