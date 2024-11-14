@@ -31,7 +31,7 @@ console.log(
 // import '~/index.css'
 
 import { createApp } from "vue";
-import SignIn from "../componets/SignIn.vue";
+import SignIn from "../components/SignIn.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(SignIn).mount("#SignIn");
