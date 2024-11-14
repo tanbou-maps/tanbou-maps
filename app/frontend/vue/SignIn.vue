@@ -5,8 +5,8 @@ const username = ref("");
 const password = ref("");
 const errorMessage = ref("");
 
-async function signIn() {
-  const response = await fetch("http://localhost:3000/login", {
+async function SignIn() {
+  const response = await fetch("http://localhost:3000/SignIn", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,8 +18,8 @@ async function signIn() {
   });
 
   if (response.ok) {
-    // ログイン成功時の処理
-    console.log("Login successful!");
+    // サインイン成功時の処理
+    console.log("SignIn successful!");
     // 例えばダッシュボードへのリダイレクトなど
   } else {
     // エラーメッセージの表示
@@ -29,17 +29,17 @@ async function signIn() {
 </script>
 
 <template>
-  <div class="signin-container">
+  <div class="SignIn-container">
     <h1>Sign In</h1>
     <input v-model="username" type="text" placeholder="Username" required />
     <input v-model="password" type="password" placeholder="Password" required />
-    <button type="submit" @click="signIn">Sign In</button>
+    <button type="submit" @click="SignIn">Sign In</button>
     <p v-if="errorMessage">{{ errorMessage }}</p>
   </div>
 </template>
 
 <style>
-.signin-container {
+.SignIn-container {
   width: 580px;
   margin: auto;
   padding: 20px;
