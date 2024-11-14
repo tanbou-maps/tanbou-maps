@@ -5,8 +5,10 @@ const username = ref("");
 const password = ref("");
 const errorMessage = ref("");
 
-async function SignIn() {
-  const response = await fetch("http://localhost:3000/SignIn", {
+async function signIn() {
+  // 関数名をキャメルケースに変更
+  const response = await fetch("http://localhost:3000/sign_in", {
+    // APIエンドポイントをスネークケースに変更
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,28 +20,28 @@ async function SignIn() {
   });
 
   if (response.ok) {
-    // サインイン成功時の処理
-    console.log("SignIn successful!");
-    // 例えばダッシュボードへのリダイレクトなど
+    console.log("Sign-in successful!");
   } else {
-    // エラーメッセージの表示
     errorMessage.value = "Invalid username or password";
   }
 }
 </script>
 
 <template>
-  <div class="SignIn-container">
+  <div class="sign-in-container">
+    <!-- クラス名をケバブケースに変更 -->
     <h1>Sign In</h1>
     <input v-model="username" type="text" placeholder="Username" required />
     <input v-model="password" type="password" placeholder="Password" required />
-    <button type="submit" @click="SignIn">Sign In</button>
+    <button type="submit" @click="signIn">Sign In</button>
+    <!-- 関数名の修正 -->
     <p v-if="errorMessage">{{ errorMessage }}</p>
   </div>
 </template>
 
 <style>
-.SignIn-container {
+.sign-in-container {
+  /* クラス名をケバブケースに変更 */
   width: 580px;
   margin: auto;
   padding: 20px;
