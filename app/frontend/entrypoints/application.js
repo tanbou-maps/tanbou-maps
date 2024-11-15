@@ -32,8 +32,10 @@ console.log(
 
 import { createApp } from "vue";
 import "../stylesheets/style.css";
+import App from "../vue/App.vue"; // テスト用 Vue コンポーネントを読み込む
 import SignIn from "../components/SignIn.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
+  createApp(App).mount("#app"); // vue/index の場所にマウント
   createApp(SignIn).mount("#sign-in");
 });
