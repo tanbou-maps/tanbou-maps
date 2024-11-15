@@ -37,3 +37,9 @@ import SignIn from "../components/SignIn.vue";
 document.addEventListener("DOMContentLoaded", () => {
   createApp(SignIn).mount("#sign-in");
 });
+
+import App from "../vue/App.vue";
+
+document.addEventListener("DOMContentLoaded", () => {
+  createApp(App).mount("#app");
+});

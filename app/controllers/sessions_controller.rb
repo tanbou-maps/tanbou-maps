@@ -4,12 +4,14 @@ class SessionsController < ApplicationController
   def new
     # 通常はログインフォームが含まれるビューを表示します。
     # ここにロジックを追加する必要はありませんが、フォーム関連の初期化が必要な場合はここで行います。
+    render :signin # ファイル名を参照している(この場合defがnewのためnew.html.erbを参照してしまう)その為、renderでsigninに変更する
   end
 
   # ログイン試行を処理するアクション
   def create
     # フォームから送信されたユーザー名を使用してユーザーを検索
     user = User.find_by(name: params[:name])
+    console.log('test')
     # ユーザーが存在し、パスワードが正しい場合はセッションにユーザーIDを保存
     if user&.authenticate(params[:email])
       session[:user_id] = user.id
