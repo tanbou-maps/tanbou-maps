@@ -9,9 +9,9 @@ class SessionsController < ApplicationController
   # ログイン試行を処理するアクション
   def create
     # フォームから送信されたユーザー名を使用してユーザーを検索
-    user = User.find_by(username: params[:username])
+    user = User.find_by(name: params[:name])
     # ユーザーが存在し、パスワードが正しい場合はセッションにユーザーIDを保存
-    if user&.authenticate(params[:password])
+    if user&.authenticate(params[:email])
       session[:user_id] = user.id
       # ユーザーが正常にログインした場合、root_pathにリダイレクト
       redirect_to root_path, notice: 'サインインに成功しました。'
