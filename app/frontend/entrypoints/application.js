@@ -33,12 +33,11 @@ console.log(
 import { createApp } from "vue";
 import "../stylesheets/style.css";
 import SignIn from "../components/SignIn.vue";
+import App from "../vue/App.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(SignIn).mount("#sign-in");
 });
-
-import App from "../vue/App.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(App).mount("#app");
