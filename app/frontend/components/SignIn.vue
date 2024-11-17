@@ -12,7 +12,7 @@ async function signIn() {
   const response = await fetch("http://localhost:3000/sign_in", {
     // APIエンドポイントをスネークケースに変更
     method: "POST",
-    mode: "no-cors",
+    mode: "no-cors", //これがないとエラーが出る
     headers: {
       "Content-Type": "application/json",
     },
