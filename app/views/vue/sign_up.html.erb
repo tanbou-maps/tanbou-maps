@@ -1,0 +1,28 @@
+<%# rails formヘルパーで作成 %>
+<%# model @vueオブジェクトを接続, collectionオプションを使用したのでurl:vue_index_pathを記述%>
+<%= form_with model: @vue, url:vue_index_path, local: true do |form| %>
+<%# 名前を入力するフォーム %>
+    <%= form.label :name, "User Name"%><br>
+    <%= form.text_field :name %><br>
+<%# メールを入力するフォーム %>
+    <%= form.label :email, "Email"%><br>
+    <%= form.email_field :email %><br>
+<%# パスワードを入力するフォーム %>
+    <%= form.label :password, "Password"%> <br>
+    <%= form.password_field :password %><br>
+<%# アカウントタイプを選択するラジオボタン　選択肢は二つ %>
+    <%= form.radio_button :account_type, "radio1" %>
+    <%= form.label :account_type, "For User" %><br>
+
+    <%= form.radio_button :account_type, "radio2" %>
+    <%= form.label :account_type, "For Coporate" %><br>
+<%# コーポレートタイプを選択するドロップダウンリスト、データベースからコーポレートタイプを取得して表示する %>
+    <br>
+    <%= form.label :corporate_type, "Select Coporate Type" %><br>
+    <%= form.select :corporate_type, options_for_select([['Please Select', 'ps'], ["aaa", 'aaa'], ["bbb", 'bbb'], ["ccc", 'ccc']]), {selected: 1}%>
+
+    <br>
+    <%= form.submit "Sign up"%>
+    <%# 既にアカウントを持っている場合のサインインに遷移するためのリンク %>
+    <p>Already have an account? Click here  <a href="Sign in">Sign in</a> </p>
+<% end %>

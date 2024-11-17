@@ -10,8 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 20_241_117_081_833) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
+  create_table 'app_users', force: :cascade do |t|
+    t.string 'name'
+    t.text 'email'
+    t.string 'password'
+    t.text 'bio'
+    t.string 'account_atatus'
+    t.text 'profile_picture_url'
+    t.text 'location'
+    t.string 'account_type'
+    t.string 'corporate_type', default: 'individual'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
 end
