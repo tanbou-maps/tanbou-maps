@@ -6,10 +6,13 @@ const password = ref("");
 const errorMessage = ref("");
 
 async function signIn() {
+  console.log(username.value);
+  console.log(password.value);
   // 関数名をキャメルケースに変更
   const response = await fetch("http://localhost:3000/sign_in", {
     // APIエンドポイントをスネークケースに変更
     method: "POST",
+    mode: "no-cors", //これがないとエラーが出る
     headers: {
       "Content-Type": "application/json",
     },
@@ -17,7 +20,10 @@ async function signIn() {
       username: username.value,
       password: password.value,
     }),
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("エラー:", error));
 
   if (response.ok) {
     console.log("Sign-in successful!");
