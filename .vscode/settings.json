@@ -3,7 +3,7 @@
   "editor.minimap.enabled": false, // 右側に表示されるミニマップを非表示
   "explorer.compactFolders": false, // フォルダの中に1つしかフォルダがないときの省略表示を無効化
   "files.trimTrailingWhitespace": true, // 保存時に行末の空白を削除
-  "files.trimFinalNewlines": true, //保存時にファイル末尾の無駄な空行を削除
+  "files.trimFinalNewlines": true, // 保存時にファイル末尾の無駄な空行を削除
   "files.insertFinalNewline": true, // 保存時にファイル末尾に空行を挿入
   "editor.defaultFormatter": "esbenp.prettier-vscode", // デフォルトのフォーマッターを設定
   "editor.formatOnSave": true, // 保存時にフォーマッターを適用
