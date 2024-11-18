@@ -1,22 +1,8 @@
 class Event < ApplicationRecord
-  # バリデーション: データの一貫性を保つ
-  validates :name, presence: true
-  validates :start_date, presence: true
-  validates :end_date, presence: true
-  validate :end_date_after_start_date
-
-  # アソシエーション: 他モデルとの関連付け
   belongs_to :spot
+  has_many :event_categories
+  has_many :categories, through: :event_categories
 
-  # カスタムバリデーション
-  # イベントの終了日が開始日より後であるかをチェックしています。
-  private
-
-  def end_date_after_start_date
-    return if end_date.blank? || start_date.blank?
-
-    if end_date < start_date
-      errors.add(:end_date, "must be after the start date")
-    end
-  end
+  # 時刻の整合性をチェック
+  validates :end_time, comparison: { greater_than: :start_time }, if: -> { start_time.present? && end_time.present? }
 end
