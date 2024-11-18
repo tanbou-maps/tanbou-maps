@@ -1,5 +1,8 @@
 class Stamp < ApplicationRecord
-  belongs_to :app_user, foreign_key: :user_id
+  belongs_to :application_user
   belongs_to :spot
-  validates :method, presence: true
+
+  # スタンプ取得状況を管理
+  STATUSES = %w[pending collected expired].freeze
+  validates :status, inclusion: { in: STATUSES }
 end

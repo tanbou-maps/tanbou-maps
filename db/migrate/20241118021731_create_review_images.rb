@@ -3,7 +3,7 @@ class CreateReviewImages < ActiveRecord::Migration[7.0]
     create_table :review_images do |t|
       t.text :url
       t.text :description
-      t.integer :review_id
+      t.references :review, null: false, foreign_key: true
 
       t.timestamps
     end

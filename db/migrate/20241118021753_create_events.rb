@@ -7,7 +7,7 @@ class CreateEvents < ActiveRecord::Migration[7.0]
       t.date :end_date
       t.integer :capacity
       t.text :fee
-      t.integer :spot_id
+      t.references :spot, null: false, foreign_key: true
 
       t.timestamps
     end
