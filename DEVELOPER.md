@@ -55,7 +55,10 @@ psql --version
 ### GitHub を使った共同コーディング環境の作成
 
 任意のディレクトリに移動
-ex.
+
+ルートディレクトリやホームディレクトリの直下は避けたほうが良いのでなにかしらのフォルダを作る
+
+example:
 
 ```shell
 cd ~/Documents/Work/Rails
@@ -91,7 +94,7 @@ bundle install
 yarn install
 ```
 
-`/config/database.yml` を作成し下記内容を自分の PostgreSQL のパスワードに変更
+`config` ディレクトリの下に `database.yml` を作成し下記内容をコピーペーストしてコメントの部分を自分の PostgreSQL のパスワードに変更
 
 ```yml
 default: &default
@@ -123,7 +126,7 @@ production:
 bundle exec rails db:create
 ```
 
-データベースを `models` を元に生成
+テーブルをカラムを `models` を元に生成
 
 ```shell
 bundle exec rails db:migrate
@@ -145,7 +148,7 @@ bundle exec rails server
 - pull request までの流れ -> https://qiita.com/samurai_runner/items/7442521bce2d6ac9330b
 - pull request までの流れ -> https://qiita.com/KosukeSone/items/5534cc07d1441d244fc1
 - pull request までの流れ(一番わかりやすい) -> https://qiita.com/kuuuuumiiiii/items/42d2d9ed11e3b29c22cf
-- リーモトブランチをもとにローカルブランチを作成 -> https://qiita.com/miriwo/items/53b319d3d3a3759b30a7
+- Remote branch をもとに Local branch を作成 -> https://qiita.com/miriwo/items/53b319d3d3a3759b30a7
 - pull request の書き方 -> https://qiita.com/marumaru0113/items/c53db580b812f8f6d4da
 
 ### Pull Request までの流れ
@@ -183,12 +186,16 @@ git branch
 | feature-\*  | 新機能開発中に使うブランチ                                                                   | develop    | develop                                                                |
 | hotfix-\*   | 公開中のもののバグ修正用ブランチ                                                             | develop    | develop                                                                |
 
-topic branch の命名規則は下記の通りとして、英語の小文字で行い、ケバブケースで単語をつなぐ
-
-上記の命名規則を基に topic branch を切る
+topic branch の命名規則は上記の通りとして、英語の小文字で行い、ケバブケースで単語をつなぎ上記の命名規則を基に topic branch を切る
 
 ```shell
 git checkout -b feature-*
+```
+
+example:
+
+```shell
+git checkout -b feature-user-manage
 ```
 
 > checkout が無事にできたら コーディング開始
@@ -213,17 +220,23 @@ type は 下記のリストから選ぶ
 - fix: バグの修正
 - docs: ドキュメントの変更のみ
 - style: コードの意味に影響しない変更（空白、書式、セミコロンの欠落など）
-- refactor: バグ修正でも機能追加でもないコード変更
+- refactor: バグ修正でも機能追加でもないコード変更やコードコメントの追記
 - perf: パフォーマンスを向上させるコード変更
 - test: 不足しているテストの追加、または既存のテストの修正
 - chore: ドキュメントの生成など、ビルド・プロセスや補助ツール、ライブラリの変更
 
 ##### Description
 
-description は日本語で簡潔かつ具体的に 100 文字以内書く
+上記の "type" から一つ選び と "description" は日本語で簡潔かつ具体的に 100 文字以内書く
 
 ```shell
 git commit -m "<type>: <description>"
+```
+
+example:
+
+```shell
+git commit -m "feat: プロフィール編集ができるようにルーティングの設定"
 ```
 
 GitHub に push する
@@ -257,7 +270,13 @@ git pull origin develop --rebase
 ローカルの topic branch を削除する
 
 ```shell
-git branch -d feature-foobar
+git branch -d feature-*
+```
+
+example:
+
+```shell
+git branch -d feature-user-manage
 ```
 
 topic branch で作業中に `develop` branch に `Gemfile` や `package.json` に変更があった場合
@@ -270,10 +289,22 @@ gem のインストール
 bundle install
 ```
 
-node_module のインストール
+node_modules のインストール
 
 ```shell
 yarn install
+```
+
+データベースのマイグレーション
+
+```shell
+bundle exec rails db:migrate
+```
+
+サーバーの起動
+
+```shell
+bundle exec rails server
 ```
 
 エラーなく正常にできたら OK
