@@ -29,6 +29,8 @@ const initMap = () => {
   map.value = new google.maps.Map(mapContainer.value, {
     zoom: 15,
     center: defaultLocation,
+    mapTypeControl: false,
+    streetViewControl: false,
   });
 
   marker.value = new google.maps.Marker({
@@ -65,12 +67,22 @@ const handleSearch = async () => {
 };
 
 onMounted(() => {
-  // Google Maps APIの読み込み
+  // DOM から API キーを取得
+  const apiKey =
+    document.getElementById("map-search-app").dataset.googleMapsApiKey;
+
+  // Google Maps API の読み込み
   const script = document.createElement("script");
-  script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=Function.prototype`;
   script.async = true;
   script.defer = true;
-  script.onload = initMap;
+
+  // スクリプトの読み込み完了後にマップを初期化
+  script.onload = () => {
+    // APIが完全に読み込まれるまで少し待つ
+    setTimeout(initMap, 100);
+  };
+
   document.head.appendChild(script);
 });
 </script>
