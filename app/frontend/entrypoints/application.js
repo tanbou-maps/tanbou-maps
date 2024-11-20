@@ -36,6 +36,7 @@ import App from "../vue/App.vue"; // テスト用 Vue コンポーネントを�
 import Header from "../components/Header.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
+import SignUp from "../components/SignUp.vue";
 import MapSearch from "../components/MapSearch.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(Header).mount("#header"); // header
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
+  createApp(SignUp).mount("#sign-up");
 
   const mapSearchApp = document.getElementById("map-search-app");
 
