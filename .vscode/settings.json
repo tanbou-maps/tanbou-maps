@@ -38,6 +38,7 @@
     "editor.formatOnType": true // Enable formatting while typing
   },
   "[erb]": {
+    "editor.tabSize": 2, // Use 2 spaces for indentation
     "editor.defaultFormatter": "Shopify.ruby-lsp"
   },
   "rubyLsp.formatter": "auto",
