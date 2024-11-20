@@ -13,7 +13,7 @@ console.log("Vite ⚡️ Rails");
 
 console.log(
   "Visit the guide for more information: ",
-  "https://vite-ruby.netlify.app/guide/rails"
+  "https://vite-ruby.netlify.app/guide/rails",
 );
 
 // Example: Load Rails libraries in Vite.
@@ -34,12 +34,14 @@ import { createApp } from "vue";
 import "../stylesheets/style.css";
 import App from "../vue/App.vue"; // テスト用 Vue コンポーネントを読み込む
 import Header from "../components/Header.vue";
-import Index  from "../components/Index.vue";
+import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
+import SignUp from "../components/SignUp.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(App).mount("#app"); // vue/index の場所にマウント
   createApp(Header).mount("#header"); // header
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
+  createApp(SignUp).mount("#sign-up");
 });
