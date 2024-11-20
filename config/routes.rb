@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'index#show'
+  get 'spots/search', to: 'spots#search'
   get 'sign-in', to: 'sessions#new'
   get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'

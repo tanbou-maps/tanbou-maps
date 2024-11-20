@@ -37,6 +37,7 @@ import Header from "../components/Header.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
+import MapSearch from "../components/MapSearch.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(App).mount("#app"); // vue/index の場所にマウント
@@ -44,4 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
   createApp(SignUp).mount("#sign-up");
+
+  const mapSearchApp = document.getElementById("map-search-app");
+
+  if (mapSearchApp) {
+    const app = createApp(MapSearch);
+    app.mount("#map-search-app");
+  }
 });
