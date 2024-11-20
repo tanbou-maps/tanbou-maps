@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  model_course: one
+  spot: one
+  order_number: 1
+  stay_time_minutes: 1
+  transportation: MyString
+
+two:
+  model_course: two
+  spot: two
+  order_number: 1
+  stay_time_minutes: 1
+  transportation: MyString
