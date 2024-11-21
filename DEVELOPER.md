@@ -6,49 +6,49 @@
 
 `Ruby 3.1.6` がはいっていることを確認
 
-```shell
+```bash
 ruby -v
 ```
 
 `bundler` をインストール
 
-```shell
+```bash
 gem install bundler
 ```
 
 `bundler` がインストールできたことを確認
 
-```shell
+```bash
 bundler -v
 ```
 
 `Node.js 22.11.0` がインストールされていることを確認
 
-```shell
+```bash
 node -v
 ```
 
 `npm` がインストールされていることを確認
 
-```shell
+```bash
 npm -v
 ```
 
 `npm` のグローバル環境に `yarn` をインストール
 
-```shell
+```bash
 npm install -g yarn
 ```
 
 `yarn` がインストールされていることを確認
 
-```shell
+```bash
 yarn -v
 ```
 
 `PostgreSQL 17.0` がインストールされていることを確認
 
-```shell
+```bash
 psql --version
 ```
 
@@ -60,37 +60,37 @@ psql --version
 
 example:
 
-```shell
+```bash
 cd ~/Documents/Work/Rails
 ```
 
 次に GitHub からリポジトリをクローンしてローカル環境に取り込む
 
-```shell
+```bash
 git clone https://github.com/tanbou-maps/tanbou-maps.git
 ```
 
 現在のディレクトリ内に `tanbou-maps` フォルダが作成されているので移動
 
-```shell
+```bash
 cd tanbou-maps
 ```
 
 `bundler` のインストールパスの設定
 
-```shell
+```bash
 bundle config set path 'vendor/bundle'
 ```
 
 `Gemfile` 記載の gem を bundler を使ってインストール
 
-```shell
+```bash
 bundle install
 ```
 
 `package.json` 記載の node_modules を yarn を使ってインストール
 
-```shell
+```bash
 yarn install
 ```
 
@@ -120,21 +120,47 @@ production:
   password: <%= ENV["MY_APP_DATABASE_PASSWORD"] %>
 ```
 
-データベースの生成
+Google Cloud にて Google Maps Platform の API を有効化 して API_KEY を取得する
+
+"bash" を使っている場合:
+
+"vim" を使い `config/credentials.yml.enc` を 編集
+
+```bash
+EDITOR="vim" bin/rails credentials:edit
+```
+
+"PowerShell" を使っている場合:
+
+Visual Studio Code を `code` コマンドで使えるように環境変数を設定し `config/credentials.yml.enc` を 編集
 
 ```shell
+$env:EDITOR="code --wait"
+bundle exec rails credentials:edit
+```
+
+立ち上がった編集画面に以下を追記
+
+```yml
+google_maps_api:
+  key: "自分のAPIキー"
+```
+
+データベースの生成
+
+```bash
 bundle exec rails db:create
 ```
 
 テーブルをカラムを `models` を元に生成
 
-```shell
+```bash
 bundle exec rails db:migrate
 ```
 
 下記コマンドで正常に開発用ローカルサーバーが立ち上がったら成功
 
-```shell
+```bash
 bundle exec rails server
 ```
 
@@ -155,25 +181,25 @@ bundle exec rails server
 
 現在のブランチを確認
 
-```shell
+```bash
 git branch
 ```
 
 自分が現在立っているブランチを確認し `main` branch にいる場合は `origin/develop` の情報をもとに `checkout` する
 
-```shell
+```bash
 git checkout -b develop origin/develop
 ```
 
 現在立っている branch に GitHub の最新の `develop` branch を取得する
 
-```shell
+```bash
 git pull origin develop --rebase
 ```
 
 branch が `develop` であることを確認
 
-```shell
+```bash
 git branch
 ```
 
@@ -188,13 +214,13 @@ git branch
 
 topic branch の命名規則は上記の通りとして、英語の小文字で行い、ケバブケースで単語をつなぎ上記の命名規則を基に topic branch を切る
 
-```shell
+```bash
 git checkout -b feature-*
 ```
 
 example:
 
-```shell
+```bash
 git checkout -b feature-user-manage
 ```
 
@@ -204,7 +230,7 @@ git checkout -b feature-user-manage
 
 ファイルを変更して変更したファイルを commit する
 
-```shell
+```bash
 git add .
 ```
 
@@ -229,19 +255,19 @@ type は 下記のリストから選ぶ
 
 上記の "type" から一つ選び と "description" は日本語で簡潔かつ具体的に 100 文字以内書く
 
-```shell
+```bash
 git commit -m "<type>: <description>"
 ```
 
 example:
 
-```shell
+```bash
 git commit -m "feat: プロフィール編集ができるようにルーティングの設定"
 ```
 
 GitHub に push する
 
-```shell
+```bash
 git push origin feature-*
 ```
 
@@ -257,25 +283,25 @@ push した branch が accept された場合は push した リモートの bra
 
 branch を `develop` に変更する
 
-```shell
+```bash
 git checkout develop
 ```
 
 ローカルの `develop` branch をリモートの最新に更新する
 
-```shell
+```bash
 git pull origin develop --rebase
 ```
 
 ローカルの topic branch を削除する
 
-```shell
+```bash
 git branch -d feature-*
 ```
 
 example:
 
-```shell
+```bash
 git branch -d feature-user-manage
 ```
 
@@ -285,25 +311,25 @@ topic branch で作業中に `develop` branch に `Gemfile` や `package.json` �
 
 gem のインストール
 
-```shell
+```bash
 bundle install
 ```
 
 node_modules のインストール
 
-```shell
+```bash
 yarn install
 ```
 
 データベースのマイグレーション
 
-```shell
+```bash
 bundle exec rails db:migrate
 ```
 
 サーバーの起動
 
-```shell
+```bash
 bundle exec rails server
 ```
 
