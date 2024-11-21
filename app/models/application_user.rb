@@ -1,6 +1,7 @@
 class ApplicationUser < ApplicationRecord
   # 定数の初期化
   CORPORATE_TYPES = YAML.load_file(Rails.root.join('config/corporate_types.yml'))['corporate_types']
+  ROLES = %w[user admin moderator].freeze
 
   # リレーション
   has_many :reviews, dependent: :destroy
@@ -11,31 +12,29 @@ class ApplicationUser < ApplicationRecord
   has_secure_password
 
   # バリデーション
-  validates :name, :nickname, :email, :account_type, presence: true
-  validates :nickname, :email, uniqueness: true
-  validates :account_type, inclusion: { in: %w[individual corporate] }
+  ## 必須項目
+  validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: "は英数字のみ使用できます" }
+  validates :username, presence: true, format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: "は日本語や記号が使用できます" }
+  validates :email, presence: true, uniqueness: true
+  validates :account_type, presence: true, inclusion: { in: %w[individual corporate] }
+
+  ## 法人ユーザー用
   validates :corporate_type, inclusion: { in: CORPORATE_TYPES }, allow_nil: true, if: -> { account_type == 'corporate' }
   validates :corporate_type, absence: true, if: -> { account_type == 'individual' }
-  validates :corporate_type, presence: true, if: -> { corporate? }
 
-  # 法人ユーザー判定
-  def corporate?
-    account_type == 'corporate'
-  end
+  ## その他のフィールド
+  validates :profile_picture_url, :background_picture_url, :favorite_spots, length: { maximum: 255 }, allow_nil: true
 
-  # ユーザ役職の定義
-  ROLES = %w[user admin moderator].freeze
+  ## 役割
   validates :role, inclusion: { in: ROLES }
 
-  def admin?
-    role == 'admin'
-  end
+  # 初期値の設定
+  after_initialize :set_default_role, if: :new_record?
 
-  def moderator?
-    role == 'moderator'
-  end
+  private
 
-  def user?
-    role == 'user'
+  # role のデフォルト値を設定
+  def set_default_role
+    self.role ||= 'user'
   end
 end
