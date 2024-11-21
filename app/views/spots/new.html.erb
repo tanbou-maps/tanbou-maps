@@ -1,7 +1,42 @@
-
 <div class="container mx-auto px-4 py-8">
-  <div
-    id="spot-add-app"
-    data-google-maps-api-key="<%= @google_maps_api_key %>"
-  ></div>
+  <h1 class="text-2xl mb-4">新しいスポットを追加</h1>
+
+  <%= form_with(model: @spot, local: true, class: 'space-y-4') do |form| %>
+    <div>
+      <%= form.label :name, 'スポット名' %>
+      <%= form.text_field :name, class: 'w-full border rounded p-2' %>
+    </div>
+
+    <div>
+      <%= form.label :description, '説明' %>
+      <%= form.text_area :description, class: 'w-full border rounded p-2' %>
+    </div>
+
+    <div>
+      <%= form.label :latitude, '緯度' %>
+      <%= form.text_field :latitude, id: 'spot_latitude', readonly: true, class: 'w-full border rounded p-2' %>
+    </div>
+
+    <div>
+      <%= form.label :longitude, '経度' %>
+      <%= form.text_field :longitude, id: 'spot_longitude', readonly: true, class: 'w-full border rounded p-2' %>
+    </div>
+
+    <%= form.fields_for :spot_detail do |detail_form| %>
+      <div>
+        <%= detail_form.label :hours_of_operation, '営業時間' %>
+        <%= detail_form.text_field :hours_of_operation, class: 'w-full border rounded p-2' %>
+      </div>
+      <!-- Add other spot_detail fields here -->
+    <% end %>
+
+    <div>
+      <%= form.label :images, '写真' %>
+      <%= form.file_field :images, multiple: true, accept: 'image/png,image/jpeg,image/jpg', class: 'w-full border rounded p-2' %>
+    </div>
+
+    <div ref="mapContainer" class="h-96 w-full rounded-lg shadow-lg"></div>
+
+    <%= form.submit '保存', class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
+  <% end %>
 </div>

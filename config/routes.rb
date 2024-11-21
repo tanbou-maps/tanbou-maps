@@ -7,11 +7,12 @@ Rails.application.routes.draw do
   post 'sign-up', to: 'registration#create'
   post 'sign-in', to: 'sessions#create'
 
-  get 'spots/search', to: 'spots#search'
-  get 'spots/add', to: 'spots#new'
-  get 'spots/view', to: 'spots#index'
-
-  resources :spots, only: %i[index create]
   resources :components, only: %i[index SignIn SignUp]
+
+  resources :spots, only: %i[new create index show] do
+    collection do
+      get 'search' # Keep your existing search route
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 end

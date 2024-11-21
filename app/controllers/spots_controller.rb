@@ -1,11 +1,8 @@
 class SpotsController < ApplicationController
-  def search
+  def new
+    @spot = Spot.new
+    @spot.build_spot_detail
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
-  end
-
-  def index
-    @spots = Spot.all.includes(:images)
-    render json: @spots.as_json(include: { images: { only: %i[id url] } })
   end
 
   def create
@@ -19,15 +16,36 @@ class SpotsController < ApplicationController
         end
       end
 
-      render json: @spot, status: :created
+      redirect_to spots_path, notice: 'Spot was successfully created.'
     else
-      render json: { message: @spot.errors.full_messages.join(', ') }, status: :unprocessable_entity
+      render :new
     end
+  end
+
+  def index
+    @spots = Spot.all.includes(:images)
+  end
+
+  def search
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
   end
 
   private
 
   def spot_params
-    params.require(:spot).permit(:name, :description, :latitude, :longitude)
+    params.require(:spot).permit(
+      :name,
+      :description,
+      :latitude,
+      :longitude,
+      spot_detail_attributes: %i[
+        hours_of_operation
+        access_info
+        contact_info
+        website_url
+        recommended_season
+        entry_fee
+      ]
+    )
   end
 end
