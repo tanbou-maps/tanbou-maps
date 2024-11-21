@@ -32,15 +32,15 @@ console.log(
 
 import { createApp } from "vue";
 import "../stylesheets/style.css";
-import App from "../vue/App.vue"; // テスト用 Vue コンポーネントを読み込む
 import Header from "../components/Header.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
 import MapSearch from "../components/MapSearch.vue";
+import SpotAdd from "../components/SpotAdd.vue";
+import SpotList from "../components/SpotList.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
-  createApp(App).mount("#app"); // vue/index の場所にマウント
   createApp(Header).mount("#header"); // header
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
@@ -51,5 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mapSearchApp) {
     const app = createApp(MapSearch);
     app.mount("#map-search-app");
+  }
+
+  const spotAddApp = document.getElementById("spot-add-app");
+  if (spotAddApp) {
+    const app = createApp(SpotAdd);
+    app.mount("#spot-add-app");
+  }
+
+  const spotListApp = document.getElementById("spot-list-app");
+  if (spotListApp) {
+    const app = createApp(SpotList);
+    app.mount("#spot-list-app");
   }
 });
