@@ -9,21 +9,21 @@ const account_type = ref("");
 const errorMessage = ref("");
 const corporate_types = ref([
   { id: "株式会社", name: "株式会社" },
-  { id: 2, name: "有限会社" },
-  { id: 3, name: "合同会社" },
-  { id: 4, name: "一般社団法人" },
-  { id: 5, name: "合資会社" },
-  { id: 6, name: "一般財団法人" },
-  { id: 7, name: "公益社団法人" },
-  { id: 8, name: "公益財団法人" },
-  { id: 9, name: "独立行政法人" },
-  { id: 10, name: "国立大学法人" },
-  { id: 11, name: "地方独立行政法人" },
-  { id: 12, name: "公立大学法人" },
-  { id: 13, name: "学校法人" },
-  { id: 14, name: "宗教法人" },
-  { id: 15, name: "医療法人" },
-  { id: 16, name: "社会福祉法人" },
+  { id: "有限会社", name: "有限会社" },
+  { id: "合同会社", name: "合同会社" },
+  { id: "一般社団法人", name: "一般社団法人" },
+  { id: "合資会社", name: "合資会社" },
+  { id: "一般財団法人", name: "一般財団法人" },
+  { id: "公益社団法人", name: "公益社団法人" },
+  { id: "公益財団法人", name: "公益財団法人" },
+  { id: "独立行政法人", name: "独立行政法人" },
+  { id: "国立大学法人", name: "国立大学法人" },
+  { id: "地方独立行政法人", name: "地方独立行政法人" },
+  { id: "公立大学法人", name: "公立大学法人" },
+  { id: "学校法人", name: "学校法人" },
+  { id: "宗教法人", name: "宗教法人" },
+  { id: "医療法人", name: "医療法人" },
+  { id: "社会福祉法人", name: "社会福祉法人" },
 ]);
 
 const corporate_type = ref<number | null>(corporate_types.value[0].id);
@@ -67,6 +67,14 @@ async function signUp() {
 </script>
 
 <template>
+  <div>
+    <ul>
+      <li v-for="type in corporate_type" :key="corporate_type.id">
+        {{ type.name }}
+      </li>
+    </ul>
+  </div>
+
   <div class="sign-up-container">
     <h1>Sign Up</h1>
     <label for="name">User Name</label><br />
