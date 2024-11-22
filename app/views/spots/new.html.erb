@@ -1,0 +1,40 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">新しいスポットを追加</h1>
+
+  <%= form_with(model: @spot, local: true, class: 'space-y-6') do |form| %>
+    <div>
+      <%= form.label :name, 'スポット名', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= form.text_field :name, class: 'w-full border rounded-md shadow-sm px-4 py-2' %>
+    </div>
+
+    <div>
+      <%= form.label :description, '説明', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= form.text_area :description, rows: 4, class: 'w-full border rounded-md shadow-sm px-4 py-2' %>
+    </div>
+
+    <div>
+      <%= form.label :latitude, '緯度', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= form.text_field :latitude, id: 'spot_latitude', readonly: true, class: 'w-full border rounded-md shadow-sm px-4 py-2 bg-gray-50' %>
+    </div>
+
+    <div>
+      <%= form.label :longitude, '経度', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= form.text_field :longitude, id: 'spot_longitude', readonly: true, class: 'w-full border rounded-md shadow-sm px-4 py-2 bg-gray-50' %>
+    </div>
+
+    <div>
+      <%= form.label :images, '写真', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= form.file_field :images, multiple: true, accept: 'image/png,image/jpeg,image/jpg', class: 'w-full border rounded-md shadow-sm px-4 py-2' %>
+    </div>
+
+    <div
+      id="spot-map-picker"
+      data-google-maps-api-key="<%= @google_maps_api_key %>"
+      class="mb-6"
+    ></div>
+
+    <div>
+      <%= form.submit '保存', class: 'bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-150' %>
+    </div>
+  <% end %>
+</div>
