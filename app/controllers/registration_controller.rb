@@ -20,8 +20,10 @@ class RegistrationController < ApplicationController
     if signup_user.save
       render json: { message: 'Sign-up successful!' }, status: :ok
     else
-      Rails.logger.error signup_user.errors.full_messages
-      render json: { errors: signup_user.errors.full_messages }, status: :unprocessable_entity
+      formatted_errors = signup_user.errors.messages.map do |field, messages|
+        { field: field.to_s, messages: messages.map { |msg| "#{field.to_s.humanize} #{msg}" } }
+      end
+      render json: { errors: formatted_errors }, status: :unprocessable_entity
     end
   end
 

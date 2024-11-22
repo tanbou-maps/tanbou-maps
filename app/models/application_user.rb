@@ -12,7 +12,9 @@ class ApplicationUser < ApplicationRecord
 
   # バリデーション
   validates :name, :nickname, :email, :account_type, presence: true
-  validates :nickname, :email, uniqueness: true
+  validates :name, presence: true,
+                   format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'can only contain letters, numbers, and underscores' }
+  validates :name, :email, uniqueness: true
   validates :account_type, inclusion: { in: %w[individual corporate] }
   validates :corporate_type, inclusion: { in: CORPORATE_TYPES }, allow_nil: true, if: -> { account_type == 'corporate' }
   validates :corporate_type, absence: true, if: -> { account_type == 'individual' }
