@@ -13,8 +13,9 @@ class ApplicationUser < ApplicationRecord
 
   # バリデーション
   ## 必須項目
-  validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: "は英数字のみ使用できます" }
-  validates :username, presence: true, format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: "は日本語や記号が使用できます" }
+  validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: 'は英数字のみ使用できます' }
+  validates :username, presence: true,
+                       format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: 'は日本語や記号が使用できます' }
   validates :email, presence: true, uniqueness: true
   validates :account_type, presence: true, inclusion: { in: %w[individual corporate] }
 
