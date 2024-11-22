@@ -10,13 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_20_024957) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_21_042614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "application_users", force: :cascade do |t|
     t.string "name"
-    t.string "nickname"
+    t.string "username"
     t.string "email"
     t.string "password_digest"
     t.string "account_type"
@@ -27,7 +32,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_20_024957) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "role", default: "user", null: false
+    t.string "user_id", null: false
     t.index ["email"], name: "index_application_users_on_email"
+    t.index ["user_id"], name: "index_application_users_on_user_id", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
@@ -179,6 +186,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_20_024957) do
     t.integer "popularity_score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "stamps", force: :cascade do |t|

@@ -1,24 +1,19 @@
 class RegistrationController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   def new
+    @user = ApplicationUser.new
     render :signup
   end
 
   def create
-    data = signup_user_params # data変数を定義
+    @user = ApplicationUser.new(signup_user_params.merge(role: 'user'))
+    # デフォルトでアカウントタイプを個人（individual）に設定
+    @user.account_type ||= 'individual'
+    # アカウントタイプが個人の場合、corporate_type をクリア
+    @user.corporate_type = nil if @user.account_type == 'individual'
 
-    signup_user = ApplicationUser.new(
-      name: data[:name],
-      nickname: data[:nickname],
-      email: data[:email],
-      password_digest: data[:password_digest],
-      account_type: data[:account_type],
-      corporate_type: data[:corporate_type]
-    )
-
-    if signup_user.save
-      render json: { message: 'Sign-up successful!' }, status: :ok
+    if @user.save
+      session[:user_id] = @user.id
+      redirect_to complete_registration_path
     else
       formatted_errors = signup_user.errors.messages.map do |field, messages|
         { field: field.to_s, messages: messages.map { |msg| "#{field.to_s.humanize} #{msg}" } }
@@ -27,9 +22,16 @@ class RegistrationController < ApplicationController
     end
   end
 
+  def complete
+    render :complete
+  end
+
   private
 
   def signup_user_params
-    params.require(:signup_user).permit(:name, :nickname, :email, :password_digest, :account_type, :corporate_type)
+    params.require(:signup_user).permit(
+      :user_id, :username, :email, :password, :password_confirmation,
+      :account_type, :corporate_type
+    )
   end
 end

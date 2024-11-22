@@ -1,1 +1,43 @@
-<div id="sign-up"></div>
+<%= form_with model: @user, url: sign_up_path, scope: :signup_user, local: true do |form| %>
+  <div>
+    <%= form.label :user_id, 'ユーザーID' %>
+    <%= form.text_field :user_id %>
+  </div>
+  <div>
+    <%= form.label :username, 'ユーザーネーム' %>
+    <%= form.text_field :username %>
+  </div>
+  <div>
+    <%= form.label :email, 'メールアドレス' %>
+    <%= form.email_field :email %>
+  </div>
+  <div>
+    <%= form.label :password, 'パスワード' %>
+    <%= form.password_field :password %>
+  </div>
+  <div>
+    <%= form.label :password_confirmation, 'パスワード確認' %>
+    <%= form.password_field :password_confirmation %>
+  </div>
+  <div>
+    <%= form.label :account_type, 'アカウントタイプ' %>
+    <%= form.select :account_type, [['個人', 'individual'], ['法人', 'corporate']], {}, { onchange: "toggleCorporateTypeField(this)" } %>
+  </div>
+  <div id="corporate-type-field" style="display: none;">
+    <%= form.label :corporate_type, '法人の種類' %>
+    <%= form.select :corporate_type, ApplicationUser::CORPORATE_TYPES %>
+  </div>
+  <div>
+    <%= form.submit 'サインアップ' %>
+  </div>
+<% end %>
+<script>
+  function toggleCorporateTypeField(select) {
+    const corporateTypeField = document.getElementById('corporate-type-field');
+    if (select.value === 'corporate') {
+      corporateTypeField.style.display = 'block';
+    } else {
+      corporateTypeField.style.display = 'none';
+    }
+  }
+</script>

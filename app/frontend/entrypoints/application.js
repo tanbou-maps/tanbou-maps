@@ -37,6 +37,7 @@ import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
 import MapSearch from "../components/MapSearch.vue";
+import SpotMapPicker from "../components/SpotMapPicker.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(Header).mount("#header"); // header
@@ -49,5 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mapSearchApp) {
     const app = createApp(MapSearch);
     app.mount("#map-search-app");
+  }
+
+  const spotMapPicker = document.getElementById("spot-map-picker");
+
+  if (spotMapPicker) {
+    const app = createApp(SpotMapPicker);
+    app.mount("#spot-map-picker");
   }
 });
