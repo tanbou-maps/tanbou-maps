@@ -19,20 +19,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_21_042614) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "application_users", force: :cascade do |t|
-    t.string "name"
-    t.string "nickname"
-    t.string "email"
-    t.string "password_digest"
-    t.string "account_type"
-    t.string "corporate_type"
-    t.text "profile_picture_url"
-    t.text "background_picture_url"
-    t.text "favorite_spots"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "role", default: "user", null: false
-    t.index ["email"], name: "index_application_users_on_email"
+  create_table 'application_users', force: :cascade do |t|
+    t.string 'name'
+    t.string 'username'
+    t.string 'email'
+    t.string 'password_digest'
+    t.string 'account_type'
+    t.string 'corporate_type'
+    t.text 'profile_picture_url'
+    t.text 'background_picture_url'
+    t.text 'favorite_spots'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'role', default: 'user', null: false
+    t.index ['email'], name: 'index_application_users_on_email'
   end
 
   create_table "categories", force: :cascade do |t|
