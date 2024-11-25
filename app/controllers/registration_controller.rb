@@ -10,7 +10,7 @@ class RegistrationController < ApplicationController
     @user.account_type ||= 'individual'
     # アカウントタイプが個人の場合、corporate_type をクリア
     @user.corporate_type = nil if @user.account_type == 'individual'
-    
+
     if @user.save
       session[:user_id] = @user.id
       redirect_to complete_registration_path
