@@ -23,5 +23,5 @@ Rails.application.routes.draw do
     end
   end
   # モデルコース
-  resources :model-courses, only: [:index]
+  resources :model_courses, only: [:index], path: 'model-courses'
 end
