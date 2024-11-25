@@ -22,5 +22,6 @@ Rails.application.routes.draw do
       get 'search' # Keep your existing search route
     end
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # モデルコース
+  resources :model-courses, only: [:index]
 end

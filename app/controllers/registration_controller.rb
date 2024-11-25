@@ -30,7 +30,7 @@ class RegistrationController < ApplicationController
 
   def signup_user_params
     params.require(:signup_user).permit(
-      :user_id, :username, :email, :password, :password_confirmation,
+      :user_id, :nickname, :email, :password, :password_confirmation,
       :account_type, :corporate_type
     )
   end
