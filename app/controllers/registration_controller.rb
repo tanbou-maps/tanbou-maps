@@ -15,9 +15,10 @@ class RegistrationController < ApplicationController
       session[:user_id] = @user.id
       redirect_to complete_registration_path
     else
-      Rails.logger.error @user.errors.full_messages
-      flash.now[:alert] = 'サインアップに失敗しました'
-      render :signup, status: :unprocessable_entity
+      formatted_errors = signup_user.errors.messages.map do |field, messages|
+        { field: field.to_s, messages: messages.map { |msg| "#{field.to_s.humanize} #{msg}" } }
+      end
+      render json: { errors: formatted_errors }, status: :unprocessable_entity
     end
   end
 
