@@ -61,6 +61,8 @@ GEM
       activesupport (= 7.0.8.6)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
+    activestorage-validator (0.4.0)
+      rails (>= 6.1.0)
     activesupport (7.0.8.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -205,6 +207,16 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.34.0)
       parser (>= 3.3.1.0)
+    rubocop-performance (1.23.0)
+      rubocop (>= 1.48.1, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rails (2.27.0)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.52.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rspec (3.2.0)
+      rubocop (~> 1.61)
     ruby-lsp (0.21.3)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
@@ -264,6 +276,7 @@ PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
+  activestorage-validator
   bcrypt (~> 3.1.7)
   bootsnap
   capybara
@@ -276,6 +289,9 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.8, >= 7.0.8.6)
   rubocop
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   ruby-lsp
   selenium-webdriver
   sprockets-rails
