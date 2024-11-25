@@ -1,25 +1,20 @@
-# Terminal commands to run:
-# bin/rails active_storage:install
-# bin/rails db:migrate
-
-# app/models/spot.rb
 class Spot < ApplicationRecord
+  has_many_attached :photos
   has_one :spot_detail, dependent: :destroy
+  has_many :categories_spots
+  has_many :categories, through: :categories_spots
+  has_many :events, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :images, dependent: :destroy
-  has_and_belongs_to_many :categories
   has_many :spot_tags, dependent: :destroy
-  has_many_attached :photos # Add this line
+  has_many :stamps
+  has_many :course_spots
+  has_many :model_courses, through: :course_spots
 
-  # allow nested attributes for spot_details
-  accepts_nested_attributes_for :spot_detail, allow_destroy: true
-
-  # Validations
   validates :name, presence: true
-  validates :latitude, :longitude, presence: true
+  validates :description, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
 
-  # Add photo validations
-  validates :photos, content_type: ['image/png', 'image/jpeg', 'image/jpg'],
-                     size: { less_than: 5.megabytes },
-                     limit: { max: 10 }
+  accepts_nested_attributes_for :spot_detail
 end

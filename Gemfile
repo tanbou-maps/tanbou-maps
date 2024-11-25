@@ -35,6 +35,8 @@ gem 'rack-cors'
 
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'activestorage-validator'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 

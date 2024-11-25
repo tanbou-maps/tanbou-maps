@@ -9,13 +9,6 @@ class SpotsController < ApplicationController
     @spot = Spot.new(spot_params)
 
     if @spot.save
-      # Handle multiple photo attachments
-      if params[:spot][:photos].present?
-        params[:spot][:photos].each do |photo|
-          @spot.photos.attach(photo)
-        end
-      end
-
       redirect_to @spot, notice: 'スポットが正常に作成されました。'
     else
       @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
@@ -27,6 +20,10 @@ class SpotsController < ApplicationController
     @spot = Spot.with_attached_photos.find(params[:id])
   end
 
+  def search
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+  end
+
   private
 
   def spot_params
@@ -36,14 +33,7 @@ class SpotsController < ApplicationController
       :latitude,
       :longitude,
       photos: [],
-      spot_detail_attributes: %i[
-        hours_of_operation
-        access_info
-        contact_info
-        website_url
-        recommended_season
-        entry_fee
-      ]
+      spot_detail_attributes: %i[hours_of_operation access_info contact_info website_url recommended_season entry_fee]
     )
   end
 end
