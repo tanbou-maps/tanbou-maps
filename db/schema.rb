@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_21_042614) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_25_010444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,8 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_21_042614) do
   end
 
   create_table "application_users", force: :cascade do |t|
-    t.string "name"
-    t.string "username"
+    t.string "nickname"
     t.string "email"
     t.string "password_digest"
     t.string "account_type"
@@ -121,13 +120,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_21_042614) do
     t.string "title", null: false
     t.text "description"
     t.string "theme_image_url"
-    t.bigint "user_id", null: false
     t.boolean "is_public", default: false, null: false
     t.string "public_key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "application_user_id"
+    t.index ["application_user_id"], name: "index_model_courses_on_application_user_id"
     t.index ["public_key"], name: "index_model_courses_on_public_key", unique: true
-    t.index ["user_id"], name: "index_model_courses_on_user_id"
   end
 
   create_table "review_images", force: :cascade do |t|
@@ -224,7 +223,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_21_042614) do
   add_foreign_key "images", "spots"
   add_foreign_key "logs", "application_users"
   add_foreign_key "model_course_images", "model_courses"
-  add_foreign_key "model_courses", "application_users", column: "user_id"
+  add_foreign_key "model_courses", "application_users"
   add_foreign_key "review_images", "reviews"
   add_foreign_key "reviews", "application_users"
   add_foreign_key "reviews", "spots"
