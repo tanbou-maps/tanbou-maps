@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   post 'sign-up', to: 'registration#create'
 
   # サインアップ完了後の挙動
-  get 'registration/complete', to: 'registration#complete', as: 'complete_registration'
+  get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'
   # サインアウト後の挙動
   get 'sessions/signout', to: 'sessions#signout', as: 'signout_sessions'
   post 'sign-in', to: 'sessions#create'
