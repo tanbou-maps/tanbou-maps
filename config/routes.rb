@@ -23,6 +23,6 @@ Rails.application.routes.draw do
       get 'search' # Keep your existing search route
     end
   end
-  # # モデルコース
+  # モデルコース
   resources :model_courses, only: [:index], path: 'model-courses'
 end
