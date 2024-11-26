@@ -1,8 +1,12 @@
 class RegistrationController < ApplicationController
   # skip_before_action :verify_authenticity_token
   def new
-    @user = ApplicationUser.new
-    render :signup
+    if logged_in?
+      redirect_to root_path, notice: '現在サインイン中です'
+    else
+      @user = ApplicationUser.new
+      render :signup
+    end
   end
 
   def create
@@ -30,6 +34,10 @@ class RegistrationController < ApplicationController
   end
 
   private
+
+  def logged_in?
+    session[:user_id].present?
+  end
 
   def signup_user_params
     params.require(:signup_user).permit(
