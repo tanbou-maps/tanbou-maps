@@ -1,1 +1,14 @@
-<div id="index"></div>
+<h1>モデルコース一覧</h1>
+
+<% if @model_courses.present? %>
+  <% @model_courses.each do |course| %>
+    <div>
+      <h2><%= link_to course.title, model_course_path(course) %></h2>
+      <p><%= truncate(course.description, length: 100) %></p>
+    </div>
+  <% end %>
+<% else %>
+  <p>表示するモデルコースがありません。</p>
+<% end %>
+
+<%= link_to "新しいモデルコースを作成する", new_model_course_path, class: "btn btn-primary" %>

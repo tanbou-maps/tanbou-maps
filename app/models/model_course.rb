@@ -12,7 +12,7 @@ class ModelCourse < ApplicationRecord
   validates :title, presence: true
 
   # モデルコース作成時に公開キーを自動生成
-  before_create :generate_public_key
+  after_create :generate_public_key
   private
   def generate_public_key
     self.public_key = "user#{application_user_id}-course#{id}-#{SecureRandom.hex(8)}"
