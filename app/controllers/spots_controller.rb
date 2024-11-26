@@ -9,7 +9,7 @@ class SpotsController < ApplicationController
     @spot = Spot.new(spot_params)
 
     if @spot.save
-      redirect_to @spot, notice: 'スポットが正常に作成されました。'
+      redirect_to spot_path(@spot), notice: 'スポットが正常に作成されました。'
     else
       @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
       render :new, status: :unprocessable_entity
@@ -17,7 +17,8 @@ class SpotsController < ApplicationController
   end
 
   def show
-    @spot = Spot.with_attached_photos.find(params[:id])
+    @spot = Spot.find(params[:id])
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
   end
 
   def search

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resources :components, only: %i[index SignIn SignUp]
 
+  # スポット CRUD
   resources :spots, only: %i[new create index show] do
     collection do
       get 'search' # Keep your existing search route
