@@ -23,6 +23,11 @@ Rails.application.routes.draw do
       get 'search' # Keep your existing search route
     end
   end
+
   # モデルコース
-  resources :model_courses, only: [:index], path: 'model-courses'
+  resources :model_courses do
+    member do
+      patch :regenerate_public_key # 公開キー再発行用ルート
+    end
+  end
 end

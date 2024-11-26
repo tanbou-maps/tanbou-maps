@@ -1,0 +1,41 @@
+<h1>モデルコースを新規作成</h1>
+
+<%= form_with model: @model_course, local: true do |form| %>
+  <div>
+    <%= form.label :title, "タイトル" %><br>
+    <%= form.text_field :title, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :description, "説明" %><br>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :theme_image_url, "テーマ画像URL" %><br>
+    <%= form.text_field :theme_image_url %>
+  </div>
+
+  <div>
+    <%= form.label :is_public, "公開する" %><br>
+    <%= form.check_box :is_public %>
+  </div>
+
+  <div>
+    <h2>ギャラリー画像</h2>
+    <%= form.fields_for :model_course_images do |image_form| %>
+      <div>
+        <%= image_form.label :url, "画像URL" %><br>
+        <%= image_form.text_field :url %>
+      </div>
+      <div>
+        <%= image_form.label :description, "画像の説明" %><br>
+        <%= image_form.text_area :description %>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit "作成", class: "btn btn-success" %>
+  </div>
+<% end %>

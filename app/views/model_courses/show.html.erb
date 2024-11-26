@@ -1,0 +1,7 @@
+<h1><%= @model_course.title %></h1>
+
+<p><%= @model_course.description %></p>
+
+<%= link_to "編集", edit_model_course_path(@model_course), class: "btn btn-warning" %>
+<%= link_to "削除", model_course_path(@model_course), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+<%= link_to "一覧に戻る", model_courses_path, class: "btn btn-secondary" %>
