@@ -176,6 +176,7 @@ bundle exec rails server
 - pull request までの流れ(一番わかりやすい) -> https://qiita.com/kuuuuumiiiii/items/42d2d9ed11e3b29c22cf
 - Remote branch をもとに Local branch を作成 -> https://qiita.com/miriwo/items/53b319d3d3a3759b30a7
 - pull request の書き方 -> https://qiita.com/marumaru0113/items/c53db580b812f8f6d4da
+- conflicts 解決の仕方 -> https://qiita.com/Hashimoto-Noriaki/items/0bcd4c5592bc1305c145
 
 ### Pull Request までの流れ
 
@@ -271,15 +272,29 @@ GitHub に push する
 git push origin feature-*
 ```
 
+### Create Pull Request
+
 https://github.com/tanbou-maps/tanbou-maps
 
 **上記リンク先の GitHub にて Pull Request を作成する**
 
-```txt
 merge する先 は "develop" branch であることに気を付ける
-リーダーの review と merge を待つ
-push した branch が accept された場合は push した リモートの branch を削除する
-```
+
+Pull Request を送った時に conflicts が発生していた場合
+
+conflicts の解決をしてから再度 commit と push をして
+
+conflicts のない状態にする
+
+コードレビュワーが conflicts がないことを確認して
+
+commit log にも問題が見受けられなかった場合
+
+コードレビュワーが merge Pull Request をして remote の topic branch を削除するので
+
+Pull Request を送信した人はそれを確認し次第下記の作業を実行する
+
+### After merge Pull Request
 
 branch を `develop` に変更する
 
