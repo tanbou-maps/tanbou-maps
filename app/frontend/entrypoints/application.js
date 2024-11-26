@@ -39,38 +39,46 @@ import SignUp from "../components/SignUp.vue";
 import MapSearch from "../components/MapSearch.vue";
 import SpotMapPicker from "../components/SpotMapPicker.vue";
 import SpotMap from "../components/SpotMap.vue";
-import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(Header).mount("#header"); // header
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
   createApp(SignUp).mount("#sign-up");
-
-  const mapSearchApp = document.getElementById("map-search-app");
-
-  if (mapSearchApp) {
-    const app = createApp(MapSearch);
-    app.mount("#map-search-app");
-  }
-
-  const spotMapPicker = document.getElementById("spot-map-picker");
-
-  if (spotMapPicker) {
-    const app = createApp(SpotMapPicker);
-    app.mount("#spot-map-picker");
-  }
-
-  const spotMap = document.getElementById("spot-map");
-
-  if (spotMap) {
-    const app = createApp(SpotMap);
-    app.mount("#spot-map");
-  }
-
-  const element = document.getElementById("index");
-
-  if (element) {
-    createApp(ModelCourseIndex).mount("#index");
-  }
 });
+
+const mapSearchApp = document.getElementById("map-search-app");
+
+if (mapSearchApp) {
+  const app = createApp(MapSearch);
+  app.mount("#map-search-app");
+}
+
+const spotMapPicker = document.getElementById("spot-map-picker");
+
+if (spotMapPicker) {
+  const app = createApp(SpotMapPicker);
+  app.mount("#spot-map-picker");
+}
+
+const spotMap = document.getElementById("spot-map");
+
+if (spotMap) {
+  const app = createApp(SpotMap);
+  app.mount("#spot-map");
+}
+
+const element = document.getElementById("index");
+
+if (element) {
+  createApp(ModelCourseIndex).mount("#index");
+}
+
+// モデルコース一覧画面専用の処理
+const modelCourseIndexElement = document.getElementById("model-course-index");
+if (modelCourseIndexElement) {
+  import("../components/ModelCourseIndex.vue").then((module) => {
+    const ModelCourseIndex = module.default;
+    createApp(ModelCourseIndex).mount("#model-course-index");
+  });
+}
