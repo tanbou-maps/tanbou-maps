@@ -1,4 +1,5 @@
 class RegistrationController < ApplicationController
+  # skip_before_action :verify_authenticity_token
   def new
     @user = ApplicationUser.new
     render :signup
@@ -12,14 +13,16 @@ class RegistrationController < ApplicationController
     @user.corporate_type = nil if @user.account_type == 'individual'
 
     if @user.save
-      session[:user_id] = @user.id
-      redirect_to complete_registration_path
+      render json: { message: "Registration successful!", redirect_url: complete_registration_path }, status: :created
     else
-      formatted_errors = signup_user.errors.messages.map do |field, messages|
-        { field: field.to_s, messages: messages.map { |msg| "#{field.to_s.humanize} #{msg}" } }
+      formatted_errors = @user.errors.messages.map do |field, messages|
+        { field: field.to_s, messages: messages }
       end
       render json: { errors: formatted_errors }, status: :unprocessable_entity
     end
+
+    Rails.logger.debug { "Received params: #{params.inspect}" }
+    Rails.logger.debug { "Validation errors: #{@user.errors.full_messages}" }
   end
 
   def complete
