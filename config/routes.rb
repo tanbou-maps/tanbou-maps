@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'
   # サインアウト後の挙動
   get 'sessions/signout', to: 'sessions#signout', as: 'signout_sessions'
-  post 'sign-in', to: 'sessions#create'
 
   resources :components, only: %i[index SignIn SignUp]
 
@@ -25,10 +24,10 @@ Rails.application.routes.draw do
     end
   end
 
-  # モデルコース
-  resources :model_courses do
+  resources :model_courses, path: 'model-courses' do
     member do
       patch :regenerate_public_key # 公開キー再発行用ルート
     end
   end
+
 end
