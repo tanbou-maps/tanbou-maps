@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'sign-in', to: 'sessions#create'
   delete 'sign-out', to: 'sessions#destroy', as: :sign_out
 
+  get 'sign-outpost', to: 'sessions#destroypost'
   get 'sign-up', to: 'registration#new', as: :sign_up
   post 'sign-up', to: 'registration#create'
 
@@ -22,6 +23,6 @@ Rails.application.routes.draw do
       get 'search' # Keep your existing search route
     end
   end
-  # モデルコース
+  # # モデルコース
   resources :model_courses, only: [:index], path: 'model-courses'
 end

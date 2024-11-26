@@ -1,7 +1,11 @@
 class RegistrationController < ApplicationController
   def new
-    @user = ApplicationUser.new
-    render :signup
+    if logged_in?
+      redirect_to root_path, notice: '現在サインイン中です'
+    else
+      @user = ApplicationUser.new
+      render :signup
+    end
   end
 
   def create
@@ -15,7 +19,7 @@ class RegistrationController < ApplicationController
       session[:user_id] = @user.id
       redirect_to complete_registration_path
     else
-      formatted_errors = signup_user.errors.messages.map do |field, messages|
+      formatted_errors = @user.errors.messages.map do |field, messages|
         { field: field.to_s, messages: messages.map { |msg| "#{field.to_s.humanize} #{msg}" } }
       end
       render json: { errors: formatted_errors }, status: :unprocessable_entity
@@ -27,6 +31,10 @@ class RegistrationController < ApplicationController
   end
 
   private
+
+  def logged_in?
+    session[:user_id].present?
+  end
 
   def signup_user_params
     params.require(:signup_user).permit(

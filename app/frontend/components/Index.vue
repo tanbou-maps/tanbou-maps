@@ -87,6 +87,7 @@
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <p>&copy; 2024 Team C Inc. All rights reserved.</p>
+          <button type="submit" @click="signOut">signOut</button>
         </div>
       </div>
     </footer>
@@ -94,6 +95,30 @@
 </template>
 
 <script setup>
+async function signOut() {
+  fetch("/sign-out", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content"),
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // レスポンスの内容を処理しない
+      console.log("Sign out successfully");
+      // // サインインページにリダイレクトする場合
+      window.location.href = "/sign-outpost";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
 const features = [
   {
     title: "高品質なサービス",
