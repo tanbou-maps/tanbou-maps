@@ -1,0 +1,111 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4"><%= @spot.name %></h1>
+
+      <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">スポット詳細</h2>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-gray-600 font-medium">説明</p>
+            <p class="text-gray-800"><%= @spot.description %></p>
+          </div>
+
+          <% if @spot.spot_detail.present? %>
+            <div>
+              <p class="text-gray-600 font-medium">営業時間</p>
+              <p class="text-gray-800"><%= @spot.spot_detail.hours_of_operation || '未設定' %></p>
+            </div>
+
+            <div>
+              <p class="text-gray-600 font-medium">アクセス情報</p>
+              <p class="text-gray-800"><%= @spot.spot_detail.access_info || '未設定' %></p>
+            </div>
+
+            <div>
+              <p class="text-gray-600 font-medium">連絡先</p>
+              <p class="text-gray-800"><%= @spot.spot_detail.contact_info || '未設定' %></p>
+            </div>
+
+            <div>
+              <p class="text-gray-600 font-medium">ウェブサイト</p>
+              <% if @spot.spot_detail.website_url.present? %>
+                <a href="<%= @spot.spot_detail.website_url %>"
+                   target="_blank"
+                   class="text-blue-600 hover:underline">
+                   <%= @spot.spot_detail.website_url %>
+                </a>
+              <% else %>
+                <p class="text-gray-500">未設定</p>
+              <% end %>
+            </div>
+
+            <div>
+              <p class="text-gray-600 font-medium">おすすめの季節</p>
+              <p class="text-gray-800"><%= @spot.spot_detail.recommended_season || '未設定' %></p>
+            </div>
+
+            <div>
+              <p class="text-gray-600 font-medium">入場料</p>
+              <p class="text-gray-800"><%= @spot.spot_detail.entry_fee || '未設定' %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div
+        id="spot-map"
+        data-google-maps-api-key="<%= @google_maps_api_key %>"
+        data-latitude="<%= @spot.latitude %>"
+        data-longitude="<%= @spot.longitude %>"
+        class="h-96 w-full rounded-lg shadow-lg"
+      ></div>
+
+      <% if @spot.photos.attached? %>
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">スポット写真</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <% @spot.photos.each do |photo| %>
+              <%= image_tag photo,
+                  class: "w-full h-40 object-cover rounded-lg shadow-md" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mapElement = document.getElementById('spot-map');
+    const apiKey = mapElement.dataset.googleMapsApiKey;
+    const latitude = parseFloat(mapElement.dataset.latitude);
+    const longitude = parseFloat(mapElement.dataset.longitude);
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+
+    window.initMap = function() {
+      const map = new google.maps.Map(mapElement, {
+        center: { lat: latitude, lng: longitude },
+        zoom: 15,
+        mapTypeControl: false,
+        streetViewControl: false
+      });
+
+      new google.maps.Marker({
+        position: { lat: latitude, lng: longitude },
+        map: map,
+        title: '<%= @spot.name %>'
+      });
+    };
+
+    document.head.appendChild(script);
+  });
+<% end %>
