@@ -13,7 +13,7 @@ class ApplicationUser < ApplicationRecord
 
   # バリデーション
   ## 必須項目
-  validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: '英数字のみ使用できます' }
+  validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: '半角英数字とアンダースコアのみ使用できます' }
   validates :nickname, presence: true,
                        format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: '日本語や記号が使用できます' }
   validates :email, presence: true, uniqueness: true

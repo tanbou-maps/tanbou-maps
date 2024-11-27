@@ -4,14 +4,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = ApplicationUser.find_by(user_id: params[:user_id]) || ApplicationUser.find_by(email: params[:email])
+    user = ApplicationUser.find_by(user_id: params[:user_id]) || ApplicationUser.find_by(email: params[:user_id])
 
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to root_path, notice: 'ログインに成功しました'
+      render json: { success: true, redirect_url: root_path }, status: :ok
     else
-      flash.now[:alert] = 'ユーザー名またはパスワードが正しくありません'
-      render :signin, status: :unprocessable_entity
+      render json: { success: false, error: 'ユーザー名またはパスワードが正しくありません' }, status: :unprocessable_entity
     end
   end
 
