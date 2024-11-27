@@ -66,7 +66,7 @@ async function submitForm() {
 
     const data = await response.json();
     if (response.ok) {
-      alert("Registration successful!");
+      // alert("Registration successful!");
       if (data.redirect_url) {
         // jump to success page
         window.location.href = data.redirect_url;
