@@ -320,6 +320,12 @@ example:
 git branch -d feature-user-manage
 ```
 
+remote branch 最新情報を取得して不要な topic branch を削除する
+
+```bash
+git fetch -p
+```
+
 topic branch で作業中に `develop` branch に `Gemfile` や `package.json` に変更があった場合
 
 ライブラリの依存関係を保つために以下のコマンドを実行
