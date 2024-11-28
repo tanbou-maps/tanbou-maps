@@ -6,9 +6,11 @@ const password = ref("");
 const showPasswords = ref(false);
 const error = ref<string | null>(null);
 
+// フォーム送信処理
 async function handleSubmit() {
   error.value = null;
 
+  // CSRFトークンを取得
   try {
     const csrfToken = document
       .querySelector('meta[name="csrf-token"]')
@@ -17,6 +19,7 @@ async function handleSubmit() {
       throw new Error("CSRF token is missing.");
     }
 
+    // サインインリクエストを送信
     const response = await fetch("/sign-in", {
       method: "POST",
       headers: {
