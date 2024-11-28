@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_25_010444) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_28_014958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -210,6 +210,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_25_010444) do
     t.datetime "updated_at", null: false
     t.float "latitude"
     t.float "longitude"
+    t.bigint "application_user_id"
+    t.index ["application_user_id"], name: "index_spots_on_application_user_id"
   end
 
   create_table "stamps", force: :cascade do |t|
@@ -254,6 +256,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_25_010444) do
   add_foreign_key "reviews", "spots"
   add_foreign_key "spot_details", "spots"
   add_foreign_key "spot_tags", "spots"
+  add_foreign_key "spots", "application_users"
   add_foreign_key "stamps", "application_users"
   add_foreign_key "stamps", "spots"
   add_foreign_key "user_rewards", "application_users"
