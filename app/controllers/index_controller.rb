@@ -1,6 +1,6 @@
 class IndexController < ApplicationController
   def show
-    if logged_in?
+    if sign_in?
       render :show
     else
       redirect_to sign_in_path, alert: 'サインインが必要です。'
@@ -8,6 +8,6 @@ class IndexController < ApplicationController
   end
 end
 
-def logged_in?
+def sign_in?
   session[:user_id].present?
 end
