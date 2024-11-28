@@ -1,5 +1,6 @@
 class SpotsController < ApplicationController
   def new
+    @user = session[:user_id] # session情報を取り出す
     @spot = Spot.new
     @spot.build_spot_detail
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
