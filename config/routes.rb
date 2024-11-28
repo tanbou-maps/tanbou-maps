@@ -30,4 +30,10 @@ Rails.application.routes.draw do
     end
   end
 
+  # お問い合わせ contact
+  resources :contacts, only: %i[new create] do
+    collection do
+      get 'complete'
+    end
+  end
 end
