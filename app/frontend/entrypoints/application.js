@@ -39,6 +39,7 @@ import SignUp from "../components/SignUp.vue";
 import MapSearch from "../components/MapSearch.vue";
 import SpotMapPicker from "../components/SpotMapPicker.vue";
 import SpotMap from "../components/SpotMap.vue";
+import Contact from "../components/Contact.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(Header).mount("#header"); // header
@@ -81,4 +82,10 @@ if (modelCourseIndexElement) {
     const ModelCourseIndex = module.default;
     createApp(ModelCourseIndex).mount("#model-course-index");
   });
+}
+
+// お問い合わせ画面
+const contactElement = document.getElementById("contact");
+if (contactElement) {
+  createApp(Contact).mount("#contact");
 }

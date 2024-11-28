@@ -125,7 +125,7 @@ function resetForm() {
             id="user_id"
             v-model="user_id"
             type="text"
-            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Enter your UserID"
             required
           />
@@ -139,7 +139,7 @@ function resetForm() {
             id="nickname"
             v-model="nickname"
             type="text"
-            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Enter your NickName"
             required
           />
@@ -153,7 +153,7 @@ function resetForm() {
             id="email"
             v-model="email"
             type="email"
-            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholder="Enter your Email"
             required
           />
@@ -168,7 +168,7 @@ function resetForm() {
               id="password"
               v-model="password"
               :type="showPasswords ? 'text' : 'password'"
-              class="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              class="block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               placeholder="Enter your Password"
               required
             />
@@ -224,7 +224,7 @@ function resetForm() {
               id="password_confirmation"
               v-model="password_confirmation"
               :type="showPasswords ? 'text' : 'password'"
-              class="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              class="block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               placeholder="Enter your Password again"
               required
             />
