@@ -7,6 +7,7 @@ class ApplicationUser < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :stamps, dependent: :destroy
   has_many :user_rewards, dependent: :destroy
+  has_many :spots # ユーザーがスポットを作成したときのためのリレーション
 
   # パスワード管理
   has_secure_password
