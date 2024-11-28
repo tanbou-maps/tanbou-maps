@@ -32,17 +32,19 @@ const corporate_types = [
 
 const isCorporateAccount = computed(() => account_type.value === "corporate");
 
+// フォーム送信処理
 async function submitForm() {
   errorMessages.value = [];
 
   try {
+    // CSRFトークンの取得
     const csrfToken = document
       .querySelector('meta[name="csrf-token"]')
       ?.getAttribute("content");
     if (!csrfToken) {
       throw new Error("CSRF token is missing.");
     }
-
+    // サインアップリクエストを送信
     const response = await fetch("/sign-up", {
       method: "POST",
       headers: {
@@ -66,7 +68,6 @@ async function submitForm() {
 
     const data = await response.json();
     if (response.ok) {
-      // alert("Registration successful!");
       if (data.redirect_url) {
         // jump to success page
         window.location.href = data.redirect_url;
@@ -86,6 +87,7 @@ async function submitForm() {
   }
 }
 
+// フォームをリセットする
 function resetForm() {
   user_id.value = "";
   nickname.value = "";
