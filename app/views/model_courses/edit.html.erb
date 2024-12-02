@@ -1,0 +1,14 @@
+<div id="model-course-edit-app"></div>
+
+<script type="module">
+  import { createApp } from "vue";
+  import ModelCourseEdit from "../components/ModelCourseEdit.vue";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const target = document.getElementById("model-course-edit-app");
+    if (target) {
+      const app = createApp(ModelCourseEdit);
+      app.mount(target);
+    }
+  });
+</script>

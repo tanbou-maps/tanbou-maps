@@ -25,7 +25,7 @@
             >
               <div class="rounded-md shadow">
                 <a
-                  href="#"
+                  href="model-courses"
                   class="flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-300 px-8 py-3 text-base font-medium text-black hover:bg-yellow-400 md:px-10 md:py-4 md:text-lg"
                 >
                   モデルコースを見る
