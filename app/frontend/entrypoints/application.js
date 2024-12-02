@@ -75,10 +75,10 @@ if (element) {
 }
 
 // モデルコース一覧画面専用の処理
-const modelCourseIndexElement = document.getElementById("model-course-index");
-if (modelCourseIndexElement) {
-  import("../components/ModelCourseIndex.vue").then((module) => {
-    const ModelCourseIndex = module.default;
-    createApp(ModelCourseIndex).mount("#model-course-index");
+const modelCourseListElement = document.getElementById("model-course-list");
+if (modelCourseListElement) {
+  import("../components/ModelCourseList.vue").then((module) => {
+    const ModelCourseList = module.default;
+    createApp(ModelCourseList).mount("#model-course-list");
   });
 }

@@ -1,7 +1,14 @@
-<h1><%= @model_course.title %></h1>
+<div id="model-course-show-app"></div>
 
-<p><%= @model_course.description %></p>
+<script type="module">
+  import { createApp } from "vue";
+  import ModelCourseShow from "../components/ModelCourseShow.vue";
 
-<%= link_to "編集", edit_model_course_path(@model_course), class: "btn btn-warning" %>
-<%= link_to "削除", model_course_path(@model_course), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
-<%= link_to "一覧に戻る", model_courses_path, class: "btn btn-secondary" %>
+  document.addEventListener("DOMContentLoaded", () => {
+    const target = document.getElementById("model-course-show-app");
+    if (target) {
+      const app = createApp(ModelCourseShow);
+      app.mount(target);
+    }
+  });
+</script>
