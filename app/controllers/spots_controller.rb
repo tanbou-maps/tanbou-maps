@@ -7,6 +7,7 @@ class SpotsController < ApplicationController
 
   def create
     @spot = Spot.new(spot_params)
+    @spot.application_user_id = current_user.id # セッションから紐づける
 
     if @spot.save
       redirect_to spot_path(@spot), notice: 'スポットが正常に作成されました。'
@@ -18,6 +19,11 @@ class SpotsController < ApplicationController
 
   def show
     @spot = Spot.find(params[:id])
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+  end
+
+  def index
+    @spots = Spot.all
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
   end
 

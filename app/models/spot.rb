@@ -1,5 +1,6 @@
 class Spot < ApplicationRecord
-  has_many_attached :photos # active_strage の使用
+  belongs_to :application_user # どのユーザーが作成したスポットなのかを紐づける
+  has_many_attached :photos # active_strage を使用してスポットに対する写真をデータベースに追加できるようにしている
   has_one :spot_detail, dependent: :destroy
   has_many :categories_spots
   has_many :categories, through: :categories_spots
