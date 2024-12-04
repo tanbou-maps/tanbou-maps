@@ -1,6 +1,4 @@
 class SpotsController < ApplicationController
-  before_action :require_sign_in, only: %i[new create]
-
   def new
     @spot = Spot.new
     @spot.build_spot_detail
