@@ -2,7 +2,13 @@ class ModelCoursesController < ApplicationController
   # 一覧表示
   def index
     @model_courses = ModelCourse.order(updated_at: :desc)
+
+    # Vue.js 用に JSON レスポンスを返す
+    respond_to do |format|
+      format.html # HTML ビューが必要な場合
+      format.json { render json: @model_courses }
   end
+end
 
   # 詳細表示
   def show
@@ -45,8 +51,12 @@ class ModelCoursesController < ApplicationController
   # 削除処理
   def destroy
     @model_course = ModelCourse.find(params[:id])
-    @model_course.destroy
-    redirect_to model_courses_path, notice: 'モデルコースが削除されました。'
+
+    if @model_course.destroy
+      render json: { message: "モデルコースが削除されました。" }, status: :ok
+    else
+      render json: { message: "モデルコースの削除に失敗しました。" }, status: :unprocessable_entity
+    end
   end
 
   # 公開キー再発行
