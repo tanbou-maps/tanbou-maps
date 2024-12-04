@@ -17,6 +17,20 @@ class SpotsController < ApplicationController
     end
   end
 
+  def show
+    @spot = Spot.find(params[:id])
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+  end
+
+  def index
+    @spots = Spot.all
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+  end
+
+  def search
+    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+  end
+
   private
 
   def spot_params
