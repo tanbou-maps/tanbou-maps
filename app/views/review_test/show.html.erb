@@ -1,0 +1,4 @@
+<h1><%= @post.title %></h1>
+<p><%= @post.memo %></p>
+<%= link_to "編集", edit_review_test_path(@post), class: "button" %>
+<%= button_to "削除", review_test_delete_path(@post), method: :delete %>

@@ -1,0 +1,11 @@
+<% @post.each do |post| %>
+  <ul>
+    <li>
+      <%= link_to "新規レビュー", review_test_new_path(post)%>
+    </li>
+    <li>
+      <%= post.title %>
+      <%= link_to "詳しく見る", review_test_details_path(post) %>
+    </li>
+  </ul>
+<% end %>

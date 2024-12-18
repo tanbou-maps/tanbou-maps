@@ -1,0 +1,19 @@
+  <h1>レビュー新規登録</h1>
+<%= form_with(model: @post, url: review_test_path) do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <%= @post.errors.full_messages_for(:memo).each do |message|%>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :memo %><br>
+    <%= form.text_area :memo %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<%end%>

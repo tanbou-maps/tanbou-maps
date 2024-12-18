@@ -1,0 +1,27 @@
+<%= form_with(model: @reviews, url: review_add_path, method: :post) do |form| %>
+  <div>
+    <%= form.label :rating, '評価' %><br>
+    <%= form.number_field :rating %>
+  </div>
+
+  <div>
+    <%= form.label :comment, 'コメント' %><br>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div>
+    <%= form.label :spot_id, 'スポットID' %><br>
+    <%= form.number_field :spot_id %>
+  </div>
+
+  <%# <%= form.hidden_field :user_id, value: current_user&.id %> %>
+
+  <div>
+    <%= form.label :images, '画像' %><br>
+    <%= form.file_field :images, multiple: true %>
+  </div>
+
+  <div>
+    <%= form.submit '投稿する' %>
+  </div>
+<% end %>

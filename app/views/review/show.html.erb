@@ -1,0 +1,11 @@
+# show.html.erb
+<h1><%= @post.title %></h1>
+<% if @post.images.attached? %>
+  <div>
+    <% @post.images.each do |image| %>
+      <%= image_tag image %>
+    <% end %>
+  </div>
+<% end %>
+<h3><%= @post.rating %></h3>
+<p><%= @post.comment %></p>

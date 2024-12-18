@@ -1,0 +1,41 @@
+# app/views/reviews/index.html.erb
+<div class="reviews-container">
+  <h1><%= @spot.name %>のレビュー一覧</h1>
+
+  <div class="new-review-link">
+    <%= link_to '新規レビューを投稿', new_review_path(@spot), class: 'button' %>
+  </div>
+
+  <% if @reviews.present? %>
+    <div class="reviews-grid">
+      <% @reviews.each do |review| %>
+        <div class="review-card">
+          <div class="review-images">
+            <% if review.images.attached? %>
+              <div class="image-carousel">
+                <% review.images.each do |image| %>
+                  <%= image_tag image.variant(resize_to_fit: [400, 300]),
+                              class: 'card-img' %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="review-content">
+            <h2><%= review.title %></h2>
+            <div class="rating">
+              <%= "★" * review.rating %><%= "☆" * (5 - review.rating) %>
+            </div>
+            <p class="review-text"><%= review.content %></p>
+            <div class="review-meta">
+              <span>投稿者: <%= review.application_user.name %></span>
+              <span>投稿日: <%= l review.created_at, format: :short %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>まだレビューがありません。最初のレビューを投稿してみましょう！</p>
+  <% end %>
+</div>
