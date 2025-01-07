@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_28_014958) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_03_200138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -169,6 +169,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_014958) do
     t.index ["review_id"], name: "index_review_images_on_review_id"
   end
 
+  create_table "review_tests", force: :cascade do |t|
+    t.string "title"
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
@@ -233,6 +240,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_014958) do
     t.string "status", default: "pending", null: false
     t.index ["application_user_id"], name: "index_stamps_on_application_user_id"
     t.index ["spot_id"], name: "index_stamps_on_spot_id"
+  end
+
+  create_table "study_posts", force: :cascade do |t|
+    t.string "title"
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_rewards", force: :cascade do |t|

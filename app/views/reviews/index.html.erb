@@ -1,0 +1,110 @@
+# app/views/spots/map_view.html.erb
+<div class="h-screen w-full relative">
+  <!-- 地図表示エリア -->
+  <div id="fullscreen-map" class="w-full h-full"></div>
+
+  <!-- 必要に応じてオーバーレイUIを追加 -->
+  <div class="absolute top-4 right-4 space-y-2">
+    <!-- 現在地ボタン -->
+    <button id="current-location" class="bg-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-50">
+      現在地へ移動
+    </button>
+
+    <!-- ログインユーザーの場合、スポット追加ボタンを表示 -->
+    <% if current_user %>
+      <%= link_to new_spot_path,
+          class: "block bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600" do %>
+        スポットを追加
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+let map;
+let markers = [];
+
+function initMap() {
+  // 地図の初期設定
+  map = new google.maps.Map(document.getElementById('fullscreen-map'), {
+    center: { lat: 35.6812, lng: 139.7671 }, // 東京駅を中心に
+    zoom: 13,
+    styles: [
+      {
+        "featureType": "poi",
+        "stylers": [
+          { "visibility": "off" }  // POIを非表示
+        ]
+      }
+    ],
+    mapTypeControl: false,        // 地図タイプ切り替えを非表示
+    streetViewControl: false,     // ストリートビューを非表示
+    fullscreenControl: false      // 全画面表示ボタンを非表示
+  });
+
+  // 既存のスポットをマーカーとして表示
+  <% @spots.each do |spot| %>
+    addMarker(
+      <%= spot.latitude %>,
+      <%= spot.longitude %>,
+      "<%= spot.name %>",
+      "<%= spot.description %>",
+      "<%= spot_path(spot) %>"
+    );
+  <% end %>
+
+  // 現在地取得ボタンの処理
+  document.getElementById('current-location').addEventListener('click', () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          map.setCenter(pos);
+          map.setZoom(15);
+        },
+        () => {
+          alert("現在地の取得に失敗しました。");
+        }
+      );
+    } else {
+      alert("お使いのブラウザは現在地の取得に対応していません。");
+    }
+  });
+}
+
+function addMarker(lat, lng, title, description, url) {
+  const marker = new google.maps.Marker({
+    position: { lat, lng },
+    map: map,
+    title: title,
+    animation: google.maps.Animation.DROP
+  });
+
+  // 情報ウィンドウの内容
+  const contentString = `
+    <div class="p-2">
+      <h3 class="font-bold mb-1">${title}</h3>
+      <p class="text-sm text-gray-600 mb-2">${description}</p>
+      <a href="${url}" class="text-blue-500 hover:underline text-sm">
+        詳細を見る →
+      </a>
+    </div>
+  `;
+
+  const infoWindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
+
+  markers.push(marker);
+}
+</script>
+
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{@google_maps_api_key}&callback=initMap",
+    async: true, defer: true %>

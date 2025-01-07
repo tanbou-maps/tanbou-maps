@@ -19,8 +19,12 @@ Rails.application.routes.draw do
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do
+    resources :reviews, only: %i[create] # レビューの作成用
     collection do
-      get 'search' # Keep your existing search route
+      get 'search' # 既存の検索ルート
+    end
+    member do
+      get 'reviews' # 特定のスポットのレビュー一覧取得用
     end
   end
 
