@@ -48,6 +48,15 @@ class SpotsController < ApplicationController
     end
   end
 
+  def new_review
+    @spot = Spot.find_by(id: params[:id])
+    if @spot
+      @review = @spot.reviews.build
+    else
+      redirect_to spots_path, alert: 'スポットが見つかりませんでした。'
+    end
+  end
+
   private
 
   def spot_params
