@@ -1,8 +1,13 @@
 class ReviewsController < ApplicationController
-  before_action :set_spot, only: %i[index new create]
+  before_action :set_spot, only: %i[index new create show] # showも追加
+  before_action :set_review, only: [:show]
 
   def index
     @reviews = @spot.reviews
+  end
+
+  def show
+    # @reviewはbefore_actionで設定済み
   end
 
   def new
@@ -22,11 +27,15 @@ class ReviewsController < ApplicationController
 
   private
 
+  def set_review
+    @review = @spot.reviews.find(params[:id])
+  end
+
   def set_spot
     @spot = Spot.find(params[:spot_id])
   end
 
   def review_params
-    params.require(:review).permit(:rating, :comment, :latitude, :longitude, photos: [])
+    params.require(:review).permit(:rating, :comment, :latitude, :longitude, images: []) # photosをimagesに変更
   end
 end

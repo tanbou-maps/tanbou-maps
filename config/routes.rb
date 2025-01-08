@@ -19,11 +19,12 @@ Rails.application.routes.draw do
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do
-    resources :reviews, only: %i[index new create] # reviewsコントローラーに対するネストされたルーティング
+    resources :reviews, only: %i[index new create show] # showアクションを追加
     collection do
       get 'search'
     end
   end
+
 
   resources :model_courses, path: 'model-courses' do
     member do
