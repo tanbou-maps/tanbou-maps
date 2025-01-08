@@ -19,14 +19,9 @@ Rails.application.routes.draw do
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do
-    resources :reviews, only: %i[create]
+    resources :reviews, only: %i[index new create] # reviewsコントローラーに対するネストされたルーティング
     collection do
       get 'search'
-    end
-    member do
-      get 'reviews'
-      get 'new_review' # 追加
-      post 'create_review' # 追加
     end
   end
 

@@ -1,24 +1,30 @@
-# app/controllers/reviews_controller.rb
 class ReviewsController < ApplicationController
-  # app/controllers/spots_controller.rb に追加
-  def view
-    @spots = Spot.all
-    @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+  before_action :set_spot, only: %i[index new create]
+
+  def index
+    @reviews = @spot.reviews
+  end
+
+  def new
+    @review = @spot.reviews.build
   end
 
   def create
-    @spot = Spot.find(params[:spot_id])
     @review = @spot.reviews.build(review_params)
     @review.application_user_id = current_user.id
 
     if @review.save
       redirect_to spot_path(@spot), notice: 'レビューを投稿しました'
     else
-      redirect_to spot_path(@spot), alert: 'レビューの投稿に失敗しました'
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
+
+  def set_spot
+    @spot = Spot.find(params[:spot_id])
+  end
 
   def review_params
     params.require(:review).permit(:rating, :comment, :latitude, :longitude, photos: [])
