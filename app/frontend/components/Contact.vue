@@ -2,7 +2,7 @@
 import { ref } from "vue";
 
 const name = ref("");
-const email = ref("");
+const email = ref(window.defaultEmail || "");
 const message = ref("");
 const agreeToTerms = ref(false);
 const errors = ref<string[]>([]);
@@ -115,6 +115,7 @@ function resetForm() {
           class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
           placeholder="Enter your email"
           required
+          readonly
         />
       </div>
 
@@ -143,7 +144,7 @@ function resetForm() {
           利用規約に同意します
         </label>
         <a
-          href="/terms"
+          href="/contacts/terms"
           target="_blank"
           class="ml-2 text-sm text-indigo-600 hover:underline"
           >利用規約を確認</a

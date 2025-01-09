@@ -36,4 +36,7 @@ Rails.application.routes.draw do
       get 'complete'
     end
   end
+
+  # お問い合わせ-利用規約
+  get '/contacts/terms', to: 'contacts#terms'
 end
