@@ -50,12 +50,11 @@ Rails.application.routes.draw do
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do
-    resources :reviews, only: %i[index new create show] # showアクションを追加
+    resources :reviews, only: %i[index new create show destroy] # destroyを追加
     collection do
       get 'search'
     end
   end
-
 
   resources :model_courses, path: 'model-courses' do
     member do

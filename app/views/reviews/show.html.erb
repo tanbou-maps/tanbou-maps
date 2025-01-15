@@ -50,6 +50,20 @@
         </div>
       <% end %>
 
+            <!-- 戻るボタンの上に追加 -->
+      <% if @review.application_user_id == current_user.id %>
+        <div class="mt-6">
+          <%= button_to spot_review_path(@spot, @review),
+                method: :delete,
+                class: "text-red-600 hover:text-red-800 font-medium",
+                data: {
+                  turbo_confirm: "このレビューを削除してもよろしいですか？\n※削除すると復元できません。"
+                } do %>
+            レビューを削除する
+          <% end %>
+        </div>
+      <% end %>
+
       <!-- 戻るボタン -->
       <div class="mt-8 flex justify-end">
         <%= link_to spot_reviews_path(@spot), class: "text-blue-600 hover:text-blue-800 font-medium" do %>
