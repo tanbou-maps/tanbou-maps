@@ -31,32 +31,6 @@ class SpotsController < ApplicationController
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
   end
 
-  def reviews
-    @spot = Spot.find(params[:id])
-    @reviews = @spot.reviews # アソシエーションを想定
-  end
-
-  def create_review
-    @spot = Spot.find(params[:id])
-    @review = @spot.reviews.build(review_params)
-    @review.user = current_user
-
-    if @review.save
-      render json: @review, status: :created
-    else
-      render json: @review.errors, status: :unprocessable_entity
-    end
-  end
-
-  def new_review
-    @spot = Spot.find_by(id: params[:id])
-    if @spot
-      @review = @spot.reviews.build
-    else
-      redirect_to spots_path, alert: 'スポットが見つかりませんでした。'
-    end
-  end
-
   private
 
   def spot_params
@@ -68,9 +42,5 @@ class SpotsController < ApplicationController
       photos: [],
       spot_detail_attributes: %i[hours_of_operation access_info contact_info website_url recommended_season entry_fee]
     )
-  end
-
-  def review_params
-    params.require(:review).permit(:rating, :comment)
   end
 end
