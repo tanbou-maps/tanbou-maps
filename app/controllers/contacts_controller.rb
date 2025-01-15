@@ -3,6 +3,7 @@ class ContactsController < ApplicationController
 
   def new
     @contact = Contact.new
+    @user_email = current_user&.email
   end
 
   def create
@@ -14,6 +15,10 @@ class ContactsController < ApplicationController
     else
       render json: { errors: @contact.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def terms
+    render template: 'contacts/terms'
   end
 
   def complete
