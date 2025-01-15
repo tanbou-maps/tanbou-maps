@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+declare global {
+  interface Window {
+    defaultEmail?: string;
+  }
+}
+
 const name = ref("");
 const email = ref(window.defaultEmail || "");
 const message = ref("");
@@ -51,7 +57,8 @@ async function handleSubmit() {
       }
     } else if (data.errors) {
       errors.value = data.errors.map(
-        (error: any) => `${error.field}: ${error.messages.join(", ")}`,
+        (error: { field: string; messages: string[] }) =>
+          `${error.field}: ${error.messages.join(", ")}`,
       );
     } else {
       errors.value = ["予期しないエラーが発生しました。"];
