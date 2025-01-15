@@ -10,6 +10,37 @@ Rails.application.routes.draw do
   get 'sign-up', to: 'registration#new', as: :sign_up
   post 'sign-up', to: 'registration#create'
 
+  # ユーザープロフィール
+  resources :user_profile, only: %i[new create] do
+    collection do
+      post :upload
+      post :upload_profile_picture
+      post :update_text
+    end
+
+    member do
+      patch :update_nickname
+      delete :destroy_account # アカウント削除のルートを追加
+    end
+  end
+
+  # 企業プロフィール
+  resources :corporate_profile, only: %i[new create] do
+    collection do
+      post :upload
+    end
+
+    member do
+      patch :update_nickname
+    end
+  end
+
+  get 'corporate-profile-crud', to: 'corporate_profile#new'
+  get 'corporate-profile-view', to: 'corporate_profile#view'
+
+  get 'user-profile-view', to: 'user_profile#view'
+  get 'user-profile-crud', to: 'user_profile#new'
+  # get 'user-prifile-crud', to: 'user_profile#upload'
   # サインアップ完了後の挙動
   get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'
   # サインアウト後の挙動
