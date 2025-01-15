@@ -1,24 +1,56 @@
 <template>
-  <div
-    :style="{ backgroundImage: `url(${backgroundImage})` }"
-    class="min-h-screen bg-cover bg-center text-gray-900"
-  >
+  <div class="min-h-screen bg-white text-gray-900">
     <AppHeader
       :navigationItems="customNavigationItems"
       :avatarUrl="customAvatarUrl"
     />
-    <main
-      class="mx-auto mt-16 max-w-7xl rounded-lg bg-white bg-opacity-80 px-4 py-8 sm:px-6 lg:px-8"
+
+    <!-- Hero Section -->
+    <section
+      class="relative h-screen bg-cover bg-center"
+      :style="{ backgroundImage: `url(${backgroundImage})` }"
     >
-      <section class="mb-8">
-        <h2 class="mb-4 text-3xl font-bold">Tanbou Mapsへようこそ</h2>
-        <p class="text-gray-700">
-          Tanbou
-          Mapsは、あなたの旅をより楽しくするためのスポット情報を提供します。
-        </p>
-      </section>
-      <section class="mb-8">
-        <h2 class="mb-4 text-3xl font-bold">スポット一覧</h2>
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="relative z-10 flex h-full items-center justify-center">
+        <div class="text-center text-white">
+          <h1 class="text-5xl font-bold">Tanbou Maps</h1>
+          <p class="mt-4 text-xl">
+            あなたの旅をより楽しくするスポット情報を提供します
+          </p>
+          <a
+            href="#spots"
+            class="mt-8 inline-block rounded-lg bg-blue-500 px-6 py-3 text-white transition duration-200 hover:bg-blue-600"
+            >スポットを見る</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="bg-gray-100 py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="mb-8 text-center text-3xl font-bold">私たちのサービス</h2>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-lg bg-white p-6 text-center shadow-md">
+            <h3 class="mb-4 text-xl font-semibold">モデルコース</h3>
+            <p class="text-gray-700">おすすめのモデルコースを紹介します。</p>
+          </div>
+          <div class="rounded-lg bg-white p-6 text-center shadow-md">
+            <h3 class="mb-4 text-xl font-semibold">スポット</h3>
+            <p class="text-gray-700">人気のスポット情報を提供します。</p>
+          </div>
+          <div class="rounded-lg bg-white p-6 text-center shadow-md">
+            <h3 class="mb-4 text-xl font-semibold">スタンプラリー</h3>
+            <p class="text-gray-700">スタンプラリーで楽しく旅をしましょう。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spots Section -->
+    <section id="spots" class="py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="mb-8 text-center text-3xl font-bold">スポット一覧</h2>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div
             v-for="spot in spots"
@@ -52,19 +84,25 @@
             </div>
           </div>
         </div>
-      </section>
-      <section class="mb-8">
-        <h2 class="mb-4 text-3xl font-bold">お問い合わせ</h2>
-        <p class="text-gray-700">
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="bg-gray-100 py-16">
+      <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        <h2 class="mb-8 text-3xl font-bold">お問い合わせ</h2>
+        <p class="mb-4 text-gray-700">
           ご質問やご意見がございましたら、<a
             href="/contact"
             class="text-blue-500 hover:text-blue-600"
             >お問い合わせページ</a
           >からご連絡ください。
         </p>
-      </section>
-    </main>
-    <footer class="mt-8 border-t border-gray-300 bg-white py-4">
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-300 bg-white py-4">
       <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <p class="text-gray-500">
           &copy; 2024 Tanbou Maps. All rights reserved.
