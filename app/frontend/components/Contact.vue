@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+declare global {
+  interface Window {
+    defaultEmail?: string;
+  }
+}
+
 const name = ref("");
-const email = ref("");
+const email = ref(window.defaultEmail || "");
 const message = ref("");
 const agreeToTerms = ref(false);
 const errors = ref<string[]>([]);
@@ -51,7 +57,8 @@ async function handleSubmit() {
       }
     } else if (data.errors) {
       errors.value = data.errors.map(
-        (error: any) => `${error.field}: ${error.messages.join(", ")}`,
+        (error: { field: string; messages: string[] }) =>
+          `${error.field}: ${error.messages.join(", ")}`,
       );
     } else {
       errors.value = ["予期しないエラーが発生しました。"];
@@ -115,6 +122,7 @@ function resetForm() {
           class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
           placeholder="Enter your email"
           required
+          readonly
         />
       </div>
 
@@ -143,7 +151,7 @@ function resetForm() {
           利用規約に同意します
         </label>
         <a
-          href="/terms"
+          href="/contacts/terms"
           target="_blank"
           class="ml-2 text-sm text-indigo-600 hover:underline"
           >利用規約を確認</a

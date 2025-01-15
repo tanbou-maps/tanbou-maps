@@ -40,6 +40,8 @@ import MapSearch from "../components/MapSearch.vue";
 import SpotMapPicker from "../components/SpotMapPicker.vue";
 import SpotMap from "../components/SpotMap.vue";
 import Contact from "../components/Contact.vue";
+import "../stylesheets/product.css";
+
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeader).mount("#header"); // header
