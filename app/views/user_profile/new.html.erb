@@ -1,0 +1,471 @@
+<!-- filepath: /c:/Users/admin/Rails/tanbou-maps/app/views/user_profile/new.html.erb -->
+<% if @user.background_picture_url.present? %>
+    <div class="background-container">
+        <img src="<%= @user.background_picture_url %>" alt="Uploaded Image" class="background-image">
+    </div>
+<% end %>
+
+<div class="nickname-box">
+    <div class="nickname-overlay"><%= @user.nickname %></div>
+</div>
+
+<% if @user.profile_picture_url.present? %>
+    <img src="<%= @user.profile_picture_url %>" alt="Profile Image" class="profile-icon">
+<% end %>
+
+<!-- おすすめ観光スポット表示エリア -->
+<div class="favorite-spots-box">
+  <h2>おすすめ観光スポット</h2>
+  <div id="displayText">
+    <p><%= @user.favorite_spots %></p>
+  </div>
+</div>
+
+<%# 背景templete %>
+<button id="openModalBtn">背景設定</button>
+<div id="myModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button class="close">閉じる</button>
+    <h2>背景画像をアップロード</h2>
+    <form id="uploadForm" action="/user_profile/upload" enctype="multipart/form-data" method="post">
+      <input type="hidden" id="userId" name="user_id" value="<%= @user.id %>">
+      <input type="file" id="fileInput" name="file">
+      <input type="submit" value="アップロード">
+    </form>
+  </div>
+</div>
+
+<br>
+<%# プロフィールtemplete %>
+<button id="openProfileModalBtn">プロフィール写真設定</button>
+<div id="profileModal" class="modal">
+  <div class="modal-content">
+    <button class="close">閉じる</button>
+    <h2>プロフィール写真をアップロード</h2>
+    <form id="profileUploadForm" action="/user_profile/upload_profile_picture" enctype="multipart/form-data" method="post">
+      <input type="hidden" id="profileUserId" name="user_id" value="<%= @user.id %>">
+      <input type="file" id="profileFileInput" name="file">
+      <input type="submit" value="アップロード">
+    </form>
+  </div>
+</div>
+
+<br>
+<%# ニックネーム変更templete %>
+<button id="openNicknameModalBtn">ニックネーム変更</button>
+<div id="nicknameModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button class="close">閉じる</button>
+    <h2>ニックネームを変更</h2>
+    <form id="nicknameForm" action="<%= update_nickname_user_profile_path(@user) %>" method="post">
+      <input type="hidden" name="_method" value="patch">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <div class="field">
+        <p>現在のニックネーム: <%= @user.nickname %></p>
+        <label for="nickname">ニックネーム変更</label>
+        <input type="text" id="nickname" name="application_user[nickname]" value="<%= @user.nickname %>">
+      </div>
+      <div class="actions">
+        <input type="submit" value="更新">
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<%# 観光templete %>
+<button id="openTextModalBtn">おすすめ観光スポット設定</button>
+<div id="textModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button class="close">閉じる</button>
+    <h2>あなたのおすすめの観光スポットを入力してください</h2>
+    <form id="textForm" action="/user_profile/update_text" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <div class="field">
+        <label for="textInput">テキスト</label>
+        <input type="text" id="textInput" name="application_user[favorite_spots]">
+      </div>
+      <div class="actions">
+        <input type="submit" value="送信">
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<!-- アカウント削除templete -->
+<button id="openDeleteModalBtn">アカウント削除</button>
+<div id="deleteModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button class="close">閉じる</button>
+    <h2>アカウントを削除しますか？</h2>
+    <form id="deleteForm" action="/user_profile/<%= @user.id %>/destroy_account" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <div class="actions">
+        <input type="submit" value="削除">
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<!-- 戻るボタン -->
+<div class="back-button">
+  <a href="<%= root_path %>">戻る</a>
+</div>
+
+<%# 背景script %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var backgroundModal = document.getElementById("myModal");
+    var btn = document.getElementById("openModalBtn");
+    var closeBtn = backgroundModal.getElementsByClassName("close")[0];
+
+    if (btn) {
+      btn.onclick = function() {
+        backgroundModal.style.display = "block";
+      }
+    }
+
+    if (closeBtn) {
+      closeBtn.onclick = function() {
+        backgroundModal.style.display = "none";
+      }
+    }
+
+    window.addEventListener('click', function(event) {
+      if (event.target == backgroundModal) {
+        backgroundModal.style.display = "none";
+      }
+    });
+
+    var uploadForm = document.getElementById('uploadForm');
+    if (uploadForm) {
+      uploadForm.onsubmit = function(event) {
+        event.preventDefault();
+        var formData = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        var userId = document.getElementById('userId').value;
+        formData.append('file', fileInput.files[0]);
+        formData.append('user_id', userId);
+
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch('/user_profile/upload', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': csrfToken
+          },
+          body: formData
+        }).then(response => response.json())
+          .then(data => {
+            if (data.message === 'File uploaded successfully') {
+              alert('File uploaded successfully');
+              location.reload(); // ページをリロード
+            } else {
+              alert('File upload failed: ' + data.message);
+            }
+          }).catch(error => {
+            console.error('Error:', error);
+            alert('File upload failed');
+          });
+      };
+    }
+  });
+</script>
+
+<%# プロフィールscript %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var profileModal = document.getElementById("profileModal");
+    var openProfileModalBtn = document.getElementById("openProfileModalBtn");
+    var closeProfileBtn = profileModal.getElementsByClassName("close")[0];
+
+    if (openProfileModalBtn) {
+      openProfileModalBtn.onclick = function() {
+        profileModal.style.display = "block";
+      }
+    }
+
+    if (closeProfileBtn) {
+      closeProfileBtn.onclick = function() {
+        profileModal.style.display = "none";
+      }
+    }
+
+    window.addEventListener('click', function(event) {
+      if (event.target == profileModal) {
+        profileModal.style.display = "none";
+      }
+    });
+
+    var profileUploadForm = document.getElementById('profileUploadForm');
+    if (profileUploadForm) {
+      profileUploadForm.onsubmit = function(event) {
+        event.preventDefault();
+        var formData = new FormData(profileUploadForm);
+        var fileInput = document.getElementById('profileFileInput');
+        var userId = document.getElementById('profileUserId').value;
+        formData.append('file', fileInput.files[0]);
+        formData.append('user_id', userId);
+
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        fetch('/user_profile/upload_profile_picture', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': csrfToken
+          },
+          body: formData
+        }).then(response => response.json())
+          .then(data => {
+            if (data.message === 'File uploaded successfully') {
+              alert('File uploaded successfully');
+              location.reload(); // ページをリロード
+            } else {
+              alert('File upload failed: ' + data.message);
+            }
+          }).catch(error => {
+            console.error('Error:', error);
+            alert('File upload failed');
+          });
+      };
+    }
+  });
+</script>
+
+<%# ニックネームscript %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var nicknameModal = document.getElementById("nicknameModal");
+    var openNicknameModalBtn = document.getElementById("openNicknameModalBtn");
+    var closeNicknameBtn = nicknameModal.getElementsByClassName("close")[0];
+
+    if (openNicknameModalBtn) {
+      openNicknameModalBtn.onclick = function() {
+        nicknameModal.style.display = "block";
+      }
+    }
+
+    if (closeNicknameBtn) {
+      closeNicknameBtn.onclick = function() {
+        nicknameModal.style.display = "none";
+      }
+    }
+
+    window.addEventListener('click', function(event) {
+      if (event.target == nicknameModal) {
+        nicknameModal.style.display = "none";
+      }
+    });
+
+    var nicknameForm = document.getElementById('nicknameForm');
+    if (nicknameForm) {
+      nicknameForm.onsubmit = function(event) {
+        event.preventDefault();
+        var formData = new FormData(nicknameForm);
+
+        fetch(nicknameForm.action, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: formData
+        }).then(response => {
+          if (response.ok) {
+            location.reload(); // ページをリロード
+          } else {
+            response.json().then(data => {
+              alert('Nickname update failed: ' + data.message);
+            });
+          }
+        }).catch(error => {
+          console.error('Error:', error);
+          alert('Nickname update failed');
+        });
+      };
+    }
+  });
+</script>
+
+<%# 観光地script %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var textModal = document.getElementById("textModal");
+    var openTextModalBtn = document.getElementById("openTextModalBtn");
+    var closeTextBtn = textModal.getElementsByClassName("close")[0];
+    var displayText = document.getElementById("displayText");
+
+    if (openTextModalBtn) {
+      openTextModalBtn.onclick = function() {
+        textModal.style.display = "block";
+      }
+    }
+
+    if (closeTextBtn) {
+      closeTextBtn.onclick = function() {
+        textModal.style.display = "none";
+      }
+    }
+
+    window.addEventListener('click', function(event) {
+      if (event.target == textModal) {
+        textModal.style.display = "none";
+      }
+    });
+
+    var textForm = document.getElementById('textForm');
+    if (textForm) {
+      textForm.onsubmit = function(event) {
+        event.preventDefault();
+        var formData = new FormData(textForm);
+
+        fetch(textForm.action, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: formData
+        }).then(response => response.json())
+          .then(data => {
+            if (data.message === 'Text updated successfully') {
+              alert('テキストが送信されました');
+              displayText.innerHTML = `<p>${formData.get('application_user[favorite_spots]')}</p>`;
+              textModal.style.display = "none";
+            } else {
+              alert('テキストの送信に失敗しました');
+            }
+          }).catch(error => {
+            console.error('Error:', error);
+            alert('テキストの送信に失敗しました');
+          });
+      };
+    }
+  });
+</script>
+
+<%# アカウント削除script %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var deleteModal = document.getElementById("deleteModal");
+    var openDeleteModalBtn = document.getElementById("openDeleteModalBtn");
+    var closeDeleteBtn = deleteModal.getElementsByClassName("close")[0];
+
+    if (openDeleteModalBtn) {
+      openDeleteModalBtn.onclick = function() {
+        deleteModal.style.display = "block";
+      }
+    }
+
+    if (closeDeleteBtn) {
+      closeDeleteBtn.onclick = function() {
+        deleteModal.style.display = "none";
+      }
+    }
+
+    window.addEventListener('click', function(event) {
+      if (event.target == deleteModal) {
+        deleteModal.style.display = "none";
+      }
+    });
+  });
+</script>
+
+<style>
+  /* モーダルの背景 */
+  .modal {
+    display: none; /* デフォルトでは非表示 */
+    position: fixed; /* 固定位置 */
+    z-index: 3; /* 背景画像よりも前に表示 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全幅 */
+    height: 100%; /* 全高 */
+    overflow: auto; /* スクロール可能 */
+    background-color: rgb(0,0,0); /* 黒 */
+    background-color: rgba(0,0,0,0.4); /* 透明度を持たせた黒 */
+  }
+
+  /* モーダルコンテンツ */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 上下のマージン */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* 幅 */
+    z-index: 4; /* モーダルの背景よりも前に表示 */
+  }
+
+  /* 閉じるボタン */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* 背景画像 */
+  .background-image {
+    position: relative;
+    z-index: 1; /* 背景画像を後ろに配置 */
+    width: 100%;
+    height: 150px !important; /* 高さを設定し、強制適用 */
+    background-size: cover; /* 背景画像のサイズをカバー */
+    background-position: center; /* 背景画像を中央に配置 */
+  }
+
+  /* プロフィールアイコン */
+  .profile-icon {
+    position: absolute; /* 絶対位置 */
+    z-index: 2; /* プロフィール画像を前に配置 */
+    width: 150px; /* アイコンの幅 */
+    height: 150px; /* アイコンの高さ */
+    border-radius: 50%; /* 丸くする */
+    object-fit: cover; /* 画像をアイコンのサイズに合わせる */
+    border: 2px solid #ddd; /* 枠線 */
+    top: 0%; /* 上からの位置 */
+    left: 2%; /* 左からの位置 */
+  }
+
+ .nickname-box {
+    position: absolute;
+    top: 50px;
+    left: 200px;
+    z-index: 2;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+.nickname-overlay {
+    color: black;
+    font-size: 16px;
+    z-index: 3;
+
+  }
+
+/* おすすめ観光スポット表示エリアのスタイル */
+.favorite-spots-box {
+  border: 2px solid #ddd; /* 枠線 */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.favorite-spots-box h2 {
+  margin-top: 0;
+}
+
+/* 戻るボタンのスタイル */
+.back-button {
+  margin-top: 20px;
+}
+</style>
