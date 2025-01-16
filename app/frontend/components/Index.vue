@@ -25,18 +25,13 @@
             class="absolute inset-0 flex flex-col items-center justify-center text-center text-white"
           >
             <h1 class="mb-4 text-8xl">Tanbou Maps</h1>
-            <div class="space-x-4">
-              <a
-                href="/spots"
-                class="rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                >スポットを見る</a
-              >
-              <a
-                href="/model-courses"
-                class="rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700"
-                >モデルコースを見る</a
-              >
-            </div>
+
+            <button
+              type="button"
+              class="inline-flex items-center gap-x-2 rounded-xl border border-transparent bg-lime-400 px-3 py-2 text-2xl text-black transition hover:bg-lime-500 focus:bg-lime-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+            >
+              スポットを見る
+            </button>
           </div>
           <!-- End Title and Buttons -->
         </div>

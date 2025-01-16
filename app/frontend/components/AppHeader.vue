@@ -86,22 +86,22 @@
               class="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400"
               href="#"
               aria-current="page"
-              >Work</a
+              >Home</a
             >
           </div>
           <div>
             <a class="inline-block text-black hover:text-gray-600" href="#"
-              >Services</a
+              >Spots</a
             >
           </div>
           <div>
             <a class="inline-block text-black hover:text-gray-600" href="#"
-              >About</a
+              >Model Courses</a
             >
           </div>
           <div>
             <a class="inline-block text-black hover:text-gray-600" href="#"
-              >Careers</a
+              >Contact Us</a
             >
           </div>
           <div>
