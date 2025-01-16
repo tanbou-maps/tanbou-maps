@@ -17,59 +17,29 @@
         class="ms-auto flex items-center gap-x-2 py-1 md:order-3 md:col-span-3 md:ps-6"
       >
         <button
-          type="button"
-          class="inline-flex items-center gap-x-2 rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-black hover:bg-gray-100 disabled:pointer-events-none disabled:opacity-50"
+          href="#"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
         >
-          Sign out
+          <span
+            class="absolute inset-0 h-full w-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-100"
+          ></span>
+          <span
+            class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-gray-300 opacity-30 transition duration-500 group-hover:rotate-90"
+          ></span>
+          <span class="relative text-black">Sign out</span>
         </button>
         <button
-          type="button"
-          class="inline-flex items-center gap-x-2 rounded-xl border border-transparent bg-lime-400 px-3 py-2 text-sm font-medium text-black transition hover:bg-lime-500 focus:bg-lime-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+          href="#"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
         >
-          Profile
+          <span
+            class="absolute inset-0 h-full w-full bg-gradient-to-br from-yellow-500 via-yellow-400 to-yellow-300"
+          ></span>
+          <span
+            class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-yellow-300 opacity-30 transition duration-500 group-hover:rotate-90"
+          ></span>
+          <span class="relative text-black">Profile</span>
         </button>
-
-        <div class="md:hidden">
-          <button
-            type="button"
-            class="hs-collapse-toggle flex size-[38px] items-center justify-center rounded-xl border border-gray-200 text-sm font-semibold text-black hover:bg-gray-100 disabled:pointer-events-none disabled:opacity-50"
-            data-hs-collapse="#navbar-collapse-with-animation"
-            aria-controls="navbar-collapse-with-animation"
-            aria-label="Toggle navigation"
-          >
-            <svg
-              class="hs-collapse-open:hidden size-4 flex-shrink-0"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="3" x2="21" y1="6" y2="6" />
-              <line x1="3" x2="21" y1="12" y2="12" />
-              <line x1="3" x2="21" y1="18" y2="18" />
-            </svg>
-            <svg
-              class="hs-collapse-open:block hidden size-4 flex-shrink-0"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
-          </button>
-        </div>
       </div>
       <!-- End Button Group -->
 
@@ -83,7 +53,7 @@
         >
           <div>
             <a
-              class="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400"
+              class="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300"
               href="#"
               aria-current="page"
               >Home</a

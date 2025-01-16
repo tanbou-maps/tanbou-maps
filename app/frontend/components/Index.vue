@@ -25,12 +25,32 @@
             class="absolute inset-0 flex flex-col items-center justify-center text-center text-white"
           >
             <h1 class="mb-4 text-8xl">Tanbou Maps</h1>
-
             <button
-              type="button"
-              class="inline-flex items-center gap-x-2 rounded-xl border border-transparent bg-lime-400 px-3 py-2 text-2xl text-black transition hover:bg-lime-500 focus:bg-lime-500 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+              href="#"
+              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
             >
-              スポットを見る
+              <span
+                class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
+              ></span>
+              <span
+                class="ease absolute right-0 flex h-10 w-10 translate-x-full transform items-center justify-start duration-300 group-hover:translate-x-0"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+              <span class="relative">Let's Go!</span>
             </button>
           </div>
           <!-- End Title and Buttons -->
@@ -225,16 +245,15 @@
       <div class="mx-auto max-w-7xl px-4 py-12 lg:px-6 lg:px-8 lg:py-24">
         <blockquote class="mx-auto max-w-4xl">
           <p class="mb-6 md:text-lg">
-            <span class="font-semibold text-lime-400">Philip,</span>
-            <span class="text-neutral-500">CEO at Day Spa</span>
+            <span class="font-semibold text-lime-400">Yasuo, </span>
+            <span class="text-neutral-500">CEO at LoL</span>
           </p>
 
           <p
             class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
           >
-            I'm absolutely floored by the level of care and attention to detail
-            the team at Preline have put into this project and for one can
-            guarantee that we will be a return customer.
+            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
           </p>
 
           <footer class="mt-6 md:mt-10">
