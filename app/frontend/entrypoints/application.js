@@ -33,6 +33,7 @@ console.log(
 import { createApp } from "vue";
 import "../stylesheets/style.css";
 import AppHeader from "../components/AppHeader.vue";
+import AppFooter from "../components/AppFooter.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
@@ -42,9 +43,9 @@ import SpotMap from "../components/SpotMap.vue";
 import Contact from "../components/Contact.vue";
 import "../stylesheets/product.css";
 
-
 document.addEventListener("DOMContentLoaded", () => {
-  createApp(AppHeader).mount("#header"); // header
+  createApp(AppHeader).mount("#app-header"); // header
+  createApp(AppFooter).mount("#app-footer"); // footer
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
   createApp(SignUp).mount("#sign-up");

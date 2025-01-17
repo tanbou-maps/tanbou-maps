@@ -1,47 +1,88 @@
 <template>
+  <!-- ========== HEADER ========== -->
   <header
-    class="fixed left-0 right-0 top-0 z-50 border-b border-gray-300 bg-white/80 backdrop-blur-md"
+    class="z-50 flex w-full flex-wrap py-7 md:flex-nowrap md:justify-start"
   >
-    <div
-      class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+    <nav
+      class="relative mx-auto flex w-full max-w-7xl basis-full flex-wrap items-center px-4 md:grid md:grid-cols-12 md:px-6 md:px-8"
+      aria-label="Global"
     >
-      <h1 class="text-2xl font-bold">Tanbou Maps</h1>
-      <nav class="flex space-x-4">
-        <a
-          v-for="item in navigationItems"
-          :key="item.name"
-          :href="item.href"
-          :class="{
-            'text-blue-500': item.current,
-            'text-gray-700': !item.current,
-          }"
-          class="hover:text-blue-600"
+      <div class="md:col-span-3">
+        <!-- Logo -->
+        <!-- End Logo -->
+      </div>
+
+      <!-- Button Group -->
+      <div
+        class="ms-auto flex items-center gap-x-2 py-1 md:order-3 md:col-span-3 md:ps-6"
+      >
+        <button
+          href="#"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
         >
-          {{ item.name }}
-        </a>
-      </nav>
-      <img :src="avatarUrl" alt="User Avatar" class="h-8 w-8 rounded-full" />
-    </div>
+          <span
+            class="absolute inset-0 h-full w-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-100"
+          ></span>
+          <span
+            class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-gray-300 opacity-30 transition duration-500 group-hover:rotate-90"
+          ></span>
+          <span class="relative text-black">Sign out</span>
+        </button>
+        <button
+          href="#"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
+        >
+          <span
+            class="absolute inset-0 h-full w-full bg-gradient-to-br from-yellow-500 via-yellow-400 to-yellow-300"
+          ></span>
+          <span
+            class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-yellow-300 opacity-30 transition duration-500 group-hover:rotate-90"
+          ></span>
+          <span class="relative text-black">Profile</span>
+        </button>
+      </div>
+      <!-- End Button Group -->
+
+      <!-- Collapse -->
+      <div
+        id="navbar-collapse-with-animation"
+        class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:order-2 md:col-span-6 md:block md:w-auto md:basis-auto"
+      >
+        <div
+          class="mt-5 flex flex-col gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-center md:gap-x-7 md:gap-y-0"
+        >
+          <div>
+            <a
+              class="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300"
+              href="#"
+              aria-current="page"
+              >Home</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Spots</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Model Courses</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Contact Us</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Blog</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- End Collapse -->
+    </nav>
   </header>
+  <!-- ========== END HEADER ========== -->
 </template>
-
-<script setup>
-import { ref, defineProps } from "vue";
-import defaultAvatar from "@/images/airou_small.png";
-
-const props = defineProps({
-  navigationItems: {
-    type: Array,
-    default: () => [
-      { name: "ホーム", href: "/", current: true },
-      { name: "モデルコース", href: "/model-courses", current: false },
-      { name: "スポット", href: "/spots", current: false },
-      { name: "スタンプラリー", href: "/stamp-rallying", current: false },
-    ],
-  },
-  avatarUrl: {
-    type: String,
-    default: defaultAvatar,
-  },
-});
-</script>

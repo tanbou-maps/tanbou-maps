@@ -1,145 +1,427 @@
 <template>
-  <div class="min-h-screen bg-white text-gray-900">
-    <AppHeader
-      :navigationItems="customNavigationItems"
-      :avatarUrl="customAvatarUrl"
-    />
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content">
+    <!-- Slider -->
+    <div class="px-4 lg:px-8">
+      <div
+        data-hs-carousel='{
+          "loadingClasses": "opacity-0"
+        }'
+        class="relative"
+      >
+        <div
+          class="hs-carousel relative h-[30rem] w-full overflow-hidden rounded-2xl md:h-[calc(100vh-106px)]"
+        >
+          <!-- Photo -->
+          <img
+            class="h-full w-full object-cover blur-sm"
+            src="@/images/image_background.jpg"
+            alt="image_background"
+          />
+          <!-- End Photo -->
 
-    <!-- Hero Section -->
-    <section
-      class="relative h-screen bg-cover bg-center"
-      :style="{ backgroundImage: `url(${backgroundImage})` }"
-    >
-      <div class="absolute inset-0 bg-black opacity-50"></div>
-      <div class="relative z-10 flex h-full items-center justify-center">
-        <div class="text-center text-white">
-          <h1 class="text-5xl font-bold">Tanbou Maps</h1>
-          <p class="mt-4 text-xl">
-            あなたの旅をより楽しくするスポット情報を提供します
-          </p>
-          <a
-            href="#spots"
-            class="mt-8 inline-block rounded-lg bg-blue-500 px-6 py-3 text-white transition duration-200 hover:bg-blue-600"
-            >スポットを見る</a
-          >
-        </div>
-      </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="bg-gray-100 py-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 class="mb-8 text-center text-3xl font-bold">私たちのサービス</h2>
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="rounded-lg bg-white p-6 text-center shadow-md">
-            <h3 class="mb-4 text-xl font-semibold">モデルコース</h3>
-            <p class="text-gray-700">おすすめのモデルコースを紹介します。</p>
-          </div>
-          <div class="rounded-lg bg-white p-6 text-center shadow-md">
-            <h3 class="mb-4 text-xl font-semibold">スポット</h3>
-            <p class="text-gray-700">人気のスポット情報を提供します。</p>
-          </div>
-          <div class="rounded-lg bg-white p-6 text-center shadow-md">
-            <h3 class="mb-4 text-xl font-semibold">スタンプラリー</h3>
-            <p class="text-gray-700">スタンプラリーで楽しく旅をしましょう。</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Spots Section -->
-    <section id="spots" class="py-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 class="mb-8 text-center text-3xl font-bold">スポット一覧</h2>
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Title and Buttons -->
           <div
-            v-for="spot in spots"
-            :key="spot.id"
-            class="overflow-hidden rounded-lg bg-white shadow-md transition duration-200 hover:shadow-lg"
+            class="absolute inset-0 flex flex-col items-center justify-center text-center text-white"
+          >
+            <h1 class="mb-4 text-8xl">Tanbou Maps</h1>
+            <h2 class="mb-8 text-2xl">- あなたの新しい旅のために -</h2>
+            <button
+              href="#"
+              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
+            >
+              <span
+                class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
+              ></span>
+              <span
+                class="ease absolute right-0 flex h-10 w-10 translate-x-full transform items-center justify-start duration-300 group-hover:translate-x-0"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+              <span class="relative">Let's Go!</span>
+            </button>
+          </div>
+          <!-- End Title and Buttons -->
+        </div>
+      </div>
+    </div>
+    <!-- End Slider -->
+
+    <!-- Works -->
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
+        <h1 class="text-2xl font-medium text-black sm:text-4xl">
+          Latest Spots
+        </h1>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
           >
             <img
-              v-if="spot.photos.length"
-              :src="spot.photos[0]"
-              class="h-48 w-full object-cover"
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
             />
-            <div
-              v-else
-              class="flex h-48 w-full items-center justify-center bg-gray-200"
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
             >
-              <span class="text-gray-400">No image</span>
-            </div>
-            <div class="p-4">
-              <h3 class="mb-2 text-xl font-semibold">{{ spot.name }}</h3>
-              <p class="mb-4 text-gray-600">{{ spot.description }}</p>
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-500"
-                  >投稿者ID: {{ spot.application_user_id }}</span
-                >
-                <a
-                  :href="`/spots/${spot.id}`"
-                  class="text-blue-500 hover:text-blue-600"
-                  >詳細</a
-                >
-              </div>
+              eYoga
+            </h3>
+            <p class="mt-1 text-gray-600">
+              A revamped and dynamic approach to yoga analytics
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Discovery
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Brand Guidelines
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Yoga
+              </span>
             </div>
           </div>
+        </a>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              Nike React
+            </h3>
+            <p class="mt-1 text-gray-600">
+              Rewriting sport's playbook for billions of athletes
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Brand Strategy
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Visual Identity
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1649999920973-ab6bfd0c0017?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              Day Spa
+            </h3>
+            <p class="mt-1 text-gray-600">Designing a new cocktail can</p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Brand Strategy
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Visual Identity
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1528291954423-c0c71c12baeb?q=80&w=3426&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              Diamond Dynamics
+            </h3>
+            <p class="mt-1 text-gray-600">
+              From cutting-edge equipment to stylish apparel
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Sports Gear
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Equipment
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Discovery
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+      </div>
+      <!-- End Card Grid -->
+
+      <div class="mt-10 text-center lg:mt-20">
+        <a
+          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
+          href="#"
+        >
+          View all Work
+        </a>
+      </div>
+    </div>
+    <!-- End Works -->
+
+    <!-- Testimonials -->
+    <div class="bg-black">
+      <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
+        <blockquote class="mx-auto max-w-4xl">
+          <p class="mb-6 md:text-lg">
+            <span class="font-semibold text-lime-400">Yasuo, </span>
+            <span class="text-neutral-500">CEO at LoL</span>
+          </p>
+
+          <p
+            class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
+          >
+            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+          </p>
+
+          <footer class="mt-6 md:mt-10">
+            <div class="border-neutral-700">
+              <button
+                type="button"
+                class="group inline-flex items-center gap-x-3 text-sm text-neutral-400 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+              >
+                <span
+                  class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-lime-400 group-focus:bg-lime-400 md:size-10"
+                >
+                  <svg
+                    class="size-5 flex-shrink-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"
+                    />
+                  </svg>
+                </span>
+                Watch the Video
+              </button>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+    <!-- End Testimonials -->
+
+    <!-- Contact -->
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
+        <h2 class="text-2xl font-medium text-black sm:text-4xl">Contacts</h2>
+      </div>
+
+      <div
+        class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2 lg:items-center lg:gap-12"
+      >
+        <div
+          class="aspect-w-16 aspect-h-6 lg:aspect-h-14 overflow-hidden rounded-2xl bg-gray-100"
+        >
+          <img
+            class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            src="@/images/image_contact_page_model.jpg"
+            alt="Image Description"
+          />
         </div>
-      </div>
-    </section>
+        <!-- End Col -->
 
-    <!-- Contact Section -->
-    <section class="bg-gray-100 py-16">
-      <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 class="mb-8 text-3xl font-bold">お問い合わせ</h2>
-        <p class="mb-4 text-gray-700">
-          ご質問やご意見がございましたら、<a
-            href="/contacts/new"
-            class="text-blue-500 hover:text-blue-600"
-            >お問い合わせページ</a
-          >からご連絡ください。
-        </p>
-      </div>
-    </section>
+        <div class="space-y-8 lg:space-y-16">
+          <div>
+            <h3 class="mb-5 font-semibold text-black">Our address</h3>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-300 bg-white py-4">
-      <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <p class="text-gray-500">
-          &copy; 2024 Tanbou Maps. All rights reserved.
-        </p>
+            <!-- Grid -->
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:gap-12">
+              <div class="flex gap-4">
+                <svg
+                  class="size-5 flex-shrink-0 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+                  ></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+
+                <div class="grow">
+                  <p class="text-sm text-gray-600">United Kingdom</p>
+                  <address class="mt-1 not-italic text-black">
+                    300 Bath Street, Tay House<br />
+                    Glasgow G2 4JR
+                  </address>
+                </div>
+              </div>
+            </div>
+            <!-- End Grid -->
+          </div>
+
+          <div>
+            <h3 class="mb-5 font-semibold text-black">Our contacts</h3>
+
+            <!-- Grid -->
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:gap-12">
+              <div class="flex gap-4">
+                <svg
+                  class="size-5 flex-shrink-0 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"
+                  ></path>
+                  <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"></path>
+                </svg>
+
+                <div class="grow">
+                  <p class="text-sm text-gray-600">Email us</p>
+                  <p>
+                    <a
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      href="mailto:example@site.so"
+                    >
+                      hello@example.so
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex gap-4">
+                <svg
+                  class="size-5 flex-shrink-0 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+
+                <div class="grow">
+                  <p class="text-sm text-gray-600">Call us</p>
+                  <p>
+                    <a
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      href="mailto:example@site.so"
+                    >
+                      +44 222 777-000
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- End Grid -->
+          </div>
+        </div>
+        <!-- End Col -->
       </div>
-    </footer>
-  </div>
+    </div>
+    <!-- End Contact -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
 </template>
-
-<script setup>
-import { ref, onMounted } from "vue";
-import AppHeader from "@/components/AppHeader.vue";
-
-const customNavigationItems = [
-  { name: "ホーム", href: "/", current: true },
-  { name: "モデルコース", href: "/model-courses", current: false },
-  { name: "スポット", href: "/spots", current: false },
-  { name: "スタンプラリー", href: "/stamp-rallying", current: false },
-];
-
-const customAvatarUrl = "path/to/custom/avatar.png";
-
-const spots = [
-  {
-    id: 1,
-    name: "test_spot1",
-    description: "test",
-    photos: [],
-    application_user_id: 1,
-  },
-  // 他のスポットデータ
-];
-
-const backgroundImage = ref("");
-
-onMounted(() => {
-  backgroundImage.value =
-    "https://source.unsplash.com/random/1600x900/?season,landscape";
-});
-</script>
