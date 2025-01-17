@@ -41,10 +41,10 @@ import SpotMapPicker from "../components/SpotMapPicker.vue";
 import SpotMap from "../components/SpotMap.vue";
 import Contact from "../components/Contact.vue";
 import "../stylesheets/product.css";
-
-
+import AppFooter from "../components/AppFooter.vue";
 document.addEventListener("DOMContentLoaded", () => {
-  createApp(AppHeader).mount("#header"); // header
+  createApp(AppHeader).mount("#app-header"); // header
+  createApp(AppFooter).mount("#app-footer"); // footer
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
   createApp(SignUp).mount("#sign-up");

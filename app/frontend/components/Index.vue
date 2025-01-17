@@ -62,7 +62,9 @@
     <!-- Works -->
     <div class="mx-auto max-w-7xl px-4 py-12 lg:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
-        <h1 class="text-2xl font-medium text-black sm:text-4xl">Latest work</h1>
+        <h1 class="text-2xl font-medium text-black sm:text-4xl">
+          Latest Spots
+        </h1>
       </div>
 
       <!-- Card Grid -->
