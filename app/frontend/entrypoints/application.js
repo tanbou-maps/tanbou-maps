@@ -72,6 +72,17 @@ if (spotMap) {
   app.mount("#spot-map");
 }
 
+// レビュー関連の処理
+const reviewElements = document.querySelectorAll("#review");
+reviewElements.forEach((element) => {
+  if (element) {
+    const app = createApp(Review, {
+      spotId: element.dataset.spotId,
+    });
+    app.mount(element);
+  }
+});
+
 const element = document.getElementById("index");
 
 if (element) {
