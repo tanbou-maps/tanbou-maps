@@ -153,7 +153,7 @@ function resetForm() {
         <a
           href="/contacts/terms"
           target="_blank"
-          class="ml-2 text-sm text-indigo-600 hover:underline"
+          class="ml-2 text-sm text-blue-500 hover:underline"
           >利用規約を確認</a
         >
       </div>
@@ -166,5 +166,10 @@ function resetForm() {
         送信
       </button>
     </form>
+    <div class="mt-4 text-center">
+      <a href="/" class="text-sm text-blue-500 hover:underline">
+        ホームページに戻る
+      </a>
+    </div>
   </div>
 </template>
