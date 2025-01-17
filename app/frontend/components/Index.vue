@@ -2,7 +2,7 @@
   <!-- ========== MAIN CONTENT ========== -->
   <main id="content">
     <!-- Slider -->
-    <div class="px-4 lg:px-6 lg:px-8">
+    <div class="px-4 lg:px-8">
       <div
         data-hs-carousel='{
           "loadingClasses": "opacity-0"
@@ -25,6 +25,7 @@
             class="absolute inset-0 flex flex-col items-center justify-center text-center text-white"
           >
             <h1 class="mb-4 text-8xl">Tanbou Maps</h1>
+            <h2 class="mb-8 text-2xl">- あなたの新しい旅のために -</h2>
             <button
               href="#"
               class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
@@ -60,7 +61,7 @@
     <!-- End Slider -->
 
     <!-- Works -->
-    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-6 lg:px-8 lg:py-24">
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
       <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
         <h1 class="text-2xl font-medium text-black sm:text-4xl">
           Latest Spots
@@ -244,7 +245,7 @@
 
     <!-- Testimonials -->
     <div class="bg-black">
-      <div class="mx-auto max-w-7xl px-4 py-12 lg:px-6 lg:px-8 lg:py-24">
+      <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
         <blockquote class="mx-auto max-w-4xl">
           <p class="mb-6 md:text-lg">
             <span class="font-semibold text-lime-400">Yasuo, </span>
@@ -290,7 +291,7 @@
     <!-- End Testimonials -->
 
     <!-- Contact -->
-    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-6 lg:px-8 lg:py-24">
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
       <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
         <h2 class="text-2xl font-medium text-black sm:text-4xl">Contacts</h2>
       </div>
@@ -303,7 +304,7 @@
         >
           <img
             class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-            src="https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="@/images/image_contact_page_model.jpg"
             alt="Image Description"
           />
         </div>
