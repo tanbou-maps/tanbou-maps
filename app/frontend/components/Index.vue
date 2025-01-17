@@ -93,7 +93,7 @@
         <h2 class="mb-8 text-3xl font-bold">お問い合わせ</h2>
         <p class="mb-4 text-gray-700">
           ご質問やご意見がございましたら、<a
-            href="/contact"
+            href="/contacts/new"
             class="text-blue-500 hover:text-blue-600"
             >お問い合わせページ</a
           >からご連絡ください。
