@@ -41,13 +41,14 @@ import SpotMapPicker from "../components/SpotMapPicker.vue";
 import SpotMap from "../components/SpotMap.vue";
 import Contact from "../components/Contact.vue";
 import "../stylesheets/product.css";
-
+import Review from "../components/Review.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeader).mount("#header"); // header
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
   createApp(SignUp).mount("#sign-up");
+  createApp(Review).mount("#review");
 });
 
 const mapSearchApp = document.getElementById("map-search-app");
