@@ -51,9 +51,9 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-white">
-    <div class="w-full max-w-md rounded-lg bg-black p-6 shadow-lg">
-      <h1 class="mb-6 text-center text-2xl font-bold text-white">Sign In</h1>
+  <div class="flex min-h-screen items-center justify-center bg-gray-50">
+    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+      <h1 class="mb-6 text-center text-2xl font-bold text-black">Sign In</h1>
 
       <div
         v-if="error"
@@ -64,7 +64,7 @@ async function handleSubmit() {
 
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
-          <label for="user_id" class="block text-sm font-medium text-white"
+          <label for="user_id" class="block text-sm font-medium text-black"
             >ユーザーIDまたはメールアドレス</label
           >
           <input
@@ -78,7 +78,7 @@ async function handleSubmit() {
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-white"
+          <label for="password" class="block text-sm font-medium text-black"
             >パスワード</label
           >
           <div class="relative mt-1">

@@ -126,7 +126,7 @@ function resetForm() {
             id="user_id"
             v-model="user_id"
             type="text"
-            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
             placeholder="Enter your UserID"
             required
           />
@@ -140,7 +140,7 @@ function resetForm() {
             id="nickname"
             v-model="nickname"
             type="text"
-            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
             placeholder="Enter your NickName"
             required
           />
@@ -154,7 +154,7 @@ function resetForm() {
             id="email"
             v-model="email"
             type="email"
-            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
             placeholder="Enter your Email"
             required
           />
@@ -169,7 +169,7 @@ function resetForm() {
               id="password"
               v-model="password"
               :type="showPasswords ? 'text' : 'password'"
-              class="block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              class="block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
               placeholder="Enter your Password"
               required
             />
@@ -225,7 +225,7 @@ function resetForm() {
               id="password_confirmation"
               v-model="password_confirmation"
               :type="showPasswords ? 'text' : 'password'"
-              class="block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              class="block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
               placeholder="Enter your Password again"
               required
             />
@@ -280,7 +280,7 @@ function resetForm() {
                 type="radio"
                 value="individual"
                 v-model="account_type"
-                class="form-radio h-4 w-4 text-indigo-600"
+                class="form-radio h-4 w-4 text-yellow-300"
               />
               <span class="ml-2">個人</span>
             </label>
@@ -289,7 +289,7 @@ function resetForm() {
                 type="radio"
                 value="corporate"
                 v-model="account_type"
-                class="form-radio h-4 w-4 text-indigo-600"
+                class="form-radio h-4 w-4 text-yellow-300"
               />
               <span class="ml-2">法人</span>
             </label>
@@ -305,7 +305,7 @@ function resetForm() {
           <select
             id="corporate_type"
             v-model="corporate_type"
-            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm sm:text-sm"
           >
             <option value="" disabled>選択してください</option>
             <option v-for="type in corporate_types" :key="type" :value="type">
@@ -316,17 +316,14 @@ function resetForm() {
 
         <button
           type="submit"
-          class="w-full rounded bg-indigo-600 py-2 text-white shadow hover:bg-indigo-700"
+          class="w-full rounded bg-yellow-300 py-2 text-white shadow hover:bg-yellow-400"
         >
           サインアップ
         </button>
       </form>
 
       <div class="mt-4 text-center">
-        <a
-          href="sign-in"
-          class="text-indigo-600 underline hover:text-indigo-800"
-        >
+        <a href="sign-in" class="text-yellow-300 underline">
           アカウントをお持ちの方はこちら
         </a>
       </div>
