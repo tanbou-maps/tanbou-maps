@@ -11,6 +11,7 @@ const account_type = ref("individual");
 const corporate_type = ref("");
 const errorMessages = ref<string[]>([]);
 
+// !TODO: 法人の種類の定義はアプリケーショ全体で統一する必要があるので config\corporate_types.yml から取得するように修正する
 const corporate_types = [
   "株式会社",
   "有限会社",
@@ -52,7 +53,7 @@ async function submitForm() {
         "X-CSRF-Token": csrfToken,
       },
       body: JSON.stringify({
-        signup_user: {
+        sign_up_user: {
           user_id: user_id.value,
           nickname: nickname.value,
           email: email.value,
