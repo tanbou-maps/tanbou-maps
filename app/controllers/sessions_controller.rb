@@ -16,11 +16,12 @@ class SessionsController < ApplicationController
     end
   end
 
-  def destroypost
+  def signout
     render :signout
   end
 
-  def destroy
-    session.delete(:user_id)
+  def destroy_session
+    # セッションを削除
+    session[:user_id] = nil
   end
 end

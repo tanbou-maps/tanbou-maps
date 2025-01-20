@@ -2,17 +2,16 @@ Rails.application.routes.draw do
   root 'index#show'
 
   # サインアップ・サインイン関連
-  get 'sign-in', to: 'sessions#new', as: :sign_in
-  post 'sign-in', to: 'sessions#create'
-  delete 'sign-out', to: 'sessions#destroy', as: :sign_out
-
-  get 'sign-outpost', to: 'sessions#destroypost'
-  get 'sign-up', to: 'registration#new', as: :sign_up
-  post 'sign-up', to: 'registration#create'
+  get 'signin', to: 'sessions#new'
+  post 'signin', to: 'sessions#create'
+  get 'signup', to: 'registration#new'
+  post 'signup', to: 'registration#create'
+  get 'signout', to: 'sessions#signout'
+  delete 'signout', to: 'sessions#destroy_session'
 
   # ユーザープロフィール
   resources :user_profile, only: %i[new create show] do
-    #URLにidが指定されない場合のルーティング
+    # URLにidが指定されない場合のルーティング
     collection do
       post :upload
       post :upload_profile_picture
@@ -30,11 +29,11 @@ Rails.application.routes.draw do
     end
   end
 
-# urlでidを指定して表示するユーザープロフィール
+  # urlでidを指定して表示するユーザープロフィール
   get 'user-profile-view/:id', to: 'user_profile#view'
   get 'user-profile-crud/:id', to: 'user_profile#show'
 
-# urlでidを指定せずに表示するユーザープロフィール
+  # urlでidを指定せずに表示するユーザープロフィール
   get 'user-profile-crud', to: 'user_profile#new'
   get 'user-profile-view', to: 'user_profile#view'
 
@@ -67,7 +66,6 @@ Rails.application.routes.draw do
       get 'search'
     end
   end
-
 
   resources :model_courses, path: 'model-courses' do
     member do
