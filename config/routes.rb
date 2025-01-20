@@ -2,13 +2,11 @@ Rails.application.routes.draw do
   root 'index#show'
 
   # サインアップ・サインイン関連
-  get 'sign-in', to: 'sessions#new', as: :sign_in
+  get 'sign-in', to: 'sessions#new'
   post 'sign-in', to: 'sessions#create'
-  delete 'sign-out', to: 'sessions#destroy', as: :sign_out
-
-  get 'sign-outpost', to: 'sessions#destroypost'
-  get 'sign-up', to: 'registration#new', as: :sign_up
+  get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'
+  get 'sign-out', to: 'sessions#delete'
 
   # ユーザープロフィール
   resources :user_profile, only: %i[new create show] do
