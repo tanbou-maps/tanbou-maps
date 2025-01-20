@@ -16,8 +16,8 @@
       <div
         class="ms-auto flex items-center gap-x-2 py-1 md:order-3 md:col-span-3 md:ps-6"
       >
-        <button
-          href="#"
+        <a
+          href="/sign-out"
           class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
         >
           <span
@@ -27,8 +27,8 @@
             class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-gray-300 opacity-30 transition duration-500 group-hover:rotate-90"
           ></span>
           <span class="relative text-black">Sign out</span>
-        </button>
-        <button
+        </a>
+        <a
           href="#"
           class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
         >
@@ -39,7 +39,7 @@
             class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-yellow-300 opacity-30 transition duration-500 group-hover:rotate-90"
           ></span>
           <span class="relative text-black">Profile</span>
-        </button>
+        </a>
       </div>
       <!-- End Button Group -->
 

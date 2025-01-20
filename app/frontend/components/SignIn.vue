@@ -51,9 +51,9 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-50">
-    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-      <h1 class="mb-6 text-center text-2xl font-bold">Sign In</h1>
+  <div class="flex min-h-screen items-center justify-center bg-white">
+    <div class="w-full max-w-md rounded-lg bg-black p-6 shadow-lg">
+      <h1 class="mb-6 text-center text-2xl font-bold text-white">Sign In</h1>
 
       <div
         v-if="error"
@@ -64,21 +64,21 @@ async function handleSubmit() {
 
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
-          <label for="user_id" class="block text-sm font-medium text-gray-700"
+          <label for="user_id" class="block text-sm font-medium text-white"
             >ユーザーIDまたはメールアドレス</label
           >
           <input
             id="user_id"
             v-model="user_id"
             type="text"
-            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
             placeholder="Enter your UserID or Email"
             required
           />
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700"
+          <label for="password" class="block text-sm font-medium text-white"
             >パスワード</label
           >
           <div class="relative mt-1">
@@ -86,7 +86,7 @@ async function handleSubmit() {
               id="password"
               v-model="password"
               :type="showPasswords ? 'text' : 'password'"
-              class="block w-full rounded-md border border-gray-300 p-1 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              class="block w-full rounded-md border border-gray-300 p-1 pr-12 shadow-sm sm:text-sm"
               placeholder="Enter your Password"
               required
             />
@@ -133,17 +133,14 @@ async function handleSubmit() {
 
         <button
           type="submit"
-          class="w-full rounded bg-indigo-600 py-2 text-white shadow hover:bg-indigo-700"
+          class="w-full rounded bg-yellow-300 py-2 text-black shadow hover:bg-yellow-400"
         >
           サインイン
         </button>
       </form>
 
       <div class="mt-4 text-center">
-        <a
-          href="sign-up"
-          class="text-indigo-600 underline hover:text-indigo-800"
-        >
+        <a href="sign-up" class="text-yellow-300 underline">
           アカウントをお持ちでない方はこちら
         </a>
       </div>
