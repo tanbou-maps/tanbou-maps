@@ -1,32 +1,58 @@
-<% if @user.background_picture_url.present? %>
-  <div class="background-container">
-    <img src="<%= @user.background_picture_url %>" alt="Uploaded Image" class="background-image">
+<!-- filepath: /c:/Users/admin/Rails/tanbou-maps/app/views/user_profile/ProfileView.vue -->
+<template>
+  <div>
+    <div v-if="user.background_picture_url" class="background-container">
+      <img
+        :src="user.background_picture_url"
+        alt="Uploaded Image"
+        class="background-image"
+      />
+    </div>
+
+    <div class="nickname-box">
+      <div class="nickname-overlay">{{ user.nickname }}</div>
+    </div>
+
+    <div v-if="user.profile_picture_url">
+      <img
+        :src="user.profile_picture_url"
+        alt="Profile Image"
+        class="profile-icon"
+      />
+    </div>
+
+    <!-- おすすめ観光スポット表示エリア -->
+    <div class="favorite-spots-box">
+      <h2>おすすめ観光スポット</h2>
+      <div id="displayText">
+        <p>{{ user.favorite_spots }}</p>
+      </div>
+    </div>
+
+    <br />
+    <!-- 戻るボタン -->
+    <div class="back-button">
+      <a :href="rootPath">戻る</a>
+    </div>
   </div>
-<% end %>
+</template>
 
-<div class="nickname-box">
-  <div class="nickname-overlay"><%= @user.nickname %></div>
-</div>
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+    rootPath: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script>
 
-<% if @user.profile_picture_url.present? %>
-  <img src="<%= @user.profile_picture_url %>" alt="Profile Image" class="profile-icon">
-<% end %>
-
-<!-- おすすめ観光スポット表示エリア -->
-<div class="favorite-spots-box">
-  <h2>おすすめ観光スポット</h2>
-  <div id="displayText">
-    <p><%= @user.favorite_spots %></p>
-  </div>
-</div>
-
-<br>
-<!-- 戻るボタン -->
-<div class="back-button">
-  <a href="<%= root_path %>">戻る</a>
-</div>
-
-<style>
+<style scoped>
 /* 背景画像 */
 .background-image {
   position: relative;
