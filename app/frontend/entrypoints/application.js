@@ -34,6 +34,7 @@ import { createApp } from "vue";
 import "../stylesheets/style.css";
 import AppHeader from "../components/AppHeader.vue";
 import AppFooter from "../components/AppFooter.vue";
+import AppFooter from "../components/AppFooter.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
