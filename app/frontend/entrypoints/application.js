@@ -34,6 +34,7 @@ import { createApp } from "vue";
 import "../stylesheets/style.css";
 import AppHeader from "../components/AppHeader.vue";
 import AppFooter from "../components/AppFooter.vue";
+import AppFooter from "../components/AppFooter.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
@@ -46,6 +47,7 @@ import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
 // import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 import "../stylesheets/product.css";
+import Review from "../components/Review.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeader).mount("#app-header"); // header
@@ -53,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(Index).mount("#index"); // root
   createApp(SignIn).mount("#sign-in");
   createApp(SignUp).mount("#sign-up");
+  createApp(Review).mount("#review");
 });
 
 const mapSearchApp = document.getElementById("map-search-app");
@@ -81,6 +84,17 @@ if (spotMap) {
   app.mount("#spot-map");
   console.log("Mounted SpotMap");
 }
+
+// レビュー関連の処理
+const reviewElements = document.querySelectorAll("#review");
+reviewElements.forEach((element) => {
+  if (element) {
+    const app = createApp(Review, {
+      spotId: element.dataset.spotId,
+    });
+    app.mount(element);
+  }
+});
 
 const element = document.getElementById("index");
 
