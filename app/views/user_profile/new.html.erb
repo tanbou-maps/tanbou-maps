@@ -1,0 +1,28 @@
+<!-- filepath: /c:/Users/admin/Rails/tanbou-maps/app/views/user_profile/new.html.erb -->
+<div id="user-profile-app" data-user="<%= j @user.to_json %>"></div>
+
+<%= vite_client_tag %>
+<%= vite_javascript_tag 'application' %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const userProfileApp = document.getElementById('user-profile-app');
+    if (userProfileApp) {
+      try {
+        const userData = JSON.parse(userProfileApp.dataset.user.replace(/&quot;/g, '"'));
+        new Vue({
+          el: '#user-profile-app',
+          render: h => h(UserProfile, {
+            props: {
+              user: userData
+            }
+          })
+        });
+      } catch (e) {
+        console.error('Failed to parse user data:', e);
+      }
+    } else {
+      console.error('user-profile-app element not found');
+    }
+  });
+</script>

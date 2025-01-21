@@ -1,139 +1,427 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
-    <main class="pt-16">
-      <!-- ヘッダーの高さ分のパディングを追加 -->
-      <!-- Hero Section -->
-      <section class="bg-black py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="text-center">
-            <h1
-              class="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content">
+    <!-- Slider -->
+    <div class="px-4 lg:px-8">
+      <div
+        data-hs-carousel='{
+          "loadingClasses": "opacity-0"
+        }'
+        class="relative"
+      >
+        <div
+          class="hs-carousel relative h-[30rem] w-full overflow-hidden rounded-2xl md:h-[calc(100vh-106px)]"
+        >
+          <!-- Photo -->
+          <img
+            class="h-full w-full object-cover blur-sm"
+            src="@/images/image_background.jpg"
+            alt="image_background"
+          />
+          <!-- End Photo -->
+
+          <!-- Title and Buttons -->
+          <div
+            class="absolute inset-0 flex flex-col items-center justify-center text-center text-white"
+          >
+            <h1 class="mb-4 text-8xl">Tanbou Maps</h1>
+            <h2 class="mb-8 text-2xl">- あなたの新しい旅のために -</h2>
+            <button
+              href="#"
+              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
             >
-              <span class="text-yellow-300">Tanbou Maps</span>
-              <span class="text-white"> - 新しい旅のために </span>
-            </h1>
-            <h1
-              class="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
-            ></h1>
-            <p
-              class="mx-auto mt-3 max-w-md text-base text-gray-400 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl"
-            >
-              最高の旅をお届けするために、まずは計画を立てましょう
-            </p>
-            <div
-              class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8"
-            >
-              <div class="rounded-md shadow">
-                <a
-                  href="model-courses"
-                  class="flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-300 px-8 py-3 text-base font-medium text-black hover:bg-yellow-400 md:px-10 md:py-4 md:text-lg"
+              <span
+                class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
+              ></span>
+              <span
+                class="ease absolute right-0 flex h-10 w-10 translate-x-full transform items-center justify-start duration-300 group-hover:translate-x-0"
+              >
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  モデルコースを見る
-                </a>
-              </div>
-              <div class="mt-3 rounded-md shadow sm:ml-3 sm:mt-0">
-                <a
-                  href="#"
-                  class="flex w-full items-center justify-center rounded-md border border-yellow-300 bg-transparent px-8 py-3 text-base font-medium text-yellow-300 hover:bg-gray-900 md:px-10 md:py-4 md:text-lg"
-                >
-                  観光地を見る
-                </a>
-              </div>
-            </div>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+              <span class="relative">Let's Go!</span>
+            </button>
           </div>
-        </div>
-      </section>
-
-      <!-- Feature Section -->
-      <section class="bg-black py-12">
-        <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div
-              v-for="(feature, index) in features"
-              :key="index"
-              class="rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-lg"
-            >
-              <h2 class="mb-4 text-xl font-semibold text-white">
-                {{ feature.title }}
-              </h2>
-              <p class="text-gray-300">{{ feature.description }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Content Section -->
-      <section class="bg-black py-12">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div class="prose prose-invert prose-lg mx-auto">
-            <h2 class="mb-6 text-3xl font-bold text-white">私たちについて</h2>
-            <p class="mb-4 text-gray-300">
-              ここに会社やサービスの詳細な説明を記載します。長めのコンテンツを配置することで、
-              スクロール時のヘッダーの動作を確認することができます。
-            </p>
-            <!-- スクロールのテスト用に複数段落を追加 -->
-            <p class="mb-4 text-gray-300" v-for="n in 5" :key="n">
-              これはダミーテキストです。スクロール時のヘッダーの固定表示をテストするための
-              コンテンツとして使用しています。実際のコンテンツに合わせて適切な文章に
-              置き換えてください。
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-800 bg-black py-12 text-gray-400">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-          <p>&copy; 2024 Team C Inc. All rights reserved.</p>
-          <button type="submit" @click="signOut">signOut</button>
+          <!-- End Title and Buttons -->
         </div>
       </div>
-    </footer>
-  </div>
+    </div>
+    <!-- End Slider -->
+
+    <!-- Works -->
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
+        <h1 class="text-2xl font-medium text-black sm:text-4xl">
+          Latest Spots
+        </h1>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              eYoga
+            </h3>
+            <p class="mt-1 text-gray-600">
+              A revamped and dynamic approach to yoga analytics
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Discovery
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Brand Guidelines
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Yoga
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              Nike React
+            </h3>
+            <p class="mt-1 text-gray-600">
+              Rewriting sport's playbook for billions of athletes
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Brand Strategy
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Visual Identity
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1649999920973-ab6bfd0c0017?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              Day Spa
+            </h3>
+            <p class="mt-1 text-gray-600">Designing a new cocktail can</p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Brand Strategy
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Visual Identity
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <a class="group block" href="#">
+          <div
+            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
+          >
+            <img
+              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              src="https://images.unsplash.com/photo-1528291954423-c0c71c12baeb?q=80&w=3426&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
+          </div>
+
+          <div class="pt-4">
+            <h3
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+            >
+              Diamond Dynamics
+            </h3>
+            <p class="mt-1 text-gray-600">
+              From cutting-edge equipment to stylish apparel
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Sports Gear
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Equipment
+              </span>
+              <span
+                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
+              >
+                Discovery
+              </span>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+      </div>
+      <!-- End Card Grid -->
+
+      <div class="mt-10 text-center lg:mt-20">
+        <a
+          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
+          href="#"
+        >
+          View all Work
+        </a>
+      </div>
+    </div>
+    <!-- End Works -->
+
+    <!-- Testimonials -->
+    <div class="bg-black">
+      <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
+        <blockquote class="mx-auto max-w-4xl">
+          <p class="mb-6 md:text-lg">
+            <span class="font-semibold text-lime-400">Yasuo, </span>
+            <span class="text-neutral-500">CEO at LoL</span>
+          </p>
+
+          <p
+            class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
+          >
+            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+          </p>
+
+          <footer class="mt-6 md:mt-10">
+            <div class="border-neutral-700">
+              <button
+                type="button"
+                class="group inline-flex items-center gap-x-3 text-sm text-neutral-400 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+              >
+                <span
+                  class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-lime-400 group-focus:bg-lime-400 md:size-10"
+                >
+                  <svg
+                    class="size-5 flex-shrink-0"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"
+                    />
+                  </svg>
+                </span>
+                Watch the Video
+              </button>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+    <!-- End Testimonials -->
+
+    <!-- Contact -->
+    <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
+      <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
+        <h2 class="text-2xl font-medium text-black sm:text-4xl">Contacts</h2>
+      </div>
+
+      <div
+        class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2 lg:items-center lg:gap-12"
+      >
+        <div
+          class="aspect-w-16 aspect-h-6 lg:aspect-h-14 overflow-hidden rounded-2xl bg-gray-100"
+        >
+          <img
+            class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            src="@/images/image_contact_page_model.jpg"
+            alt="Image Description"
+          />
+        </div>
+        <!-- End Col -->
+
+        <div class="space-y-8 lg:space-y-16">
+          <div>
+            <h3 class="mb-5 font-semibold text-black">Our address</h3>
+
+            <!-- Grid -->
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:gap-12">
+              <div class="flex gap-4">
+                <svg
+                  class="size-5 flex-shrink-0 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+                  ></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+
+                <div class="grow">
+                  <p class="text-sm text-gray-600">United Kingdom</p>
+                  <address class="mt-1 not-italic text-black">
+                    300 Bath Street, Tay House<br />
+                    Glasgow G2 4JR
+                  </address>
+                </div>
+              </div>
+            </div>
+            <!-- End Grid -->
+          </div>
+
+          <div>
+            <h3 class="mb-5 font-semibold text-black">Our contacts</h3>
+
+            <!-- Grid -->
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:gap-12">
+              <div class="flex gap-4">
+                <svg
+                  class="size-5 flex-shrink-0 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"
+                  ></path>
+                  <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"></path>
+                </svg>
+
+                <div class="grow">
+                  <p class="text-sm text-gray-600">Email us</p>
+                  <p>
+                    <a
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      href="mailto:example@site.so"
+                    >
+                      hello@example.so
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex gap-4">
+                <svg
+                  class="size-5 flex-shrink-0 text-gray-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+
+                <div class="grow">
+                  <p class="text-sm text-gray-600">Call us</p>
+                  <p>
+                    <a
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      href="mailto:example@site.so"
+                    >
+                      +44 222 777-000
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- End Grid -->
+          </div>
+        </div>
+        <!-- End Col -->
+      </div>
+    </div>
+    <!-- End Contact -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
 </template>
-
-<script setup>
-async function signOut() {
-  fetch("/sign-out", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content"),
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      // レスポンスの内容を処理しない
-      console.log("Sign out successfully");
-      // // サインインページにリダイレクトする場合
-      window.location.href = "/sign-outpost";
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-
-const features = [
-  {
-    title: "高品質なサービス",
-    description:
-      "最高品質のサービスを提供することで、お客様の期待を超える価値を実現します。",
-  },
-  {
-    title: "24時間サポート",
-    description:
-      "お客様のニーズに迅速に対応するため、24時間体制でサポートを提供しています。",
-  },
-  {
-    title: "革新的なソリューション",
-    description:
-      "最新のテクノロジーを活用し、革新的なソリューションを提供します。",
-  },
-];
-</script>
