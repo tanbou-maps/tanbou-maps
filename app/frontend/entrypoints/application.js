@@ -84,6 +84,33 @@ if (modelCourseListElement) {
   });
 }
 
+// モデルコース新規作成画面専用の処理
+const modelCourseNewElement = document.getElementById("model-course-new");
+if (modelCourseNewElement) {
+  import("../components/ModelCourseForm.vue").then((module) => {
+    const ModelCourseForm = module.default;
+    createApp(ModelCourseForm).mount("#model-course-new");
+  });
+}
+
+// モデルコース編集画面専用の処理
+const modelCourseEditElement = document.getElementById("model-course-edit");
+if (modelCourseEditElement) {
+  import("../components/ModelCourseForm.vue").then((module) => {
+    const ModelCourseForm = module.default;
+    createApp(ModelCourseForm).mount("#model-course-edit");
+  });
+}
+
+// モデルコース詳細画面専用の処理
+const modelCourseShowElement = document.getElementById("model-course-show");
+if (modelCourseShowElement) {
+  import("../components/ModelCourseDetail.vue").then((module) => {
+    const ModelCourseDetail = module.default;
+    createApp(ModelCourseDetail).mount("#model-course-show");
+  });
+}
+
 // お問い合わせ画面
 const contactElement = document.getElementById("contact");
 if (contactElement) {
