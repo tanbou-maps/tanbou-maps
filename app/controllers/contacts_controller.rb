@@ -10,7 +10,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
 
     if @contact.valid?
-      # ContactMailer.contact_email(@contact).deliver_now
+      ContactMailer.contact_email(@contact).deliver_now
       render json: { redirect_url: complete_contacts_path }, status: :ok
     else
       render json: { errors: @contact.errors.full_messages }, status: :unprocessable_entity

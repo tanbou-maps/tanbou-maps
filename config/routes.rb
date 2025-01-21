@@ -2,27 +2,39 @@ Rails.application.routes.draw do
   root 'index#show'
 
   # サインアップ・サインイン関連
-  get 'sign-in', to: 'sessions#new', as: :sign_in
+  get 'sign-in', to: 'sessions#new'
   post 'sign-in', to: 'sessions#create'
-  delete 'sign-out', to: 'sessions#destroy', as: :sign_out
-
-  get 'sign-outpost', to: 'sessions#destroypost'
-  get 'sign-up', to: 'registration#new', as: :sign_up
+  get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'
+  get 'sign-out', to: 'sessions#delete'
 
   # ユーザープロフィール
-  resources :user_profile, only: %i[new create] do
+  resources :user_profile, only: %i[new create show] do
+    # URLにidが指定されない場合のルーティング
     collection do
       post :upload
       post :upload_profile_picture
       post :update_text
-    end
-
-    member do
       patch :update_nickname
-      delete :destroy_account # アカウント削除のルートを追加
+      delete :destroy_account
+    end
+    # URLにidが指定された場合のルーティング
+    member do
+      post :upload
+      post :upload_profile_picture
+      post :update_text
+      patch :update_nickname
+      delete :destroy_account
     end
   end
+
+  # urlでidを指定して表示するユーザープロフィール
+  get 'user-profile-view/:id', to: 'user_profile#view'
+  get 'user-profile-crud/:id', to: 'user_profile#show'
+
+  # urlでidを指定せずに表示するユーザープロフィール
+  get 'user-profile-crud', to: 'user_profile#new'
+  get 'user-profile-view', to: 'user_profile#view'
 
   # 企業プロフィール
   resources :corporate_profile, only: %i[new create] do
@@ -38,8 +50,6 @@ Rails.application.routes.draw do
   get 'corporate-profile-crud', to: 'corporate_profile#new'
   get 'corporate-profile-view', to: 'corporate_profile#view'
 
-  get 'user-profile-view', to: 'user_profile#view'
-  get 'user-profile-crud', to: 'user_profile#new'
   # get 'user-prifile-crud', to: 'user_profile#upload'
   # サインアップ完了後の挙動
   get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'

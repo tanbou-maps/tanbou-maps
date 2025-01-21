@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_action :require_sign_in, only: %i[new create]
 
   def new
-    render :signin
+    render :sign_in
   end
 
   def create
@@ -16,11 +16,15 @@ class SessionsController < ApplicationController
     end
   end
 
-  def destroypost
-    render :signout
+  def delete
+    destroy_session # ユーザーセッションの削除を実行
+    render :sign_out
   end
 
-  def destroy
-    session.delete(:user_id)
+  private
+
+  def destroy_session
+    # ユーザーセッションを削除
+    session[:user_id] = nil
   end
 end

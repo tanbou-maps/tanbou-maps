@@ -1,115 +1,88 @@
 <template>
+  <!-- ========== HEADER ========== -->
   <header
-    class="fixed left-0 right-0 top-0 z-50 border-b border-gray-800 bg-black/80 backdrop-blur-md"
+    class="z-50 flex w-full flex-wrap py-7 md:flex-nowrap md:justify-start"
   >
-    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
+    <nav
+      class="relative mx-auto flex w-full max-w-7xl basis-full flex-wrap items-center px-4 md:grid md:grid-cols-12 md:px-6 md:px-8"
+      aria-label="Global"
+    >
+      <div class="md:col-span-3">
         <!-- Logo -->
-        <div class="flex-shrink-0">
-          <a href="/" class="text-xl font-bold text-white"> Tanbou Maps </a>
-        </div>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden sm:flex sm:space-x-8">
-          <a
-            v-for="item in navigationItems"
-            :key="item.name"
-            :href="item.href"
-            class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white"
-            :class="{ 'bg-gray-900 text-white': item.current }"
-          >
-            {{ item.name }}
-          </a>
-          <button
-            type="button"
-            class="flex items-center focus:outline-none"
-            aria-label="toggle profile dropdown"
-          >
-            <div
-              class="h-8 w-8 overflow-hidden rounded-full border-2 border-gray-400"
-            >
-              <!-- TODO: ユーザーが設定したアイコンを表示 -->
-              <img
-                :src="avatarUrl"
-                class="h-full w-full object-cover"
-                alt="avatar"
-              />
-            </div>
-          </button>
-        </div>
-
-        <!-- Mobile menu button -->
-        <div class="sm:hidden">
-          <button
-            @click="isOpen = !isOpen"
-            class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-500"
-          >
-            <span class="sr-only">メインメニューを開く</span>
-            <!-- Heroicon name: menu -->
-            <svg
-              :class="{ hidden: isOpen, block: !isOpen }"
-              class="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-            <!-- Heroicon name: x -->
-            <svg
-              :class="{ block: isOpen, hidden: !isOpen }"
-              class="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+        <!-- End Logo -->
       </div>
-    </nav>
 
-    <!-- Mobile Navigation -->
-    <div v-show="isOpen" class="bg-black sm:hidden">
-      <div class="space-y-1 px-2 pb-3 pt-2">
+      <!-- Button Group -->
+      <div
+        class="ms-auto flex items-center gap-x-2 py-1 md:order-3 md:col-span-3 md:ps-6"
+      >
         <a
-          v-for="item in navigationItems"
-          :key="item.name"
-          :href="item.href"
-          class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white"
-          :class="{ 'bg-gray-900 text-white': item.current }"
+          href="/sign-out"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
         >
-          {{ item.name }}
+          <span
+            class="absolute inset-0 h-full w-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-100"
+          ></span>
+          <span
+            class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-gray-300 opacity-30 transition duration-500 group-hover:rotate-90"
+          ></span>
+          <span class="relative text-black">Sign out</span>
+        </a>
+        <a
+          href="#"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl px-3 py-2 text-sm font-medium"
+        >
+          <span
+            class="absolute inset-0 h-full w-full bg-gradient-to-br from-yellow-500 via-yellow-400 to-yellow-300"
+          ></span>
+          <span
+            class="ease absolute bottom-0 right-0 mb-32 mr-4 block h-64 w-64 origin-bottom-left translate-x-24 rotate-45 transform rounded-full bg-yellow-300 opacity-30 transition duration-500 group-hover:rotate-90"
+          ></span>
+          <span class="relative text-black">Profile</span>
         </a>
       </div>
-    </div>
+      <!-- End Button Group -->
+
+      <!-- Collapse -->
+      <div
+        id="navbar-collapse-with-animation"
+        class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:order-2 md:col-span-6 md:block md:w-auto md:basis-auto"
+      >
+        <div
+          class="mt-5 flex flex-col gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-center md:gap-x-7 md:gap-y-0"
+        >
+          <div>
+            <a
+              class="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300"
+              href="#"
+              aria-current="page"
+              >Home</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Spots</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Model Courses</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Contact Us</a
+            >
+          </div>
+          <div>
+            <a class="inline-block text-black hover:text-gray-600" href="#"
+              >Blog</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- End Collapse -->
+    </nav>
   </header>
+  <!-- ========== END HEADER ========== -->
 </template>
-
-<script setup>
-import { ref } from "vue";
-import defaultAvatar from "@/images/airou_small.png";
-
-const isOpen = ref(false);
-const avatarUrl = ref(defaultAvatar);
-
-const navigationItems = [
-  { name: "ホーム", href: "/", current: true },
-  { name: "モデルコース", href: "/model-courses", current: false },
-  { name: "スポット", href: "/spots", current: false },
-  { name: "スタンプラリー", href: "/stamp-rallying", current: false },
-];
-</script>
