@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   # ユーザープロフィール
   resources :user_profile, only: %i[new create show] do
-    #URLにidが指定されない場合のルーティング
+    # URLにidが指定されない場合のルーティング
     collection do
       post :upload
       post :upload_profile_picture
@@ -30,11 +30,11 @@ Rails.application.routes.draw do
     end
   end
 
-# urlでidを指定して表示するユーザープロフィール
+  # urlでidを指定して表示するユーザープロフィール
   get 'user-profile-view/:id', to: 'user_profile#view'
   get 'user-profile-crud/:id', to: 'user_profile#show'
 
-# urlでidを指定せずに表示するユーザープロフィール
+  # urlでidを指定せずに表示するユーザープロフィール
   get 'user-profile-crud', to: 'user_profile#new'
   get 'user-profile-view', to: 'user_profile#view'
 
@@ -68,7 +68,6 @@ Rails.application.routes.draw do
     end
   end
 
-
   resources :model_courses, path: 'model-courses' do
     member do
       patch :regenerate_public_key # 公開キー再発行用ルート
@@ -84,4 +83,23 @@ Rails.application.routes.draw do
 
   # お問い合わせ-利用規約
   get '/contacts/terms', to: 'contacts#terms'
+
+  # 管理者　admin
+  get 'admin/index', to: 'admin/base#index', as: :admin_dashboard
+  namespace :admin do
+    # コンテンツ管理
+    get 'contents', to: 'contents/dashboard#index', as: :contents_dashboard
+    namespace :contents do
+      resources :spots, only: %i[index new create edit update destroy]
+      resources :events, only: %i[index new create edit update destroy]
+    end
+    # ユーザー管理
+    get 'users', to: 'users/dashboard#index', as: :users_dashboard
+    namespace :users do
+      get 'monitor_posts', to: 'monitor_posts#index', as: :monitor_posts
+      get 'analytics', to: 'analytics#index', as: :analytics
+    end
+
+    resources :users, only: %i[index edit update destroy]
+  end
 end

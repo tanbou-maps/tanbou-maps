@@ -33,6 +33,11 @@ class ApplicationUser < ApplicationRecord
   # 初期値の設定
   after_initialize :set_default_role, if: :new_record?
 
+  # 役割メソッド
+  def admin?
+    role == 'admin'
+  end
+
   private
 
   # role のデフォルト値を設定
