@@ -34,7 +34,6 @@ import { createApp } from "vue";
 import "../stylesheets/style.css";
 import AppHeader from "../components/AppHeader.vue";
 import AppFooter from "../components/AppFooter.vue";
-import AppFooter from "../components/AppFooter.vue";
 import Index from "../components/Index.vue";
 import SignIn from "../components/SignIn.vue";
 import SignUp from "../components/SignUp.vue";
@@ -46,7 +45,6 @@ import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
 // import ModelCourseIndex from "../components/ModelCourseIndex.vue";
-import "../stylesheets/product.css";
 import Review from "../components/Review.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
