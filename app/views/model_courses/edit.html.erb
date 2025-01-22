@@ -1,11 +1,11 @@
-<div id="model-course-edit-app"></div>
+<div id="model-course-edit"></div>
 
 <script type="module">
   import { createApp } from "vue";
-  import ModelCourseEdit from "../components/ModelCourseEdit.vue";
+  import ModelCourseEdit from "../components/ModelCourseForm.vue";
 
   document.addEventListener("DOMContentLoaded", () => {
-    const target = document.getElementById("model-course-edit-app");
+    const target = document.getElementById("model-course-edit");
     if (target) {
       const app = createApp(ModelCourseEdit);
       app.mount(target);

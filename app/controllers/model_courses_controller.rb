@@ -1,14 +1,32 @@
 class ModelCoursesController < ApplicationController
   # 一覧表示
   def index
-    @model_courses = ModelCourse.order(updated_at: :desc)
+    @model_courses = ModelCourse
+                        .includes(theme_image_attachment: :blob, application_user: {})
+                        .order(updated_at: :desc)
 
     # Vue.js 用に JSON レスポンスを返す
     respond_to do |format|
       format.html # HTML ビューが必要な場合
-      format.json { render json: @model_courses }
+      format.json do
+        render json: @model_courses.map { |course|
+          {
+            id: course.id,
+            title: course.title,
+            description: course.description,
+            is_public: course.is_public,
+            theme_image_url: course.theme_image.attached? ? Rails.application.routes.url_helpers.url_for(course.theme_image) : nil,
+            gallery_image_urls: course.gallery_image_urls,
+            application_user: {
+              id: course.application_user.id,
+              nickname: course.application_user.nickname
+            }
+          }
+        }
+      end
+    end
   end
-end
+
 
   # 詳細表示
   def show
@@ -25,10 +43,33 @@ end
     @model_course = ModelCourse.new(model_course_params)
     @model_course.application_user_id = current_user.id # 作成者を設定
 
+    Rails.logger.debug("ModelCourse attributes before save: #{@model_course.inspect}") # モデルの初期状態を記録
+
     if @model_course.save
-      redirect_to model_courses_path, notice: 'モデルコースが作成されました。'
+      Rails.logger.debug("ModelCourse saved with ID: #{@model_course.id}")
+
+      # テーマ画像を添付
+      if params[:model_course][:theme_image].present?
+        @model_course.theme_image.attach(params[:model_course][:theme_image])
+        Rails.logger.debug("Theme image attached? #{@model_course.theme_image.attached?}") # 添付結果の確認
+      else
+        Rails.logger.debug("No theme image provided")
+      end
+
+      # ギャラリー画像を添付
+      if params[:model_course][:gallery_images].present?
+        params[:model_course][:gallery_images].each_with_index do |gallery_image, index|
+          attachment_result = @model_course.gallery_images.attach(gallery_image)
+          Rails.logger.debug("Gallery image ##{index + 1} attached: #{attachment_result.any?}")
+        end
+      else
+        Rails.logger.debug("No gallery images provided")
+      end
+
+      render json: { message: "モデルコース作成成功！", model_course: @model_course }, status: :created
     else
-      render :new, status: :unprocessable_entity
+      Rails.logger.debug("Model course save failed: #{@model_course.errors.full_messages}") # 保存失敗時のエラーメッセージ
+      render json: { errors: @model_course.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -74,6 +115,12 @@ end
 
   # ストロングパラメータ
   def model_course_params
-    params.require(:model_course).permit(:title, :description, :theme_image_url, :is_public, model_course_images_attributes: [:url, :description, :_destroy])
+    params.require(:model_course).permit(
+      :title,
+      :description,
+      :is_public,
+      :theme_image,
+      gallery_images: []
+    )
   end
 end
