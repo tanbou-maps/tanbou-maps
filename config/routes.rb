@@ -71,4 +71,23 @@ Rails.application.routes.draw do
 
   # お問い合わせ-利用規約
   get '/contacts/terms', to: 'contacts#terms'
+
+  # 管理者　admin
+  get 'admin/index', to: 'admin/base#index', as: :admin_dashboard
+  namespace :admin do
+    # コンテンツ管理
+    get 'contents', to: 'contents/dashboard#index', as: :contents_dashboard
+    namespace :contents do
+      resources :spots, only: %i[index new create edit update destroy]
+      resources :events, only: %i[index new create edit update destroy]
+    end
+    # ユーザー管理
+    get 'users', to: 'users/dashboard#index', as: :users_dashboard
+    namespace :users do
+      get 'monitor_posts', to: 'monitor_posts#index', as: :monitor_posts
+      get 'analytics', to: 'analytics#index', as: :analytics
+    end
+
+    resources :users, only: %i[index edit update destroy]
+  end
 end
