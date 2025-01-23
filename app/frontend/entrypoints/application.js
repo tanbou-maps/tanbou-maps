@@ -37,6 +37,7 @@ import AppFooterComponent from "../components/AppFooterComponent.vue";
 import IndexPage from "../components/IndexPage.vue";
 import SignInPage from "../components/SignInPage.vue";
 import SignUpPage from "../components/SignUpPage.vue";
+import SignUpCompletePage from "../components/SignUpCompletePage.vue";
 import SignOutPage from "../components/SignOutPage.vue";
 import SpotsSearchPage from "../components/SpotsSearchPage.vue";
 import SpotPickerComponent from "../components/SpotPickerComponent.vue";
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(IndexPage).mount("#index-page"); // root
   createApp(SignInPage).mount("#sign-in-page");
   createApp(SignUpPage).mount("#sign-up-page");
+  createApp(SignUpCompletePage).mount("#sign-up-complete-page");
   createApp(SignOutPage).mount("#sign-out-page");
   createApp(Review).mount("#review");
 });
