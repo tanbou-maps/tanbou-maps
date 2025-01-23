@@ -32,14 +32,16 @@ console.log(
 
 import { createApp } from "vue";
 import "../stylesheets/style.css";
-import AppHeader from "../components/AppHeader.vue";
-import AppFooter from "../components/AppFooter.vue";
-import Index from "../components/Index.vue";
-import SignIn from "../components/SignIn.vue";
-import SignUp from "../components/SignUp.vue";
-import MapSearch from "../components/MapSearch.vue";
-import SpotMapPicker from "../components/SpotMapPicker.vue";
-import SpotMap from "../components/SpotMap.vue";
+import AppHeaderComponent from "../components/AppHeaderComponent.vue";
+import AppFooterComponent from "../components/AppFooterComponent.vue";
+import IndexPage from "../components/IndexPage.vue";
+import SignInPage from "../components/SignInPage.vue";
+import SignUpPage from "../components/SignUpPage.vue";
+import SignUpCompletePage from "../components/SignUpCompletePage.vue";
+import SignOutPage from "../components/SignOutPage.vue";
+import SpotsSearchPage from "../components/SpotsSearchPage.vue";
+import SpotPickerComponent from "../components/SpotPickerComponent.vue";
+import SpotShowComponent from "../components/SpotShowComponent.vue";
 import Contact from "../components/Contact.vue";
 import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
@@ -48,40 +50,38 @@ import UserProfileView from "../components/UserProfileView.vue";
 import Review from "../components/Review.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
-  createApp(AppHeader).mount("#app-header"); // header
-  createApp(AppFooter).mount("#app-footer"); // footer
-  createApp(Index).mount("#index"); // root
-  createApp(SignIn).mount("#sign-in");
-  createApp(SignUp).mount("#sign-up");
+  createApp(AppHeaderComponent).mount("#app-header-component"); // header
+  createApp(AppFooterComponent).mount("#app-footer-component"); // footer
+  createApp(IndexPage).mount("#index-page"); // root
+  createApp(SignInPage).mount("#sign-in-page");
+  createApp(SignUpPage).mount("#sign-up-page");
+  createApp(SignUpCompletePage).mount("#sign-up-complete-page");
+  createApp(SignOutPage).mount("#sign-out-page");
   createApp(Review).mount("#review");
 });
 
-const mapSearchApp = document.getElementById("map-search-app");
+// --- spots start ---
+const spotsSearchPage = document.getElementById("spots-search-page");
 
-if (mapSearchApp) {
-  console.log("Mounting MapSearch");
-  const app = createApp(MapSearch);
-  app.mount("#map-search-app");
-  console.log("Mounted MapSearch");
+if (spotsSearchPage) {
+  const app = createApp(SpotsSearchPage);
+  app.mount("#spots-search-page");
 }
 
-const spotMapPicker = document.getElementById("spot-map-picker");
+const spotPickerComponent = document.getElementById("spot-picker-component");
 
-if (spotMapPicker) {
-  console.log("Mounting SpotMapPicker");
-  const app = createApp(SpotMapPicker);
-  app.mount("#spot-map-picker");
-  console.log("Mounted SpotMapPicker");
+if (spotPickerComponent) {
+  const app = createApp(SpotPickerComponent);
+  app.mount("#spot-picker-component");
 }
 
-const spotMap = document.getElementById("spot-map");
+const spotShowComponent = document.getElementById("spot-show-component");
 
-if (spotMap) {
-  console.log("Mounting SpotMap");
-  const app = createApp(SpotMap);
-  app.mount("#spot-map");
-  console.log("Mounted SpotMap");
+if (spotShowComponent) {
+  const app = createApp(SpotShowComponent);
+  app.mount("#spot-show-component");
 }
+// --- spots end ---
 
 // レビュー関連の処理
 const reviewElements = document.querySelectorAll("#review");

@@ -116,17 +116,18 @@ const updateFormFields = () => {
 
 onMounted(() => {
   // DOM から API キーを取得
-  const apiKey =
-    document.getElementById("spot-map-picker").dataset.googleMapsApiKey;
+  const apiKey = document.getElementById("spot-picker-component").dataset
+    .googleMapsApiKey;
 
   // Google Maps API の読み込み
   const script = document.createElement("script");
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=Function.prototype`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=Function.prototype&loading=async`;
   script.async = true;
   script.defer = true;
 
   // スクリプトの読み込み完了後にマップを初期化
   script.onload = () => {
+    // APIが完全に読み込まれるまで少し待つ
     setTimeout(initMap, 100);
   };
 
