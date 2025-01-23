@@ -1,13 +1,13 @@
 class RegistrationController < ApplicationController
   skip_before_action :require_sign_in, only: %i[new create]
-  # skip_before_action :verify_authenticity_token
+
   def new
     @user = ApplicationUser.new
-    render :signup
+    render :sign_up
   end
 
   def create
-    @user = ApplicationUser.new(signup_user_params.merge(role: 'user'))
+    @user = ApplicationUser.new(sign_up_user_params.merge(role: 'user'))
     # デフォルトでアカウントタイプを個人（individual）に設定
     @user.account_type ||= 'individual'
     # アカウントタイプが個人の場合、corporate_type をクリア
@@ -32,8 +32,8 @@ class RegistrationController < ApplicationController
 
   private
 
-  def signup_user_params
-    params.require(:signup_user).permit(
+  def sign_up_user_params
+    params.require(:sign_up_user).permit(
       :user_id, :nickname, :email, :password, :password_confirmation,
       :account_type, :corporate_type
     )

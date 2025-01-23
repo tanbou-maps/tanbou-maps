@@ -1,0 +1,112 @@
+<!-- filepath: /c:/Users/admin/Rails/tanbou-maps/app/views/user_profile/ProfileView.vue -->
+<template>
+  <div>
+    <div v-if="user.background_picture_url" class="background-container">
+      <img
+        :src="user.background_picture_url"
+        alt="Uploaded Image"
+        class="background-image"
+      />
+    </div>
+
+    <div class="nickname-box">
+      <div class="nickname-overlay">{{ user.nickname }}</div>
+    </div>
+
+    <div v-if="user.profile_picture_url">
+      <img
+        :src="user.profile_picture_url"
+        alt="Profile Image"
+        class="profile-icon"
+      />
+    </div>
+
+    <!-- おすすめ観光スポット表示エリア -->
+    <div class="favorite-spots-box">
+      <h2>おすすめ観光スポット</h2>
+      <div id="displayText">
+        <p>{{ user.favorite_spots }}</p>
+      </div>
+    </div>
+
+    <br />
+    <!-- 戻るボタン -->
+    <div class="back-button">
+      <a :href="rootPath">戻る</a>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+    rootPath: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* 背景画像 */
+.background-image {
+  position: relative;
+  z-index: 1; /* 背景画像を後ろに配置 */
+  width: 100%;
+  height: 150px !important; /* 高さを設定し、強制適用 */
+  background-size: cover; /* 背景画像のサイズをカバー */
+  background-position: center; /* 背景画像を中央に配置 */
+}
+
+/* プロフィールアイコン */
+.profile-icon {
+  position: absolute; /* 絶対位置 */
+  z-index: 2; /* プロフィール画像を前に配置 */
+  width: 150px; /* アイコンの幅 */
+  height: 150px; /* アイコンの高さ */
+  border-radius: 50%; /* 丸くする */
+  object-fit: cover; /* 画像をアイコンのサイズに合わせる */
+  border: 2px solid #ddd; /* 枠線 */
+  top: 0%; /* 上からの位置 */
+  left: 2%; /* 左からの位置 */
+}
+
+/* おすすめ観光スポット表示エリアのスタイル */
+.favorite-spots-box {
+  border: 2px solid #ddd; /* 枠線 */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.favorite-spots-box h2 {
+  margin-top: 0;
+}
+
+/* ニックネームボックス */
+.nickname-box {
+  position: absolute;
+  top: 50px;
+  left: 200px;
+  z-index: 2;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.nickname-overlay {
+  color: black;
+  font-size: 16px;
+  z-index: 3;
+}
+
+/* 戻るボタンのスタイル */
+.back-button {
+  margin-top: 20px;
+}
+</style>

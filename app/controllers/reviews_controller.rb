@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
-  before_action :set_spot, only: %i[index new create show] # showも追加
-  before_action :set_review, only: [:show]
+  before_action :set_spot, only: %i[index new create show destroy] # destroyを追加
+  before_action :set_review, only: %i[show destroy] # destroyを追加
+  before_action :ensure_review_owner, only: [:destroy]
 
   def index
     @reviews = @spot.reviews
@@ -19,9 +20,34 @@ class ReviewsController < ApplicationController
     @review.application_user_id = current_user.id
 
     if @review.save
-      redirect_to spot_path(@spot), notice: 'レビューを投稿しました'
+      # JSON形式でメッセージを返す
+      respond_to do |format|
+        format.html { redirect_to spot_path(@spot), notice: j(I18n.t('reviews.create.success')) }
+        format.json { render json: { status: 'success', message: I18n.t('reviews.create.success') } }
+      end
     else
-      render :new, status: :unprocessable_entity
+      # エラーメッセージもJSON形式で返す
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: { status: 'error', errors: @review.errors.full_messages }, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    ActiveRecord::Base.transaction do
+      @review.images.purge if @review.images.attached?
+      @review.destroy!
+
+      respond_to do |format|
+        format.html { redirect_to spot_path(@spot), notice: j(I18n.t('reviews.destroy.success')) }
+        format.json { render json: { status: 'success', message: I18n.t('reviews.destroy.success') } }
+      end
+    end
+  rescue StandardError => e
+    respond_to do |format|
+      format.html { redirect_to spot_review_path(@spot, @review), alert: j(I18n.t('reviews.destroy.error')) }
+      format.json { render json: { status: 'error', message: I18n.t('reviews.destroy.error') }, status: :unprocessable_entity }
     end
   end
 
@@ -37,5 +63,14 @@ class ReviewsController < ApplicationController
 
   def review_params
     params.require(:review).permit(:rating, :comment, :latitude, :longitude, images: []) # photosをimagesに変更
+  end
+
+  def ensure_review_owner
+    return if @review.application_user_id == current_user.id
+
+    respond_to do |format|
+      format.html { redirect_to spot_path(@spot), alert: j(I18n.t('reviews.authorization.error')) }
+      format.json { render json: { status: 'error', message: I18n.t('reviews.authorization.error') }, status: :forbidden }
+    end
   end
 end
