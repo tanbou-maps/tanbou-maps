@@ -7,9 +7,19 @@ class Review < ApplicationRecord
   has_many_attached :images
 
   validates :rating, presence: true, inclusion: { in: 1..5 }
-  validates :comment, presence: true
+  validates :comment, presence: true, length: { maximum: 1000 }
 
   def formatted_created_at
     created_at.strftime('%Y年%m月%d日')
+  end
+
+  # app/models/review.rb
+  def images_urls
+    images.map do |image|
+      {
+        id: image.id,
+        url: Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+      }
+    end
   end
 end

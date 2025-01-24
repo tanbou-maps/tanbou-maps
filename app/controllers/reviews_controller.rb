@@ -4,7 +4,27 @@ class ReviewsController < ApplicationController
   before_action :ensure_review_owner, only: [:destroy]
 
   def index
-    @reviews = @spot.reviews
+    @reviews = @spot.reviews.includes(:application_user)
+
+    respond_to do |format|
+      format.html
+      format.json do
+        reviews_json = @reviews.map do |review|
+          review_hash = review.as_json(include: {
+                                         application_user: { only: %i[id name] }
+                                       })
+          review_hash['image_urls'] = review.images.map do |image|
+            Rails.application.routes.url_helpers.rails_blob_url(image, only_path: false)
+          end
+          review_hash
+        end
+
+        render json: {
+          reviews: reviews_json,
+          spot: @spot.as_json(include: :spot_detail)
+        }
+      end
+    end
   end
 
   def show
