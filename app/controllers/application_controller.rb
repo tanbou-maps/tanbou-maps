@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
     @current_user ||= ApplicationUser.find_by(id: session[:user_id])
   end
 
+  # レビューのニックネーム表示に使用する
+  def current_nickname
+    @current_nickname ||= ApplicationUser.find_by(id: session[:user_id])&.nickname
+  end
+
   # ログインが必要なアクションに対する認証チェック
   # 未ログインの場合、ログインページにリダイレクト
   def require_sign_in

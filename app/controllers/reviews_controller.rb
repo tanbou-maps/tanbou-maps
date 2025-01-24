@@ -11,7 +11,7 @@ class ReviewsController < ApplicationController
       format.json do
         reviews_json = @reviews.map do |review|
           review_hash = review.as_json(include: {
-                                         application_user: { only: %i[id name] }
+                                         application_user: { only: %i[id name nickname] }
                                        })
           review_hash['image_urls'] = review.images.map do |image|
             Rails.application.routes.url_helpers.rails_blob_url(image, only_path: false)

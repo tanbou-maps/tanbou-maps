@@ -79,7 +79,7 @@
                   </div>
                   <!-- レビュー投稿者名 -->
                   <span class="text-sm font-medium text-gray-700">
-                    {{ review.application_user?.name }}さん
+                    {{ getUserDisplayName(review.application_user) }}さん
                   </span>
                 </div>
                 <!-- 投稿日時 -->
@@ -266,6 +266,11 @@ export default {
   },
 
   methods: {
+    getUserDisplayName(user) {
+      if (!user) return "名無し";
+      return user.nickname || user.name || "名無し";
+    },
+
     // APIリクエストの共通設定
     getRequestOptions(method = "GET", body = null) {
       const options = {
@@ -290,7 +295,6 @@ export default {
       return options;
     },
 
-    // データ取得
     async fetchData() {
       this.loading = true;
       this.error = null;
@@ -306,6 +310,8 @@ export default {
         }
 
         const reviewsData = await reviewsResponse.json();
+        console.log("Reviews data:", reviewsData); // デバッグ用ログを追加
+
         const spotData = await spotResponse.json();
 
         this.reviews = reviewsData.reviews;
