@@ -37,12 +37,12 @@
               >
                 レビューを投稿
               </button>
-              <router-link
-                :to="{ name: 'spot-detail', params: { id: spotId } }"
+              <a
+                :href="`/spots/${spotId}`"
                 class="text-blue-600 transition-colors hover:text-blue-800"
               >
                 スポット詳細に戻る
-              </router-link>
+              </a>
             </div>
           </div>
         </div>

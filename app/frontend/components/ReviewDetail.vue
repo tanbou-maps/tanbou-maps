@@ -77,12 +77,12 @@
 
         <!-- 戻るボタン -->
         <div class="mt-8 flex justify-end">
-          <router-link
-            :to="{ name: 'spot-reviews', params: { spotId: spot.id } }"
+          <a
+            :href="`/spots/${spotId}/reviews`"
             class="font-medium text-blue-600 hover:text-blue-800"
           >
             レビュー一覧に戻る →
-          </router-link>
+          </a>
         </div>
       </div>
     </div>
