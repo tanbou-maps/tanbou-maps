@@ -1,6 +1,6 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const mapElement = document.getElementById("spot-map");
+  const mapElement = document.getElementById("spot-show-component");
   const apiKey = mapElement.dataset.googleMapsApiKey;
   const latitude = parseFloat(mapElement.dataset.latitude);
   const longitude = parseFloat(mapElement.dataset.longitude);
