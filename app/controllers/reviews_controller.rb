@@ -27,8 +27,22 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # app/controllers/reviews_controller.rb
   def show
-    # @reviewはbefore_actionで設定済み
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: {
+          review: @review.as_json(include: {
+                                    application_user: { only: %i[id name nickname] }
+                                  }),
+          spot: @spot.as_json(include: :spot_detail),
+          images: @review.images.map do |image|
+            Rails.application.routes.url_helpers.rails_blob_url(image, only_path: false)
+          end
+        }
+      end
+    end
   end
 
   def new

@@ -1,4 +1,3 @@
-<!-- Review.vue -->
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="mx-auto max-w-4xl">
@@ -51,10 +50,11 @@
         <!-- レビュー一覧セクション -->
         <div class="space-y-6">
           <template v-if="reviews.length > 0">
-            <div
+            <a
               v-for="review in reviews"
               :key="review.id"
-              class="review-card rounded-lg bg-white p-6 shadow transition-shadow duration-200 hover:shadow-lg"
+              :href="`/spots/${spotId}/reviews/${review.id}`"
+              class="review-card block rounded-lg bg-white p-6 shadow transition-shadow duration-200 hover:shadow-lg"
             >
               <!-- レビューヘッダー -->
               <div class="mb-4 flex items-center justify-between">
@@ -118,13 +118,13 @@
                 class="mt-4 flex justify-end space-x-2"
               >
                 <button
-                  @click="deleteReview(review.id)"
+                  @click.prevent="deleteReview(review.id)"
                   class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
                 >
                   削除
                 </button>
               </div>
-            </div>
+            </a>
           </template>
           <div v-else class="py-8 text-center text-gray-500">
             まだレビューはありません。最初のレビューを投稿してみましょう！
@@ -271,7 +271,6 @@ export default {
       return user.nickname || user.name || "名無し";
     },
 
-    // APIリクエストの共通設定
     getRequestOptions(method = "GET", body = null) {
       const options = {
         method,
@@ -310,8 +309,6 @@ export default {
         }
 
         const reviewsData = await reviewsResponse.json();
-        console.log("Reviews data:", reviewsData); // デバッグ用ログを追加
-
         const spotData = await spotResponse.json();
 
         this.reviews = reviewsData.reviews;
@@ -324,7 +321,6 @@ export default {
       }
     },
 
-    // 日付フォーマット
     formatDate(dateString) {
       return new Date(dateString).toLocaleDateString("ja-JP", {
         year: "numeric",
@@ -335,7 +331,6 @@ export default {
       });
     },
 
-    // レビュー投稿フォームの表示
     showCreateReviewForm() {
       this.newReview = {
         rating: 0,
@@ -345,12 +340,10 @@ export default {
       this.showCreateModal = true;
     },
 
-    // ファイル選択処理
     handleFileSelect(event) {
       this.newReview.images = Array.from(event.target.files);
     },
 
-    // レビュー投稿
     async submitReview() {
       if (this.submitting) return;
 
@@ -388,8 +381,6 @@ export default {
       }
     },
 
-    // レビュー削除
-    // レビュー削除の続き
     async deleteReview(reviewId) {
       if (!confirm("このレビューを削除してもよろしいですか？")) return;
 
@@ -410,20 +401,18 @@ export default {
       }
     },
 
-    // 画像読み込みエラー時の処理
     handleImageError(event) {
       console.error("Image loading failed:", event);
-      event.target.src = "/images/fallback-image.jpg"; // フォールバック画像のパスを指定
+      event.target.src = "/images/fallback-image.jpg";
     },
   },
 };
 </script>
 
 <style scoped>
-/* アスペクト比を維持するためのスタイル */
 .aspect-w-16 {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9のアスペクト比 */
+  padding-bottom: 56.25%;
 }
 
 .aspect-h-9 {
@@ -434,7 +423,6 @@ export default {
   top: 0;
 }
 
-/* モーダルのアニメーション */
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.3s ease;
@@ -445,7 +433,6 @@ export default {
   opacity: 0;
 }
 
-/* レビューカードのホバーエフェクト */
 .review-card {
   transition: transform 0.2s ease-in-out;
 }
@@ -454,13 +441,11 @@ export default {
   transform: translateY(-2px);
 }
 
-/* スター評価のホバーエフェクト */
 .star-rating button:hover svg {
   transform: scale(1.1);
   transition: transform 0.2s ease-in-out;
 }
 
-/* 画像プレビューのスタイル */
 .image-preview {
   max-height: 200px;
   object-fit: contain;

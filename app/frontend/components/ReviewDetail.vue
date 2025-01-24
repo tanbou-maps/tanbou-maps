@@ -48,7 +48,7 @@
         </div>
 
         <!-- 画像表示 -->
-        <div v-if="review.images && review.images.length" class="mb-6">
+        <div v-if="review.images && review.images.length > 0" class="mb-6">
           <h2 class="mb-2 text-lg font-semibold text-gray-700">写真</h2>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div
@@ -58,7 +58,7 @@
             >
               <img
                 :src="image"
-                :alt="`Review image ${index + 1}`"
+                :alt="`レビュー画像 ${index + 1}`"
                 class="h-full w-full rounded-lg object-cover"
               />
             </div>
@@ -81,7 +81,7 @@
             :to="{ name: 'spot-reviews', params: { spotId: spot.id } }"
             class="font-medium text-blue-600 hover:text-blue-800"
           >
-            ← レビュー一覧に戻る
+            レビュー一覧に戻る →
           </router-link>
         </div>
       </div>
@@ -126,17 +126,30 @@ export default {
     },
     async fetchReviewData() {
       try {
-        // Assuming you have an API endpoint for fetching review details
-        const response = await this.$axios.get(
-          `/api/spots/${this.spotId}/reviews/${this.reviewId}`,
+        const response = await fetch(
+          `/spots/${this.spotId}/reviews/${this.reviewId}.json`,
+          {
+            headers: {
+              Accept: "application/json",
+              "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+                ?.content,
+            },
+            credentials: "same-origin",
+          },
         );
-        this.review = response.data.review;
-        this.spot = response.data.spot;
+
+        if (!response.ok) throw new Error("Network response was not ok");
+
+        const data = await response.json();
+        this.review = data.review;
+        this.spot = data.spot;
+        this.review.images = data.images; // 画像URLの配列を設定
       } catch (error) {
         console.error("Error fetching review:", error);
-        // Handle error appropriately
+        this.error = "データの取得に失敗しました";
       }
     },
+
     async confirmDelete() {
       if (
         confirm(
