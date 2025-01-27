@@ -1,0 +1,32 @@
+<h1>スポット管理</h1>
+
+<%= link_to '新しいスポットを追加する', new_admin_contents_spot_path, class: 'btn btn-primary' %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>スポット名</th>
+      <th>説明</th>
+      <th>人気スコア</th>
+      <th>作成日</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @spots.each do |spot| %>
+      <tr>
+        <td><%= spot.name %></td>
+        <td><%= truncate(spot.description, length: 50) %></td>
+        <td><%= spot.popularity_score %></td>
+        <td><%= spot.created_at.strftime('%Y-%m-%d') %></td>
+        <td>
+          <%= link_to '詳細', admin_contents_spot_path(spot), class: 'btn btn-info btn-sm' %>
+          <%= link_to '編集', edit_admin_contents_spot_path(spot), class: 'btn btn-warning btn-sm' %>
+          <%= link_to '削除', admin_contents_spot_path(spot), data: { id:spot.id, confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to '内容管理画面に戻る', admin_contents_dashboard_path, class: 'btn btn-info btn-sm hover:underline' %>

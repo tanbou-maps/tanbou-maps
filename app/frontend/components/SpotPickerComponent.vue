@@ -1,28 +1,22 @@
 <template>
-  <div class="mx-auto max-w-4xl">
-    <div class="mb-4">
-      <input
-        type="text"
-        v-model="searchQuery"
-        @keyup.enter="handleSearch"
-        placeholder="場所を検索..."
-        class="w-full rounded-lg border px-4 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+  <div class="space-y-4">
+    <input
+      type="text"
+      v-model="searchQuery"
+      @keyup.enter="handleSearch"
+      placeholder="場所を検索..."
+      class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
 
-    <div ref="mapContainer" class="mb-4 h-96 w-full rounded-lg shadow-lg"></div>
-
-    <div v-if="selectedLocation" class="mb-4 rounded-lg bg-green-100 p-4">
-      <p class="text-green-800">
-        選択された位置：緯度 {{ selectedLocation.lat.toFixed(6) }}, 経度
-        {{ selectedLocation.lng.toFixed(6) }}
-      </p>
-    </div>
+    <div
+      ref="mapContainer"
+      class="h-64 w-full rounded-lg border border-gray-200 shadow-md"
+    ></div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 
 const searchQuery = ref("");
 const mapContainer = ref(null);
@@ -116,17 +110,18 @@ const updateFormFields = () => {
 
 onMounted(() => {
   // DOM から API キーを取得
-  const apiKey =
-    document.getElementById("spot-map-picker").dataset.googleMapsApiKey;
+  const apiKey = document.getElementById("spot-picker-component").dataset
+    .googleMapsApiKey;
 
   // Google Maps API の読み込み
   const script = document.createElement("script");
-  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=Function.prototype`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=Function.prototype&loading=async`;
   script.async = true;
   script.defer = true;
 
   // スクリプトの読み込み完了後にマップを初期化
   script.onload = () => {
+    // APIが完全に読み込まれるまで少し待つ
     setTimeout(initMap, 100);
   };
 

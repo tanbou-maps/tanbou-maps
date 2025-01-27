@@ -31,6 +31,16 @@ console.log(
 
 import { createApp } from "vue";
 import "../stylesheets/style.css";
+import AppHeaderComponent from "../components/AppHeaderComponent.vue";
+import AppFooterComponent from "../components/AppFooterComponent.vue";
+import IndexPage from "../components/IndexPage.vue";
+import SignInPage from "../components/SignInPage.vue";
+import SignUpPage from "../components/SignUpPage.vue";
+import SignUpCompletePage from "../components/SignUpCompletePage.vue";
+import SignOutPage from "../components/SignOutPage.vue";
+import SpotsSearchPage from "../components/SpotsSearchPage.vue";
+import SpotPickerComponent from "../components/SpotPickerComponent.vue";
+import SpotShowComponent from "../components/SpotShowComponent.vue";
 import AppHeader from "../components/AppHeader.vue";
 import AppFooter from "../components/AppFooter.vue";
 import Index from "../components/Index.vue";
@@ -40,38 +50,48 @@ import MapSearch from "../components/MapSearch.vue";
 import SpotMapPicker from "../components/SpotMapPicker.vue";
 import SpotMap from "../components/SpotMap.vue";
 import Contact from "../components/Contact.vue";
-import "../stylesheets/product.css";
+import UserProfile from "../components/UserProfile.vue";
+import UserProfileViewId from "../components/UserProfileViewId.vue";
+import UserProfileView from "../components/UserProfileView.vue";
+// import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 import Review from "../components/Review.vue";
 import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 
 // 主要なアプリケーションコンポーネントのマウント
 document.addEventListener("DOMContentLoaded", () => {
-  createApp(AppHeader).mount("#app-header"); // ヘッダー
-  createApp(AppFooter).mount("#app-footer"); // フッター
-  createApp(Index).mount("#index"); // ルート
-  createApp(SignIn).mount("#sign-in");
-  createApp(SignUp).mount("#sign-up");
+  createApp(AppHeaderComponent).mount("#app-header-component"); // header
+  createApp(AppFooterComponent).mount("#app-footer-component"); // footer
+  createApp(IndexPage).mount("#index-page"); // root
+  createApp(SignInPage).mount("#sign-in-page");
+  createApp(SignUpPage).mount("#sign-up-page");
+  createApp(SignUpCompletePage).mount("#sign-up-complete-page");
+  createApp(SignOutPage).mount("#sign-out-page");
+  createApp(Review).mount("#review");
 });
 
-// 地図関連コンポーネントのマウント
-const mapSearchApp = document.getElementById("map-search-app");
-if (mapSearchApp) {
-  const app = createApp(MapSearch);
-  app.mount("#map-search-app");
+// --- spots start ---
+const spotsSearchPage = document.getElementById("spots-search-page");
+
+if (spotsSearchPage) {
+  const app = createApp(SpotsSearchPage);
+  app.mount("#spots-search-page");
 }
 
-const spotMapPicker = document.getElementById("spot-map-picker");
-if (spotMapPicker) {
-  const app = createApp(SpotMapPicker);
-  app.mount("#spot-map-picker");
+const spotPickerComponent = document.getElementById("spot-picker-component");
+
+if (spotPickerComponent) {
+  const app = createApp(SpotPickerComponent);
+  app.mount("#spot-picker-component");
 }
 
-const spotMap = document.getElementById("spot-map");
-if (spotMap) {
-  const app = createApp(SpotMap);
-  app.mount("#spot-map");
+const spotShowComponent = document.getElementById("spot-show-component");
+
+if (spotShowComponent) {
+  const app = createApp(SpotShowComponent);
+  app.mount("#spot-show-component");
 }
+// --- spots end ---
 
 // レビュー関連の処理
 document.addEventListener("DOMContentLoaded", () => {
@@ -121,20 +141,83 @@ if (reviewDetailElement) {
 
 const element = document.getElementById("index");
 if (element) {
-  createApp(ModelCourseIndex).mount("#index");
+  // createApp(ModelCourseIndex).mount("#index");
 }
 
-// モデルコース一覧コンポーネント（遅延読み込み）
-const modelCourseListElement = document.getElementById("model-course-list");
-if (modelCourseListElement) {
-  import("../components/ModelCourseList.vue").then((module) => {
-    const ModelCourseList = module.default;
-    createApp(ModelCourseList).mount("#model-course-list");
+// モデルコース新規作成画面専用の処理
+const modelCourseNewElement = document.getElementById("model-course-new");
+if (modelCourseNewElement) {
+  import("../components/ModelCourseForm.vue").then((module) => {
+    const ModelCourseForm = module.default;
+    createApp(ModelCourseForm).mount("#model-course-new");
+  });
+}
+
+// モデルコース編集画面専用の処理
+const modelCourseEditElement = document.getElementById("model-course-edit");
+if (modelCourseEditElement) {
+  import("../components/ModelCourseForm.vue").then((module) => {
+    const ModelCourseForm = module.default;
+    createApp(ModelCourseForm).mount("#model-course-edit");
+  });
+}
+
+// モデルコース詳細画面専用の処理
+const modelCourseShowElement = document.getElementById("model-course-show");
+if (modelCourseShowElement) {
+  import("../components/ModelCourseDetail.vue").then((module) => {
+    const ModelCourseDetail = module.default;
+    createApp(ModelCourseDetail).mount("#model-course-show");
   });
 }
 
 // お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");
 if (contactElement) {
+  console.log("Mounting Contact");
   createApp(Contact).mount("#contact");
+  console.log("Mounted Contact");
+}
+
+// ユーザープロフィールCRUD画面
+const userProfileApp = document.getElementById("user-profile-app");
+if (userProfileApp) {
+  try {
+    const userData = userProfileApp.dataset.user;
+    if (userData) {
+      const sanitizedUserData = userData
+        .replace(/\\\"/g, '"')
+        .replace(/\\\$/g, "$");
+      const user = JSON.parse(sanitizedUserData);
+      const app = createApp(UserProfile);
+      app.provide("user", user);
+      app.mount("#user-profile-app");
+    } else {
+      console.error("user data not found in dataset");
+    }
+  } catch (e) {
+    console.error("Failed to parse user data:", e);
+  }
+}
+
+const userProfileViewIdApp = document.getElementById(
+  "user-profile-view-id-app",
+);
+if (userProfileViewIdApp) {
+  console.log("Mounting UserProfileViewId");
+  const user = JSON.parse(userProfileViewIdApp.dataset.user);
+  const rootPath = userProfileViewIdApp.dataset.rootPath;
+  const app = createApp(UserProfileViewId, { user, rootPath });
+  app.mount("#user-profile-view-id-app");
+  console.log("Mounted UserProfileViewId");
+}
+
+const userProfileViewApp = document.getElementById("user-profile-view-app");
+if (userProfileViewApp) {
+  console.log("Mounting UserProfileView");
+  const user = JSON.parse(userProfileViewApp.dataset.user);
+  const rootPath = userProfileViewApp.dataset.rootPath;
+  const app = createApp(UserProfileView, { user, rootPath });
+  app.mount("#user-profile-view-app");
+  console.log("Mounted UserProfileView");
 }

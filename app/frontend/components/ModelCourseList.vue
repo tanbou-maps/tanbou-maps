@@ -1,11 +1,18 @@
 <template>
   <div>
+    <Header />
+
     <h1>モデルコース一覧</h1>
     <div v-if="courses.length" class="model-course-list">
+
+      <!-- 各コースをループで描画 -->
       <div v-for="course in courses" :key="course.id" class="model-course-card">
         <!-- モデルコース情報 -->
-        <h2>{{ course.title }}</h2>
-        <p>{{ truncate(course.description, 100) }}</p>
+        <h2>{{ truncate(course.title, 20) }}</h2>
+        <p>{{ truncate(course.description, 20) }}</p>
+        <div v-if="course.theme_image_url">
+          <img :src="course.theme_image_url" :alt="`${course.title}のテーマ画像`" />
+        </div>
         <p><strong>公開状態:</strong> {{ course.is_public ? "公開" : "非公開" }}</p>
         <img
           v-if="course.theme_image_url"
@@ -19,11 +26,130 @@
       </div>
     </div>
     <p v-else>表示するモデルコースがありません。何か登録してみましょう！</p>
+    <p class="sample">
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    sample<br>
+    </p>
   </div>
 </template>
 
 <script>
+import Header from "@/components/Header.vue";
+
 export default {
+  components: {
+    Header,
+  },
   data() {
     return {
       courses: [], // モデルコース一覧データ
@@ -83,6 +209,16 @@ export default {
 </script>
 
 <style>
+h1 {
+  font-size:30px;
+}
+
+.sample {
+  color:red;
+}
+#model-course-list {
+  margin-top: 70px;
+}
 .model-course-list {
   display: flex;
   flex-wrap: wrap;

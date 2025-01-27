@@ -8,6 +8,7 @@ class ApplicationUser < ApplicationRecord
   has_many :stamps, dependent: :destroy
   has_many :user_rewards, dependent: :destroy
   has_many :spots # ユーザーがスポットを作成したときのためのリレーション
+  has_many :model_courses, dependent: :destroy
 
   # パスワード管理
   has_secure_password
@@ -32,6 +33,11 @@ class ApplicationUser < ApplicationRecord
 
   # 初期値の設定
   after_initialize :set_default_role, if: :new_record?
+
+  # 役割メソッド
+  def admin?
+    role == 'admin'
+  end
 
   private
 
