@@ -67,7 +67,7 @@
           id="latest-spots"
           class="text-2xl font-medium text-black sm:text-4xl"
         >
-          Latest Spots
+          最新のスポット
         </h1>
       </div>
 
@@ -117,10 +117,10 @@
 
       <div class="mt-10 text-center lg:mt-20">
         <a
-          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-black hover:before:bg-yellow-300 focus:outline-none focus:before:bg-yellow-300 md:text-lg"
+          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
           href="spots"
         >
-          View all Spots
+          すべてのスポットを見る
         </a>
       </div>
     </div>
@@ -131,15 +131,16 @@
       <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
         <blockquote class="mx-auto max-w-4xl">
           <p class="mb-6 md:text-lg">
-            <span class="font-semibold text-lime-400">Yasuo, </span>
-            <span class="text-neutral-500">CEO at LoL</span>
+            <span class="font-semibold text-yellow-400">Model </span>
+            <span class="text-neutral-500">Courses</span>
           </p>
 
           <p
             class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
           >
-            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
-            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+            "I've been using this app for a while now and I'm really impressed
+            with the quality of the courses. I've learned so much and I'm
+            looking forward to learning more."
           </p>
 
           <footer class="mt-6 md:mt-10">
@@ -147,9 +148,10 @@
               <button
                 type="button"
                 class="group inline-flex items-center gap-x-3 text-sm text-neutral-400 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                src="model-courses"
               >
                 <span
-                  class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-lime-400 group-focus:bg-lime-400 md:size-10"
+                  class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-yellow-300 group-focus:bg-yellow-300 md:size-10"
                 >
                   <svg
                     class="size-5 flex-shrink-0"
@@ -160,11 +162,11 @@
                     viewBox="0 0 16 16"
                   >
                     <path
-                      d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"
+                      d="M15.817.113a.5.5 0 0 0-.459-.04l-3.857 1.543-4.8-1.6a.5.5 0 0 0-.316 0l-4.8 1.6L.642.073a.5.5 0 0 0-.642.766v14.322a.5.5 0 0 0 .642.766l3.857-1.543 4.8 1.6a.5.5 0 0 0 .316 0l4.8-1.6 3.857 1.543a.5.5 0 0 0 .642-.766V.879a.5.5 0 0 0-.183-.766zM6 2.5v11l-4-1.333V1.167L6 2.5zm5 11v-11l4-1.333v11.667L11 13.5z"
                     />
                   </svg>
                 </span>
-                Watch the Video
+                モデルコースを見てみる
               </button>
             </div>
           </footer>
