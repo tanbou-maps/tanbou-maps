@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post 'sign-in', to: 'sessions#create'
   get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'
-  get 'sign-out', to: 'sessions#delete'
+  get 'sign-out', to: 'sessions#destroy'
 
   # ユーザープロフィール
   resources :user_profile, only: %i[new create show] do
