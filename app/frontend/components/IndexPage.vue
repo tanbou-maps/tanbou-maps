@@ -75,12 +75,10 @@
       <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
         <!-- Card -->
         <div v-for="spot in latestSpots" :key="spot.id" class="group block">
-          <div
-            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
-          >
+          <div class="overflow-hidden rounded-2xl bg-gray-100">
             <img
               v-if="spot.photos && spot.photos.length > 0"
-              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              class="h-96 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
               :src="spot.photos[0]"
               :alt="spot.name"
             />
@@ -88,7 +86,7 @@
 
           <div class="pt-4">
             <h3
-              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-yellow-400 before:transition group-hover:before:scale-x-100"
             >
               {{ spot.name }}
             </h3>
@@ -119,8 +117,8 @@
 
       <div class="mt-10 text-center lg:mt-20">
         <a
-          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
-          href="#"
+          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-black hover:before:bg-yellow-300 focus:outline-none focus:before:bg-yellow-300 md:text-lg"
+          href="spots"
         >
           View all Spots
         </a>
