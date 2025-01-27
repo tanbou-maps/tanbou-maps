@@ -79,8 +79,9 @@
             class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
           >
             <img
+              v-if="spot.photos && spot.photos.length > 0"
               class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-              :src="spot.photos"
+              :src="spot.photos[0]"
               :alt="spot.name"
             />
           </div>
