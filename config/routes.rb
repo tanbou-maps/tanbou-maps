@@ -73,12 +73,12 @@ Rails.application.routes.draw do
   get '/contacts/terms', to: 'contacts#terms'
 
   # 管理者　admin
-  get 'admin/index', to: 'admin/base#index', as: :admin_dashboard
+  get 'admin', to: 'admin/base#index', as: :admin_dashboard
   namespace :admin do
     # コンテンツ管理
     get 'contents', to: 'contents/dashboard#index', as: :contents_dashboard
     namespace :contents do
-      resources :spots, only: %i[index new create edit update destroy]
+      resources :spots, only: %i[index new create edit update destroy show]
       resources :events, only: %i[index new create edit update destroy]
     end
     # ユーザー管理
