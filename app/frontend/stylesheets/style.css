@@ -6,7 +6,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* デフォルトフォントの設定 */
 @layer base {
   html {
     font-family: "Inter", "Noto Sans JP"; /* 欧文フォントと和文フォントを設定 */
