@@ -118,7 +118,7 @@
       <div class="mt-10 text-center lg:mt-20">
         <a
           class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
-          href="spots"
+          href="/spots"
         >
           すべてのスポットを見る
         </a>
