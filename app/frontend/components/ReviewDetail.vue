@@ -101,17 +101,21 @@ export default {
       type: [Number, String],
       required: true,
     },
+    currentUserId: {
+      // currentUserIdをpropsとして追加
+      type: [Number, String],
+      required: true,
+    },
   },
   data() {
     return {
       spot: {},
       review: {},
-      currentUserId: null, // This should be set from your auth system
     };
   },
   computed: {
     isOwner() {
-      return this.review.applicationUserId === this.currentUserId;
+      return this.review.application_user_id === parseInt(this.currentUserId);
     },
   },
   methods: {
@@ -157,17 +161,27 @@ export default {
         )
       ) {
         try {
-          await this.$axios.delete(
-            `/api/spots/${this.spotId}/reviews/${this.reviewId}`,
+          const response = await fetch(
+            `/spots/${this.spotId}/reviews/${this.reviewId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "X-CSRF-Token": document.querySelector(
+                  'meta[name="csrf-token"]',
+                )?.content,
+                Accept: "application/json",
+              },
+              credentials: "same-origin",
+            },
           );
-          // Navigate back to reviews list after successful deletion
-          this.$router.push({
-            name: "spot-reviews",
-            params: { spotId: this.spotId },
-          });
+
+          if (!response.ok) throw new Error("削除に失敗しました");
+
+          // 削除成功後にレビュー一覧ページへ遷移
+          window.location.href = `/spots/${this.spotId}/reviews`;
         } catch (error) {
           console.error("Error deleting review:", error);
-          // Handle error appropriately
+          alert("削除中にエラーが発生しました");
         }
       }
     },
