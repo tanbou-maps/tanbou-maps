@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post 'sign-in', to: 'sessions#create'
   get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'
-  get 'sign-out', to: 'sessions#delete'
+  get 'sign-out', to: 'sessions#destroy'
 
   # ユーザープロフィール
   resources :user_profile, only: %i[new create show] do
@@ -22,20 +22,6 @@ Rails.application.routes.draw do
   get 'user-profile-view/:id', to: 'user_profile#profileviewid'
   get 'user-profile-crud', to: 'user_profile#new'
   get 'user-profile-view', to: 'user_profile#profileview'
-
-  # 企業プロフィール
-  resources :corporate_profile, only: %i[new create] do
-    collection do
-      post :upload
-    end
-
-    member do
-      patch :update_nickname
-    end
-  end
-
-  get 'corporate-profile-crud', to: 'corporate_profile#new'
-  get 'corporate-profile-view', to: 'corporate_profile#view'
 
   # サインアップ完了後の挙動
   get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'

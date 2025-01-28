@@ -204,20 +204,16 @@ const userProfileViewIdApp = document.getElementById(
   "user-profile-view-id-app",
 );
 if (userProfileViewIdApp) {
-  console.log("Mounting UserProfileViewId");
   const user = JSON.parse(userProfileViewIdApp.dataset.user);
   const rootPath = userProfileViewIdApp.dataset.rootPath;
   const app = createApp(UserProfileViewId, { user, rootPath });
   app.mount("#user-profile-view-id-app");
-  console.log("Mounted UserProfileViewId");
 }
 
 const userProfileViewApp = document.getElementById("user-profile-view-app");
 if (userProfileViewApp) {
-  console.log("Mounting UserProfileView");
   const user = JSON.parse(userProfileViewApp.dataset.user);
   const rootPath = userProfileViewApp.dataset.rootPath;
   const app = createApp(UserProfileView, { user, rootPath });
   app.mount("#user-profile-view-app");
-  console.log("Mounted UserProfileView");
 }
