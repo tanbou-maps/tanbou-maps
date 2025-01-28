@@ -105,23 +105,4 @@ Rails.application.configure do
   # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-
-  # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
-
-  # ActiveStorageのURL生成に必要なホスト設定
-  # 本番環境用のドメインを設定します
-  Rails.application.routes.default_url_options[:host] = 'your-domain.com'
-  # セキュアな通信のためにHTTPSを使用
-  Rails.application.routes.default_url_options[:protocol] = 'https'
-
-  # ActiveStorageの初期化設定
-  # URLオプションをグローバルに設定し、画像URLが正しく生成されるようにします
-  config.after_initialize do
-    ActiveStorage::Current.url_options = Rails.application.routes.default_url_options
-  end
-
-  # 以下のメール設定は既存のまま維持
-  config.action_mailer.delivery_method = :smtp
-  # ...残りの設定...
 end

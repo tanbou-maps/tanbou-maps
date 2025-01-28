@@ -74,7 +74,7 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'localhost'
   Rails.application.routes.default_url_options[:port] = 3000
-  
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
@@ -85,9 +85,6 @@ Rails.application.configure do
     authentication: 'plain',
     enable_starttls_auto: true
   }
-  # Active Storage と Action Mailerの共通設定
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.active_storage.default_url_options = { host: 'localhost', port: 3000 }
 
   # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
