@@ -1,21 +1,22 @@
-// 以下を views/layouts/application.html.erb の `<head>` セクションに追加してください
+// To see this message, add the following to the `<head>` section in your
+// views/layouts/application.html.erb
 //
 //    <%= vite_client_tag %>
 //    <%= vite_javascript_tag 'application' %>
 console.log("Vite ⚡️ Rails");
 
-// TypeScriptのエントリーポイントファイルを使用する場合：
+// If using a TypeScript entrypoint file:
 //     <%= vite_typescript_tag 'application' %>
 //
-// .jsx または .tsx を使用する場合は、拡張子を追加してください：
+// If you want to use .jsx or .tsx, add the extension:
 //     <%= vite_javascript_tag 'application.jsx' %>
 
 console.log(
-  "詳細については以下のガイドを参照してください： ",
+  "Visit the guide for more information: ",
   "https://vite-ruby.netlify.app/guide/rails",
 );
 
-// 例：ViteでRailsライブラリを読み込む
+// Example: Load Rails libraries in Vite.
 //
 // import * as Turbo from '@hotwired/turbo'
 // Turbo.start()
@@ -23,10 +24,10 @@ console.log(
 // import ActiveStorage from '@rails/activestorage'
 // ActiveStorage.start()
 //
-// // 全チャンネルをインポート
+// // Import all channels.
 // const channels = import.meta.globEager('./**/*_channel.js')
 
-// 例：app/frontend/index.cssのスタイルシートをインポート
+// Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'
 
 import { createApp } from "vue";
@@ -41,14 +42,6 @@ import SignOutPage from "../components/SignOutPage.vue";
 import SpotsSearchPage from "../components/SpotsSearchPage.vue";
 import SpotPickerComponent from "../components/SpotPickerComponent.vue";
 import SpotShowComponent from "../components/SpotShowComponent.vue";
-import AppHeader from "../components/AppHeader.vue";
-import AppFooter from "../components/AppFooter.vue";
-import Index from "../components/Index.vue";
-import SignIn from "../components/SignIn.vue";
-import SignUp from "../components/SignUp.vue";
-import MapSearch from "../components/MapSearch.vue";
-import SpotMapPicker from "../components/SpotMapPicker.vue";
-import SpotMap from "../components/SpotMap.vue";
 import Contact from "../components/Contact.vue";
 import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
@@ -58,7 +51,6 @@ import Review from "../components/Review.vue";
 import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 
-// 主要なアプリケーションコンポーネントのマウント
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
   createApp(AppFooterComponent).mount("#app-footer-component"); // footer
