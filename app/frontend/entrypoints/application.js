@@ -48,6 +48,8 @@ import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
 // import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 import Review from "../components/Review.vue";
+import CreateReview from "../components/CreateReview.vue";
+import ReviewDetail from "../components/ReviewDetail.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -84,18 +86,52 @@ if (spotShowComponent) {
 // --- spots end ---
 
 // レビュー関連の処理
-const reviewElements = document.querySelectorAll("#review");
-reviewElements.forEach((element) => {
-  if (element) {
-    const app = createApp(Review, {
-      spotId: element.dataset.spotId,
-    });
-    app.mount(element);
+document.addEventListener("DOMContentLoaded", () => {
+  // レビュー関連の処理
+  const reviewContainer = document.getElementById("review");
+
+  if (reviewContainer && reviewContainer.dataset) {
+    console.log("Review container found:", reviewContainer);
+    console.log("Spot ID:", reviewContainer.dataset.spotId);
+    console.log("Current User ID:", reviewContainer.dataset.currentUserId);
+
+    try {
+      const app = createApp(Review, {
+        spotId: reviewContainer.dataset.spotId,
+        currentUserId: reviewContainer.dataset.currentUserId,
+      });
+      app.mount(reviewContainer);
+      console.log("Review component mounted successfully");
+    } catch (error) {
+      console.error("Error mounting Review component:", error);
+    }
+  } else {
+    console.log("Review container not found or missing dataset");
   }
 });
 
-const element = document.getElementById("index");
+// レビューフォームコンポーネント
+const reviewFormElement = document.getElementById("#create-review");
+if (reviewFormElement) {
+  const app = createApp(CreateReview, {
+    spotId: reviewFormElement.dataset.spotId,
+    currentUserId: reviewFormElement.dataset.currentUserId,
+  });
+  app.mount("#create-review");
+}
 
+// レビュー詳細コンポーネントのマウント処理を有効化
+const reviewDetailElement = document.getElementById("review-detail");
+if (reviewDetailElement) {
+  const app = createApp(ReviewDetail, {
+    spotId: reviewDetailElement.dataset.spotId,
+    reviewId: reviewDetailElement.dataset.reviewId,
+    currentUserId: reviewDetailElement.dataset.currentUserId,
+  });
+  app.mount("#review-detail");
+}
+
+const element = document.getElementById("index");
 if (element) {
   // createApp(ModelCourseIndex).mount("#index");
 }
@@ -127,7 +163,7 @@ if (modelCourseShowElement) {
   });
 }
 
-// お問い合わせ画面
+// お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");
 if (contactElement) {
   console.log("Mounting Contact");
