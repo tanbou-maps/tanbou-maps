@@ -44,7 +44,9 @@ import Contact from "../components/Contact.vue";
 import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
-// import ModelCourseIndex from "../components/ModelCourseIndex.vue";
+import CorporateProfile from "../components/CorporateProfile.vue";
+import CorporateProfileView from "../components/CorporateProfileView.vue";
+import CorporateProfileViewId from "../components/CorporateProfileViewId.vue";
 import Review from "../components/Review.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -176,4 +178,55 @@ if (userProfileViewApp) {
   const app = createApp(UserProfileView, { user, rootPath });
   app.mount("#user-profile-view-app");
   console.log("Mounted UserProfileView");
+}
+
+// 企業プロフィールCRUD画面
+const corporateProfileApp = document.getElementById("corporate-profile-app");
+if (corporateProfileApp) {
+  try {
+    const userData = corporateProfileApp.dataset.user;
+    if (userData) {
+      const sanitizedUserData = userData
+        .replace(/\\\"/g, '"')
+        .replace(/\\\$/g, "$");
+      const user = JSON.parse(sanitizedUserData);
+      const app = createApp(CorporateProfile);
+      app.provide("user", user);
+      app.mount("#corporate-profile-app");
+    } else {
+      console.error("user data not found in dataset");
+    }
+  } catch (e) {
+    console.error("Failed to parse user data:", e);
+  }
+}
+
+// idを使って企業プロフィールを表示する画面
+const corporateProfileViewIdApp = document.getElementById(
+  "corporate-profile-view-id-app",
+);
+if (corporateProfileViewIdApp) {
+  const userData = corporateProfileViewIdApp.dataset.user;
+  if (userData) {
+    const user = JSON.parse(corporateProfileViewIdApp.dataset.user);
+    const rootPath = corporateProfileViewIdApp.dataset.rootPath;
+    const app = createApp(CorporateProfileViewId, { user, rootPath });
+    app.mount("#corporate-profile-view-id-app");
+  }
+}
+
+// idを使わずに企業プロフィールを表示する画面
+const corporateProfileViewApp = document.getElementById(
+  "corporate-profile-view-app",
+);
+if (corporateProfileViewApp) {
+  const userData = corporateProfileViewApp.dataset.user;
+  if (userData) {
+    console.log("Raw user data:", userData); // デバッグ用
+    const user = JSON.parse(corporateProfileViewApp.dataset.user);
+    console.log("Parsed user data:", user); // デバッグ用
+    const rootPath = corporateProfileViewApp.dataset.rootPath;
+    const app = createApp(CorporateProfileView, { user, rootPath });
+    app.mount("#corporate-profile-view-app");
+  }
 }

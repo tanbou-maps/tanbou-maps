@@ -22,8 +22,8 @@
     </div>
 
     <!-- おすすめ観光スポット表示エリア -->
+    <h2 class="h2text">おすすめ観光スポット</h2>
     <div class="favorite-spots-box">
-      <h2>おすすめ観光スポット</h2>
       <div id="displayText">
         <p>{{ user.favorite_spots }}</p>
       </div>
@@ -56,42 +56,29 @@ export default {
 /* 背景画像 */
 .background-image {
   position: relative;
-  z-index: 1; /* 背景画像を後ろに配置 */
+  z-index: 1;
   width: 100%;
-  height: 150px !important; /* 高さを設定し、強制適用 */
-  background-size: cover; /* 背景画像のサイズをカバー */
-  background-position: center; /* 背景画像を中央に配置 */
+  height: 200px !important;
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
 }
 
-/* プロフィールアイコン */
 .profile-icon {
-  position: absolute; /* 絶対位置 */
-  z-index: 2; /* プロフィール画像を前に配置 */
-  width: 150px; /* アイコンの幅 */
-  height: 150px; /* アイコンの高さ */
-  border-radius: 50%; /* 丸くする */
-  object-fit: cover; /* 画像をアイコンのサイズに合わせる */
-  border: 2px solid #ddd; /* 枠線 */
-  top: 0%; /* 上からの位置 */
-  left: 2%; /* 左からの位置 */
+  position: absolute;
+  z-index: 2;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  top: 4%;
+  left: 2%;
 }
 
-/* おすすめ観光スポット表示エリアのスタイル */
-.favorite-spots-box {
-  border: 2px solid #ddd; /* 枠線 */
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-.favorite-spots-box h2 {
-  margin-top: 0;
-}
-
-/* ニックネームボックス */
 .nickname-box {
   position: absolute;
-  top: 50px;
+  top: 74px;
   left: 200px;
   z-index: 2;
   background-color: white;
@@ -105,8 +92,39 @@ export default {
   z-index: 3;
 }
 
-/* 戻るボタンのスタイル */
+/* indexページ遷移用ボタン */
 .back-button {
-  margin-top: 20px;
+  position: fixed; /* 固定位置にする */
+  bottom: 20px; /* 下から20pxの位置に配置 */
+  right: 20px; /* 右から20pxの位置に配置 */
+  background-color: black; /* 背景色を黒に設定 */
+  color: white; /* テキストの色を白に設定 */
+  padding: 10px 20px; /* ボックスの内側の余白を追加 */
+  border-radius: 5px; /* 角を丸くする */
+  display: inline-block; /* ボックスをインラインブロックにする */
+  transition: transform 0.2s; /* トランジションを追加 */
+}
+.back-button:hover {
+  color: yellow;
+  transform: translateY(-5px); /* ホバー時に浮かせる */
+}
+
+.favorite-spots-box {
+  /* border: 2px solid #ddd; */
+  text-align: center;
+  padding: 30px;
+  height: 100px; /* 固定の高さを設定 */
+  overflow-y: auto; /* 垂直方向にスクロールバーを表示 */
+  color: black;
+  font-family: monospace;
+  font-size: 25px;
+}
+
+.h2text {
+  font-size: 35px;
+  font-family: monospace;
+  color: blue;
+  text-align: center;
+  margin-top: 40px;
 }
 </style>

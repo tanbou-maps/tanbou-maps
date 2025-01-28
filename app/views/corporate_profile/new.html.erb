@@ -1,209 +1,28 @@
-<% if @user.background_picture_url.present? %>
-  <div class="background-container">
-    <img src="<%= @user.background_picture_url %>" alt="Uploaded Image" class="background-image">
-  </div>
-<% end %>
+<!-- filepath: /c:/Users/admin/Rails/tanbou-maps/app/views/corporate_profile/new.html.erb -->
+<div id="corporate-profile-app" data-user="<%= j @user.to_json %>"></div>
 
-<div class="nickname-box">
-    <div class="nickname-overlay"><%= @user.nickname %></div>
-</div>
-
-<!-- 背景画像設定モーダルのテンプレート -->
-<button id="openModalBtn">背景設定</button>
-<div id="myModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <button class="close">閉じる</button>
-    <h2>背景画像をアップロード</h2>
-    <form id="uploadForm" action="/corporate_profile/upload" enctype="multipart/form-data" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-      <input type="file" id="fileInput" name="file">
-      <input type="submit" value="アップロード">
-    </form>
-  </div>
-</div>
-
-<!-- 文字設定モーダルのテンプレート -->
-<button id="openTextModalBtn">文字設定</button>
-<div id="textModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <button class="close">閉じる</button>
-    <h2>文字を設定</h2>
-    <form id="textForm" action="/corporate_profile/update_text" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-      <div class="field">
-        <label for="textInput">文字</label>
-        <input type="text" id="textInput" name="application_user[nickname]" value="<%= @user.nickname %>">
-      </div>
-      <div class="actions">
-        <input type="submit" value="送信">
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- 戻るボタン -->
-<div class="back-button">
-  <a href="<%= root_path %>">戻る</a>
-</div>
+<%= vite_client_tag %>
+<%= vite_javascript_tag 'application' %>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var modal = document.getElementById("myModal");
-    var btn = document.getElementById("openModalBtn");
-    var closeBtn = modal.getElementsByClassName("close")[0];
-
-    if (btn) {
-      btn.onclick = function() {
-        modal.style.display = "block";
-      }
-    }
-
-    if (closeBtn) {
-      closeBtn.onclick = function() {
-        modal.style.display = "none";
-      }
-    }
-
-    window.addEventListener('click', function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    });
-
-    var textModal = document.getElementById("textModal");
-    var openTextModalBtn = document.getElementById("openTextModalBtn");
-    var closeTextBtn = textModal.getElementsByClassName("close")[0];
-
-    if (openTextModalBtn) {
-      openTextModalBtn.onclick = function() {
-        textModal.style.display = "block";
-      }
-    }
-
-    if (closeTextBtn) {
-      closeTextBtn.onclick = function() {
-        textModal.style.display = "none";
-      }
-    }
-
-    window.addEventListener('click', function(event) {
-      if (event.target == textModal) {
-        textModal.style.display = "none";
-      }
-    });
-
-    var textForm = document.getElementById('textForm');
-    if (textForm) {
-      textForm.onsubmit = function(event) {
-        event.preventDefault();
-        var formData = new FormData(textForm);
-
-        fetch(textForm.action, {
-          method: 'POST',
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: formData
-        }).then(response => response.json())
-          .then(data => {
-            if (data.message === 'Text updated successfully') {
-              alert('Text updated successfully');
-              location.reload(); // ページをリロード
-            } else {
-              alert('Text update failed: ' + data.message);
+  document.addEventListener('DOMContentLoaded', () => {
+    const corporateProfileApp = document.getElementById('corporate-profile-app');
+    if (corporateProfileApp) {
+      try {
+        const userData = JSON.parse(corporateProfileApp.dataset.user.replace(/\\\"/g, '"'));
+        new Vue({
+          el: '#corporate-profile-app',
+          render: h => h(CorporateProfile, {
+            props: {
+              user: userData
             }
-          }).catch(error => {
-            console.error('Error:', error);
-            alert('Text update failed');
-          });
-      };
+          })
+        });
+      } catch (e) {
+        console.error('Failed to parse user data:', e);
+      }
+    } else {
+      console.error('corporate-profile-app element not found');
     }
   });
 </script>
-
-<style>
-/* モーダルの背景 */
-.modal {
-  display: none; /* デフォルトでは非表示 */
-  position: fixed; /* 固定位置 */
-  z-index: 3; /* 背景画像よりも前に表示 */
-  left: 0;
-  top: 0;
-  width: 100%; /* 全幅 */
-  height: 100%; /* 全高 */
-  overflow: auto; /* スクロール可能 */
-  background-color: rgb(0,0,0); /* 黒 */
-  background-color: rgba(0,0,0,0.4); /* 透明度を持たせた黒 */
-}
-
-/* モーダルコンテンツ */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 上下のマージン */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* 幅 */
-  z-index: 4; /* モーダルの背景よりも前に表示 */
-}
-
-/* 閉じるボタン */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* 背景画像 */
-.background-image {
-  position: relative;
-  z-index: 1; /* 背景画像を後ろに配置 */
-  width: 100%;
-  height: 150px !important; /* 高さを設定し、強制適用 */
-  background-size: cover; /* 背景画像のサイズをカバー */
-  background-position: center; /* 背景画像を中央に配置 */
-}
-
-.nickname-box {
-  position: absolute;
-  top: 50px;
-  left: 200px;
-  z-index: 2;
-  background-color: rgba(255, 255, 255, 0.5); /* 半透明の白色背景 */
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.nickname-overlay {
-  color: black;
-  font-size: 16px;
-  font-weight: bold;
-  z-index: 3;
-}
-
-/* 戻るボタンのスタイル */
-.back-button {
-  margin-top: 20px;
-}
-
-.back-button a {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.back-button a:hover {
-  background-color: #0056b3;
-}
-</style>

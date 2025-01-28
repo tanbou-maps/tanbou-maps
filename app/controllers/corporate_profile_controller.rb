@@ -4,9 +4,14 @@ class CorporateProfileController < ApplicationController
     render :new
   end
 
-  def view
+  def profileview
     @user = current_user
-    render :view
+    render :profileview
+  end
+
+  def profileviewid
+    @user = ApplicationUser.find(params[:id])
+    render :profileviewid
   end
 
   def create
