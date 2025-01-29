@@ -48,6 +48,8 @@ import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
 // import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 import Review from "../components/Review.vue";
+import AdminIndex from "../components/AdminIndex.vue";
+import ContentsManagement from "../components/ContentsManagement.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -58,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(SignUpCompletePage).mount("#sign-up-complete-page");
   createApp(SignOutPage).mount("#sign-out-page");
   createApp(Review).mount("#review");
+  createApp(AdminIndex).mount("#adminindex");
+  createApp(ContentsManagement).mount("#contentsmanagement");
 });
 
 // --- spots start ---

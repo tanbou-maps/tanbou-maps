@@ -78,7 +78,11 @@ Rails.application.routes.draw do
     # コンテンツ管理
     get 'contents', to: 'contents/dashboard#index', as: :contents_dashboard
     namespace :contents do
-      resources :spots, only: %i[index new create edit update destroy show]
+      resources :spots, only: %i[index new create edit update destroy show] do
+        member do
+          delete :delete_photo
+        end
+      end
       resources :events, only: %i[index new create edit update destroy]
     end
     # ユーザー管理
