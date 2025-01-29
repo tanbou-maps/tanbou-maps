@@ -1,264 +1,101 @@
 <template>
-  <div>
-    <Header />
+  <div class="container mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4">モデルコース一覧</h2>
 
-    <h1>モデルコース一覧</h1>
-    <div v-if="courses.length" class="model-course-list">
-
-      <!-- 各コースをループで描画 -->
-      <div v-for="course in courses" :key="course.id" class="model-course-card">
-        <!-- モデルコース情報 -->
-        <h2>{{ truncate(course.title, 20) }}</h2>
-        <p>{{ truncate(course.description, 20) }}</p>
-        <div v-if="course.theme_image_url">
-          <img :src="course.theme_image_url" :alt="`${course.title}のテーマ画像`" />
-        </div>
-        <p><strong>公開状態:</strong> {{ course.is_public ? "公開" : "非公開" }}</p>
-        <img
-          v-if="course.theme_image_url"
-          :src="course.theme_image_url"
-          :alt="`${course.title}のテーマ画像`"
-        />
-        <!-- 削除ボタン -->
-        <button @click="deleteCourse(course.id)" class="btn btn-danger">
-          削除
-        </button>
-      </div>
+    <!-- ローディング表示 -->
+    <div v-if="loading" class="loading-container">
+      <div class="spinner"></div>
     </div>
-    <p v-else>表示するモデルコースがありません。何か登録してみましょう！</p>
-    <p class="sample">
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    sample<br>
-    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <router-link
+        v-for="course in modelCourses"
+        :key="course.id"
+        :to="{ path: `/model-courses/${course.id}` }"
+        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200 p-4"
+      >
+        <div>
+          <h3 class="text-xl font-semibold mb-2">{{ course.title }}</h3>
+          <p class="text-gray-600">{{ course.description }}</p>
+        </div>
+      </router-link>
+    </div>
+
+    <!-- ページネーション部分 -->
+    <div class="pagination flex justify-center items-center mt-6">
+      <button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1" class="bg-blue-500 text-white px-4 py-2 rounded-md mx-2">
+        前へ
+      </button>
+      <span class="text-lg font-medium">Page {{ currentPage }} / {{ totalPages }}</span>
+      <button @click="changePage(currentPage + 1)" :disabled="currentPage >= totalPages" class="bg-blue-500 text-white px-4 py-2 rounded-md mx-2">
+        次へ
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import axios from "axios";
 
 export default {
-  components: {
-    Header,
-  },
   data() {
     return {
-      courses: [], // モデルコース一覧データ
+      modelCourses: [],
+      currentPage: 1,
+      totalPages: 1,
+      loading: true, // ローディング状態
     };
   },
   methods: {
-    // テキストを指定文字数で切り詰める
-    truncate(text, length) {
-      if (!text) return "";
-      return text.length > length ? text.substring(0, length) + "..." : text;
-    },
-    // モデルコースの削除
-    async deleteCourse(courseId) {
-      const confirmDelete = confirm("本当に削除しますか？");
-      if (!confirmDelete) return;
-
+    async fetchCourses(page = 1) {
+      this.loading = true; // データ取得開始
       try {
-        const csrfToken = document
-          .querySelector('meta[name="csrf-token"]')
-          ?.getAttribute("content");
-        const response = await fetch(`/model-courses/${courseId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": csrfToken,
-          },
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          alert(result.message);
-          // ローカルデータから削除
-          this.courses = this.courses.filter((course) => course.id !== courseId);
-        } else {
-          throw new Error("削除に失敗しました。");
-        }
+        const response = await axios.get(`/model-courses.json?page=${page}`);
+        this.modelCourses = response.data.model_courses;
+        this.currentPage = response.data.current_page;
+        this.totalPages = response.data.total_pages;
       } catch (error) {
-        console.error("削除中にエラーが発生しました:", error);
-        alert("削除に失敗しました。");
+        console.error("データの取得に失敗しました", error);
+      } finally {
+        this.loading = false; // データ取得完了
       }
     },
-  },
-  async mounted() {
-    // モデルコース一覧を取得
-    try {
-      const response = await fetch("/model-courses.json");
-      if (!response.ok) {
-        throw new Error("データの取得に失敗しました。");
+    changePage(page) {
+      if (page > 0 && page <= this.totalPages) {
+        this.fetchCourses(page);
       }
-      this.courses = await response.json();
-    } catch (error) {
-      console.error("データ取得中にエラーが発生しました:", error);
-      alert("データの取得に失敗しました。");
     }
   },
+  mounted() {
+    this.fetchCourses();
+  }
 };
 </script>
 
-<style>
-h1 {
-  font-size:30px;
-}
-
-.sample {
-  color:red;
-}
-#model-course-list {
-  margin-top: 70px;
-}
-.model-course-list {
+<style scoped>
+/* ローディングアニメーション */
+.loading-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
 }
 
-.model-course-card {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-  width: 300px;
-  background-color: #f9f9f9;
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.3);
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.model-course-card h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.model-course-card p {
-  margin: 5px 0;
-}
-
-.model-course-card img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 10px 0;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

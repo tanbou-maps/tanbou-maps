@@ -31,6 +31,8 @@ console.log(
 // import '~/index.css'
 
 import { createApp } from "vue";
+import router from "../router"; // Vue Router をインポート
+import App from "../components/App.vue"; // Vue アプリのルートコンポーネント
 import "../stylesheets/style.css";
 import AppHeaderComponent from "../components/AppHeaderComponent.vue";
 import AppFooterComponent from "../components/AppFooterComponent.vue";
@@ -46,7 +48,6 @@ import Contact from "../components/Contact.vue";
 import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
-// import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 import Review from "../components/Review.vue";
 import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
@@ -131,12 +132,27 @@ if (reviewDetailElement) {
   app.mount("#review-detail");
 }
 
-const element = document.getElementById("index");
-if (element) {
-  // createApp(ModelCourseIndex).mount("#index");
-}
+// VueRouter
+document.addEventListener("DOMContentLoaded", () => {
+  const appElement = document.getElementById("app");
+  if (appElement) {
+    const app = createApp(App);
+    app.use(router); // Vue Router を適用
+    app.mount("#app"); // Vue アプリを #app にマウント
+  }
+});
 
-// モデルコース新規作成画面専用の処理
+// モデルコース関連ここから
+// モデルコース一覧
+const modelCourseListElement = document.getElementById("model-course-list");
+  if (modelCourseListElement) {
+    import("../components/ModelCourseList.vue").then((module) => {
+      const ModelCourseList = module.default;
+      createApp(ModelCourseList).mount("#model-course-list");
+    });
+  }
+
+// モデルコース新規作成
 const modelCourseNewElement = document.getElementById("model-course-new");
 if (modelCourseNewElement) {
   import("../components/ModelCourseForm.vue").then((module) => {
@@ -145,7 +161,7 @@ if (modelCourseNewElement) {
   });
 }
 
-// モデルコース編集画面専用の処理
+// モデルコース編集
 const modelCourseEditElement = document.getElementById("model-course-edit");
 if (modelCourseEditElement) {
   import("../components/ModelCourseForm.vue").then((module) => {
@@ -154,7 +170,7 @@ if (modelCourseEditElement) {
   });
 }
 
-// モデルコース詳細画面専用の処理
+// モデルコース詳細
 const modelCourseShowElement = document.getElementById("model-course-show");
 if (modelCourseShowElement) {
   import("../components/ModelCourseDetail.vue").then((module) => {
@@ -162,6 +178,7 @@ if (modelCourseShowElement) {
     createApp(ModelCourseDetail).mount("#model-course-show");
   });
 }
+// モデルコース関連ここまで
 
 // お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");
