@@ -1,5 +1,7 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-100">
+  <div
+    class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-yellow-200 to-100%"
+  >
     <div class="rounded bg-white p-8 text-center shadow-lg">
       <h1 class="mb-4 text-2xl font-bold text-blue-600">
         登録が成功しました！
