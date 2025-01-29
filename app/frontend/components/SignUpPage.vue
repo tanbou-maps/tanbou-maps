@@ -102,7 +102,9 @@ function resetForm() {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-50">
+  <div
+    class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
+  >
     <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
       <h1 class="mb-6 text-center text-2xl font-bold">Sign Up</h1>
 
