@@ -90,7 +90,7 @@
             >
               {{ spot.name }}
             </h3>
-            <p class="mt-1 text-gray-600">{{ spot.description }}</p>
+            <p class="mt-1 truncate text-gray-600">{{ spot.description }}</p>
 
             <div class="mt-3 flex flex-wrap gap-2">
               <span
