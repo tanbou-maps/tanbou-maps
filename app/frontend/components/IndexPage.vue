@@ -78,7 +78,7 @@
           <div class="overflow-hidden rounded-2xl bg-gray-100">
             <img
               v-if="spot.photos && spot.photos.length > 0"
-              class="h-96 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              class="h-48 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 md:h-64 lg:h-96"
               :src="spot.photos[0]"
               :alt="spot.name"
             />
@@ -182,11 +182,9 @@
       <div
         class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2 lg:items-center lg:gap-12"
       >
-        <div
-          class="aspect-w-16 aspect-h-6 lg:aspect-h-14 group overflow-hidden rounded-2xl bg-gray-100"
-        >
+        <div class="group overflow-hidden rounded-2xl bg-gray-100">
           <img
-            class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            class="h-auto w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
             src="@/images/image_contact_page_model.jpg"
             alt="Image Description"
           />
