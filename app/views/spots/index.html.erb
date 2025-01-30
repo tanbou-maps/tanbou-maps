@@ -48,7 +48,7 @@
 
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500">投稿者ID: <%= spot.application_user_id %></span>
+                <span class="text-sm text-gray-500">投稿者ID: <%= spot.application_user.nickname %></span>
               </div>
               <%= link_to "詳細", spot_path(spot), class: "text-blue-500 hover:text-blue-600" %>
             </div>
