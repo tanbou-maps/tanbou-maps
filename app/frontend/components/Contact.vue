@@ -80,96 +80,100 @@ function resetForm() {
 </script>
 
 <template>
-  <div class="mx-auto max-w-lg rounded bg-white p-6 shadow-md">
-    <h1 class="mb-6 text-center text-2xl font-bold">Contact Us</h1>
-    <p class="text-center">
-      Let's talk:we're available to help with your needs.
-    </p>
-    <br />
+  <div
+    class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
+  >
+    <div class="mx-auto max-w-lg rounded bg-white p-6 shadow-md">
+      <h1 class="mb-6 text-center text-2xl font-bold">Contact Us</h1>
+      <p class="text-center">
+        Let's talk:we're available to help with your needs.
+      </p>
+      <br />
 
-    <div
-      v-if="errors.length"
-      class="mb-4 rounded border border-red-300 bg-red-50 p-4 text-red-700"
-    >
-      <ul>
-        <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-      </ul>
-    </div>
-
-    <form @submit.prevent="handleSubmit" class="space-y-4">
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700"
-          >お名前</label
-        >
-        <input
-          id="name"
-          v-model="name"
-          type="text"
-          class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
-          placeholder="Enter your name"
-          required
-        />
-      </div>
-
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700"
-          >メールアドレス</label
-        >
-        <input
-          id="email"
-          v-model="email"
-          type="email"
-          class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
-          placeholder="Enter your email"
-          required
-          readonly
-        />
-      </div>
-
-      <div>
-        <label for="message" class="block text-sm font-medium text-gray-700"
-          >メッセージ</label
-        >
-        <textarea
-          id="message"
-          v-model="message"
-          class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
-          rows="4"
-          placeholder="Enter your message"
-          required
-        ></textarea>
-      </div>
-      <div class="mt-4 flex items-center">
-        <input
-          id="agree-to-terms"
-          v-model="agreeToTerms"
-          type="checkbox"
-          class="mr-2 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-          required
-        />
-        <label for="agree-to-terms" class="text-sm text-gray-700">
-          利用規約に同意します
-        </label>
-        <a
-          href="/contacts/terms"
-          target="_blank"
-          class="ml-2 text-sm text-blue-500 hover:underline"
-          >利用規約を確認</a
-        >
-      </div>
-
-      <button
-        type="submit"
-        :disabled="isSubmitting"
-        class="w-full rounded bg-black px-4 py-2 text-white shadow hover:bg-gray-800 disabled:opacity-50"
+      <div
+        v-if="errors.length"
+        class="mb-4 rounded border border-red-300 bg-red-50 p-4 text-red-700"
       >
-        送信
-      </button>
-    </form>
-    <div class="mt-4 text-center">
-      <a href="/" class="text-sm text-blue-500 hover:underline">
-        ホームページに戻る
-      </a>
+        <ul>
+          <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
+        </ul>
+      </div>
+
+      <form @submit.prevent="handleSubmit" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700"
+            >お名前</label
+          >
+          <input
+            id="name"
+            v-model="name"
+            type="text"
+            class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
+            placeholder="Enter your name"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >メールアドレス</label
+          >
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
+            placeholder="Enter your email"
+            required
+            readonly
+          />
+        </div>
+
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-700"
+            >メッセージ</label
+          >
+          <textarea
+            id="message"
+            v-model="message"
+            class="mt-1 block w-full rounded-md border p-2 shadow-sm focus:ring-indigo-300"
+            rows="4"
+            placeholder="Enter your message"
+            required
+          ></textarea>
+        </div>
+        <div class="mt-4 flex items-center">
+          <input
+            id="agree-to-terms"
+            v-model="agreeToTerms"
+            type="checkbox"
+            class="mr-2 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            required
+          />
+          <label for="agree-to-terms" class="text-sm text-gray-700">
+            利用規約に同意します
+          </label>
+          <a
+            href="/contacts/terms"
+            target="_blank"
+            class="ml-2 text-sm text-yellow-300 hover:underline"
+            >利用規約を確認</a
+          >
+        </div>
+
+        <button
+          type="submit"
+          :disabled="isSubmitting"
+          class="w-full rounded bg-yellow-300 px-4 py-2 text-white shadow hover:bg-yellow-400 disabled:opacity-50"
+        >
+          送信
+        </button>
+      </form>
+      <div class="mt-4 text-center">
+        <a href="/" class="text-sm text-yellow-300 hover:underline">
+          ホームページに戻る
+        </a>
+      </div>
     </div>
   </div>
 </template>
