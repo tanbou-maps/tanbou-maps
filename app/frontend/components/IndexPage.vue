@@ -26,8 +26,8 @@
           >
             <h1 class="mb-4 text-8xl">Tanbou Maps</h1>
             <h2 class="mb-8 text-2xl">- あなたの新しい旅のために -</h2>
-            <button
-              href="#"
+            <a
+              href="#latest-spots"
               class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
             >
               <span
@@ -52,7 +52,7 @@
                 </svg>
               </span>
               <span class="relative">Let's Go!</span>
-            </button>
+            </a>
           </div>
           <!-- End Title and Buttons -->
         </div>
@@ -63,181 +63,64 @@
     <!-- Works -->
     <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
       <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
-        <h1 class="text-2xl font-medium text-black sm:text-4xl">
-          Latest Spots
+        <h1
+          id="latest-spots"
+          class="text-2xl font-medium text-black sm:text-4xl"
+        >
+          最新のスポット
         </h1>
       </div>
 
       <!-- Card Grid -->
       <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
         <!-- Card -->
-        <a class="group block" href="#">
-          <div
-            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
-          >
+        <div v-for="spot in latestSpots" :key="spot.id" class="group block">
+          <div class="overflow-hidden rounded-2xl bg-gray-100">
             <img
-              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-              src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Image Description"
+              v-if="spot.photos && spot.photos.length > 0"
+              class="h-96 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              :src="spot.photos[0]"
+              :alt="spot.name"
             />
           </div>
 
           <div class="pt-4">
             <h3
-              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
+              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-yellow-400 before:transition group-hover:before:scale-x-100"
             >
-              eYoga
+              {{ spot.name }}
             </h3>
-            <p class="mt-1 text-gray-600">
-              A revamped and dynamic approach to yoga analytics
-            </p>
+            <p class="mt-1 truncate text-gray-600">{{ spot.description }}</p>
 
             <div class="mt-3 flex flex-wrap gap-2">
               <span
                 class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
               >
-                Discovery
+                tag1
               </span>
               <span
                 class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
               >
-                Brand Guidelines
+                tag2
               </span>
               <span
                 class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
               >
-                Yoga
+                tag3
               </span>
             </div>
           </div>
-        </a>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <a class="group block" href="#">
-          <div
-            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
-          >
-            <img
-              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Image Description"
-            />
-          </div>
-
-          <div class="pt-4">
-            <h3
-              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
-            >
-              Nike React
-            </h3>
-            <p class="mt-1 text-gray-600">
-              Rewriting sport's playbook for billions of athletes
-            </p>
-
-            <div class="mt-3 flex flex-wrap gap-2">
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Brand Strategy
-              </span>
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Visual Identity
-              </span>
-            </div>
-          </div>
-        </a>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <a class="group block" href="#">
-          <div
-            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
-          >
-            <img
-              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-              src="https://images.unsplash.com/photo-1649999920973-ab6bfd0c0017?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Image Description"
-            />
-          </div>
-
-          <div class="pt-4">
-            <h3
-              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
-            >
-              Day Spa
-            </h3>
-            <p class="mt-1 text-gray-600">Designing a new cocktail can</p>
-
-            <div class="mt-3 flex flex-wrap gap-2">
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Brand Strategy
-              </span>
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Visual Identity
-              </span>
-            </div>
-          </div>
-        </a>
-        <!-- End Card -->
-
-        <!-- Card -->
-        <a class="group block" href="#">
-          <div
-            class="aspect-w-16 aspect-h-12 overflow-hidden rounded-2xl bg-gray-100"
-          >
-            <img
-              class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-              src="https://images.unsplash.com/photo-1528291954423-c0c71c12baeb?q=80&w=3426&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Image Description"
-            />
-          </div>
-
-          <div class="pt-4">
-            <h3
-              class="relative inline-block text-lg font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-lime-400 before:transition group-hover:before:scale-x-100"
-            >
-              Diamond Dynamics
-            </h3>
-            <p class="mt-1 text-gray-600">
-              From cutting-edge equipment to stylish apparel
-            </p>
-
-            <div class="mt-3 flex flex-wrap gap-2">
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Sports Gear
-              </span>
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Equipment
-              </span>
-              <span
-                class="rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 sm:text-sm"
-              >
-                Discovery
-              </span>
-            </div>
-          </div>
-        </a>
+        </div>
         <!-- End Card -->
       </div>
       <!-- End Card Grid -->
 
       <div class="mt-10 text-center lg:mt-20">
         <a
-          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
-          href="#"
+          class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black md:text-lg"
+          href="/spots"
         >
-          View all Work
+          すべてのスポットを見る
         </a>
       </div>
     </div>
@@ -248,15 +131,16 @@
       <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
         <blockquote class="mx-auto max-w-4xl">
           <p class="mb-6 md:text-lg">
-            <span class="font-semibold text-lime-400">Yasuo, </span>
-            <span class="text-neutral-500">CEO at LoL</span>
+            <span class="font-semibold text-yellow-400">Model </span>
+            <span class="text-neutral-500">Courses</span>
           </p>
 
           <p
             class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
           >
-            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
-            ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/ハラグリマンジャラ/
+            "I've been using this app for a while now and I'm really impressed
+            with the quality of the courses. I've learned so much and I'm
+            looking forward to learning more."
           </p>
 
           <footer class="mt-6 md:mt-10">
@@ -264,9 +148,10 @@
               <button
                 type="button"
                 class="group inline-flex items-center gap-x-3 text-sm text-neutral-400 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                src="model-courses"
               >
                 <span
-                  class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-lime-400 group-focus:bg-lime-400 md:size-10"
+                  class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-yellow-300 group-focus:bg-yellow-300 md:size-10"
                 >
                   <svg
                     class="size-5 flex-shrink-0"
@@ -277,11 +162,11 @@
                     viewBox="0 0 16 16"
                   >
                     <path
-                      d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"
+                      d="M15.817.113a.5.5 0 0 0-.459-.04l-3.857 1.543-4.8-1.6a.5.5 0 0 0-.316 0l-4.8 1.6L.642.073a.5.5 0 0 0-.642.766v14.322a.5.5 0 0 0 .642.766l3.857-1.543 4.8 1.6a.5.5 0 0 0 .316 0l4.8-1.6 3.857 1.543a.5.5 0 0 0 .642-.766V.879a.5.5 0 0 0-.183-.766zM6 2.5v11l-4-1.333V1.167L6 2.5zm5 11v-11l4-1.333v11.667L11 13.5z"
                     />
                   </svg>
                 </span>
-                Watch the Video
+                モデルコースを見てみる
               </button>
             </div>
           </footer>
@@ -425,3 +310,20 @@
   </main>
   <!-- ========== END MAIN CONTENT ========== -->
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      latestSpots: [],
+    };
+  },
+  mounted() {
+    const latestSpotsData =
+      document.getElementById("index-page").dataset.latestSpots;
+    if (latestSpotsData) {
+      this.latestSpots = JSON.parse(latestSpotsData);
+    }
+  },
+};
+</script>

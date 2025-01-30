@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     destroy_session # ユーザーセッションの削除を実行
     render :sign_out
   end

@@ -20,6 +20,25 @@ class SpotsController < ApplicationController
   def show
     @spot = Spot.find(params[:id])
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: {
+          spot: @spot.as_json(
+            include: {
+              spot_detail: {}, # includeオプションを正しく設定
+              reviews: {
+                include: {
+                  application_user: { only: %i[id name] }
+                }
+              }
+            }
+          ),
+          google_maps_api_key: @google_maps_api_key
+        }
+      end
+    end
   end
 
   def index

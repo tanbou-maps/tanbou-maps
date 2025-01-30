@@ -4,26 +4,15 @@ class ModelCoursesController < ApplicationController
     @model_courses = ModelCourse
                         .includes(theme_image_attachment: :blob, application_user: {})
                         .order(updated_at: :desc)
+                        .page(params[:page]).per(10)
 
-    # Vue.js 用に JSON レスポンスを返す
     respond_to do |format|
-      format.html # HTML ビューが必要な場合
-      format.json do
-        render json: @model_courses.map { |course|
-          {
-            id: course.id,
-            title: course.title,
-            description: course.description,
-            is_public: course.is_public,
-            theme_image_url: course.theme_image.attached? ? Rails.application.routes.url_helpers.url_for(course.theme_image) : nil,
-            gallery_image_urls: course.gallery_image_urls,
-            application_user: {
-              id: course.application_user.id,
-              nickname: course.application_user.nickname
-            }
-          }
-        }
-      end
+      format.html # HTML ビューをレンダリング
+      format.json { render json: {
+        model_courses: @model_courses.as_json(only: [:id, :title, :description, :is_public]),
+        current_page: @model_courses.current_page,
+        total_pages: @model_courses.total_pages
+      }}
     end
   end
 
@@ -31,6 +20,24 @@ class ModelCoursesController < ApplicationController
   # 詳細表示
   def show
     @model_course = ModelCourse.find(params[:id])
+
+    respond_to do |format|
+      format.html # HTML ビューが必要な場合
+      format.json do
+        render json: {
+          id: @model_course.id,
+          title: @model_course.title,
+          description: @model_course.description,
+          is_public: @model_course.is_public,
+          theme_image_url: @model_course.theme_image.attached? ? Rails.application.routes.url_helpers.url_for(@model_course.theme_image) : nil,
+          gallery_image_urls: @model_course.gallery_image_urls,
+          application_user: {
+            id: @model_course.application_user.id,
+            nickname: @model_course.application_user.nickname
+          }
+        }
+      end
+    end
   end
 
   # 新規作成フォーム

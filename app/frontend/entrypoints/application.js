@@ -31,6 +31,8 @@ console.log(
 // import '~/index.css'
 
 import { createApp } from "vue";
+import router from "../router"; // Vue Router をインポート
+import App from "../components/App.vue"; // Vue アプリのルートコンポーネント
 import "../stylesheets/style.css";
 import AppHeaderComponent from "../components/AppHeaderComponent.vue";
 import AppFooterComponent from "../components/AppFooterComponent.vue";
@@ -46,10 +48,11 @@ import Contact from "../components/Contact.vue";
 import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
-// import ModelCourseIndex from "../components/ModelCourseIndex.vue";
 import Review from "../components/Review.vue";
 import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
+import CreateReview from "../components/CreateReview.vue";
+import ReviewDetail from "../components/ReviewDetail.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -88,23 +91,72 @@ if (spotShowComponent) {
 // --- spots end ---
 
 // レビュー関連の処理
-const reviewElements = document.querySelectorAll("#review");
-reviewElements.forEach((element) => {
-  if (element) {
-    const app = createApp(Review, {
-      spotId: element.dataset.spotId,
-    });
-    app.mount(element);
+document.addEventListener("DOMContentLoaded", () => {
+  // レビュー関連の処理
+  const reviewContainer = document.getElementById("review");
+
+  if (reviewContainer && reviewContainer.dataset) {
+    console.log("Review container found:", reviewContainer);
+    console.log("Spot ID:", reviewContainer.dataset.spotId);
+    console.log("Current User ID:", reviewContainer.dataset.currentUserId);
+
+    try {
+      const app = createApp(Review, {
+        spotId: reviewContainer.dataset.spotId,
+        currentUserId: reviewContainer.dataset.currentUserId,
+      });
+      app.mount(reviewContainer);
+      console.log("Review component mounted successfully");
+    } catch (error) {
+      console.error("Error mounting Review component:", error);
+    }
+  } else {
+    console.log("Review container not found or missing dataset");
   }
 });
 
-const element = document.getElementById("index");
-
-if (element) {
-  // createApp(ModelCourseIndex).mount("#index");
+// レビューフォームコンポーネント
+const reviewFormElement = document.getElementById("#create-review");
+if (reviewFormElement) {
+  const app = createApp(CreateReview, {
+    spotId: reviewFormElement.dataset.spotId,
+    currentUserId: reviewFormElement.dataset.currentUserId,
+  });
+  app.mount("#create-review");
 }
 
-// モデルコース新規作成画面専用の処理
+// レビュー詳細コンポーネントのマウント処理を有効化
+const reviewDetailElement = document.getElementById("review-detail");
+if (reviewDetailElement) {
+  const app = createApp(ReviewDetail, {
+    spotId: reviewDetailElement.dataset.spotId,
+    reviewId: reviewDetailElement.dataset.reviewId,
+    currentUserId: reviewDetailElement.dataset.currentUserId,
+  });
+  app.mount("#review-detail");
+}
+
+// VueRouter
+document.addEventListener("DOMContentLoaded", () => {
+  const appElement = document.getElementById("app");
+  if (appElement) {
+    const app = createApp(App);
+    app.use(router); // Vue Router を適用
+    app.mount("#app"); // Vue アプリを #app にマウント
+  }
+});
+
+// モデルコース関連ここから
+// モデルコース一覧
+const modelCourseListElement = document.getElementById("model-course-list");
+  if (modelCourseListElement) {
+    import("../components/ModelCourseList.vue").then((module) => {
+      const ModelCourseList = module.default;
+      createApp(ModelCourseList).mount("#model-course-list");
+    });
+  }
+
+// モデルコース新規作成
 const modelCourseNewElement = document.getElementById("model-course-new");
 if (modelCourseNewElement) {
   import("../components/ModelCourseForm.vue").then((module) => {
@@ -113,7 +165,7 @@ if (modelCourseNewElement) {
   });
 }
 
-// モデルコース編集画面専用の処理
+// モデルコース編集
 const modelCourseEditElement = document.getElementById("model-course-edit");
 if (modelCourseEditElement) {
   import("../components/ModelCourseForm.vue").then((module) => {
@@ -122,7 +174,7 @@ if (modelCourseEditElement) {
   });
 }
 
-// モデルコース詳細画面専用の処理
+// モデルコース詳細
 const modelCourseShowElement = document.getElementById("model-course-show");
 if (modelCourseShowElement) {
   import("../components/ModelCourseDetail.vue").then((module) => {
@@ -130,8 +182,9 @@ if (modelCourseShowElement) {
     createApp(ModelCourseDetail).mount("#model-course-show");
   });
 }
+// モデルコース関連ここまで
 
-// お問い合わせ画面
+// お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");
 if (contactElement) {
   console.log("Mounting Contact");
@@ -164,20 +217,16 @@ const userProfileViewIdApp = document.getElementById(
   "user-profile-view-id-app",
 );
 if (userProfileViewIdApp) {
-  console.log("Mounting UserProfileViewId");
   const user = JSON.parse(userProfileViewIdApp.dataset.user);
   const rootPath = userProfileViewIdApp.dataset.rootPath;
   const app = createApp(UserProfileViewId, { user, rootPath });
   app.mount("#user-profile-view-id-app");
-  console.log("Mounted UserProfileViewId");
 }
 
 const userProfileViewApp = document.getElementById("user-profile-view-app");
 if (userProfileViewApp) {
-  console.log("Mounting UserProfileView");
   const user = JSON.parse(userProfileViewApp.dataset.user);
   const rootPath = userProfileViewApp.dataset.rootPath;
   const app = createApp(UserProfileView, { user, rootPath });
   app.mount("#user-profile-view-app");
-  console.log("Mounted UserProfileView");
 }
