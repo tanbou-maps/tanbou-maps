@@ -72,13 +72,13 @@
       </div>
 
       <!-- Card Grid -->
-      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8 lg:gap-12">
         <!-- Card -->
         <div v-for="spot in latestSpots" :key="spot.id" class="group block">
           <div class="overflow-hidden rounded-2xl bg-gray-100">
             <img
               v-if="spot.photos && spot.photos.length > 0"
-              class="h-96 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+              class="h-48 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 md:h-64 lg:h-96"
               :src="spot.photos[0]"
               :alt="spot.name"
             />
@@ -132,23 +132,21 @@
         <blockquote class="mx-auto max-w-4xl">
           <p class="mb-6 md:text-lg">
             <span class="font-semibold text-yellow-400">Model </span>
-            <span class="text-neutral-500">Courses</span>
+            <span class="text-neutral-500">Courses - Tadataka Inou</span>
           </p>
 
           <p
             class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
           >
-            "I've been using this app for a while now and I'm really impressed
-            with the quality of the courses. I've learned so much and I'm
-            looking forward to learning more."
+            "人間は夢を持ち、前へ歩き続ける限り、余生はいらない"
           </p>
 
           <footer class="mt-6 md:mt-10">
             <div class="border-neutral-700">
-              <button
+              <a
                 type="button"
                 class="group inline-flex items-center gap-x-3 text-sm text-neutral-400 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                src="model-courses"
+                href="model-courses"
               >
                 <span
                   class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-yellow-300 group-focus:bg-yellow-300 md:size-10"
@@ -167,7 +165,7 @@
                   </svg>
                 </span>
                 モデルコースを見てみる
-              </button>
+              </a>
             </div>
           </footer>
         </blockquote>
@@ -178,17 +176,15 @@
     <!-- Contact -->
     <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
       <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
-        <h2 class="text-2xl font-medium text-black sm:text-4xl">Contacts</h2>
+        <h2 class="text-2xl font-medium text-black sm:text-4xl">Contact us</h2>
       </div>
 
       <div
         class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2 lg:items-center lg:gap-12"
       >
-        <div
-          class="aspect-w-16 aspect-h-6 lg:aspect-h-14 overflow-hidden rounded-2xl bg-gray-100"
-        >
+        <div class="group overflow-hidden rounded-2xl bg-gray-100">
           <img
-            class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            class="h-auto w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
             src="@/images/image_contact_page_model.jpg"
             alt="Image Description"
           />
@@ -221,10 +217,10 @@
                 </svg>
 
                 <div class="grow">
-                  <p class="text-sm text-gray-600">United Kingdom</p>
+                  <p class="text-sm text-gray-600">Yokohama, Kanagawa</p>
                   <address class="mt-1 not-italic text-black">
-                    300 Bath Street, Tay House<br />
-                    Glasgow G2 4JR
+                    1-8-14 Tanmachi<br />
+                    Kanagawa Ward
                   </address>
                 </div>
               </div>
@@ -260,8 +256,8 @@
                   <p class="text-sm text-gray-600">Email us</p>
                   <p>
                     <a
+                      href="/contacts/new"
                       class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
-                      href="mailto:example@site.so"
                     >
                       hello@example.so
                     </a>
@@ -292,9 +288,9 @@
                   <p>
                     <a
                       class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
-                      href="mailto:example@site.so"
+                      href="/contacts/new"
                     >
-                      +44 222 777-000
+                      +81 45 311 6821
                     </a>
                   </p>
                 </div>

@@ -1,8 +1,8 @@
 <div id="app-header-component"></div>
 <div class="min-h-screen bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-2xl font-bold text-gray-900">スポット一覧</h1>
+    <div class="flex flex-wrap justify-between items-center mb-8">
+      <h1 class="flex text-2xl font-bold text-gray-900">スポット一覧</h1>
       <a
         href="spots/new" class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
       >
@@ -33,7 +33,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @spots.each do |spot| %>
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-200 group">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-200 group">
           <% if spot.photos.attached? && spot.photos.first.present? %>
             <%= image_tag spot.photos.first, class: "w-full h-48 object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" %>
           <% else %>
@@ -48,7 +48,7 @@
 
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500">投稿者ID: <%= spot.application_user_id %></span>
+                <span class="text-sm text-gray-500">投稿者ID: <%= spot.application_user.nickname %></span>
               </div>
               <%= link_to "詳細", spot_path(spot), class: "text-blue-500 hover:text-blue-600" %>
             </div>
