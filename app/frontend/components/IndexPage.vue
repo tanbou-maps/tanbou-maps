@@ -145,10 +145,10 @@
 
           <footer class="mt-6 md:mt-10">
             <div class="border-neutral-700">
-              <button
+              <a
                 type="button"
                 class="group inline-flex items-center gap-x-3 text-sm text-neutral-400 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                src="model-courses"
+                href="model-courses"
               >
                 <span
                   class="flex size-8 flex-col items-center justify-center rounded-full bg-white text-black group-hover:bg-yellow-300 group-focus:bg-yellow-300 md:size-10"
@@ -167,7 +167,7 @@
                   </svg>
                 </span>
                 モデルコースを見てみる
-              </button>
+              </a>
             </div>
           </footer>
         </blockquote>
