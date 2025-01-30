@@ -43,16 +43,5 @@ const links = ref([
         </a>
       </div>
     </div>
-
-    <!-- Logo & Title -->
-    <div class="fixed bottom-4 left-1/2 flex -translate-x-1/2 items-center">
-      <img class="h-auto w-14" src="@/images/airou_small.png" alt="Logo" />
-      <a
-        href="/"
-        class="ml-2 text-xl font-semibold text-black transition hover:text-yellow-300"
-      >
-        Tanbou Maps
-      </a>
-    </div>
   </div>
 </template>
