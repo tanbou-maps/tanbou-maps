@@ -178,14 +178,14 @@
     <!-- Contact -->
     <div class="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-24">
       <div class="mx-auto mb-6 max-w-2xl text-center sm:mb-10">
-        <h2 class="text-2xl font-medium text-black sm:text-4xl">Contacts</h2>
+        <h2 class="text-2xl font-medium text-black sm:text-4xl">Contact us</h2>
       </div>
 
       <div
         class="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2 lg:items-center lg:gap-12"
       >
         <div
-          class="aspect-w-16 aspect-h-6 lg:aspect-h-14 overflow-hidden rounded-2xl bg-gray-100"
+          class="aspect-w-16 aspect-h-6 lg:aspect-h-14 group overflow-hidden rounded-2xl bg-gray-100"
         >
           <img
             class="rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
@@ -221,10 +221,10 @@
                 </svg>
 
                 <div class="grow">
-                  <p class="text-sm text-gray-600">United Kingdom</p>
+                  <p class="text-sm text-gray-600">Yokohama, Kanagawa</p>
                   <address class="mt-1 not-italic text-black">
-                    300 Bath Street, Tay House<br />
-                    Glasgow G2 4JR
+                    1-8-14 Tanmachi<br />
+                    Kanagawa Ward
                   </address>
                 </div>
               </div>
