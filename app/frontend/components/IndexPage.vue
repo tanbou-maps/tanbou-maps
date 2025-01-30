@@ -72,7 +72,7 @@
       </div>
 
       <!-- Card Grid -->
-      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8 lg:gap-12">
         <!-- Card -->
         <div v-for="spot in latestSpots" :key="spot.id" class="group block">
           <div class="overflow-hidden rounded-2xl bg-gray-100">
@@ -256,7 +256,7 @@
                   <p class="text-sm text-gray-600">Email us</p>
                   <p>
                     <a
-                      href="contacts/new"
+                      href="/contacts/new"
                       class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
                     >
                       hello@example.so
@@ -288,7 +288,7 @@
                   <p>
                     <a
                       class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
-                      href="contacts/new"
+                      href="/contacts/new"
                     >
                       +81 45 311 6821
                     </a>
