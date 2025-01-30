@@ -260,8 +260,8 @@
                   <p class="text-sm text-gray-600">Email us</p>
                   <p>
                     <a
+                      href="contacts/new"
                       class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
-                      href="mailto:example@site.so"
                     >
                       hello@example.so
                     </a>
@@ -292,9 +292,9 @@
                   <p>
                     <a
                       class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
-                      href="mailto:example@site.so"
+                      href="contacts/new"
                     >
-                      +44 222 777-000
+                      +81 45 311 6821
                     </a>
                   </p>
                 </div>
