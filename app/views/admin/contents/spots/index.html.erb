@@ -1,32 +1,47 @@
-<h1>スポット管理</h1>
+<div class="container mx-auto p-8">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">スポット管理</h1>
 
-<%= link_to '新しいスポットを追加する', new_admin_contents_spot_path, class: 'btn btn-primary' %>
+  <div class="mb-6">
+    <%= link_to '新しいスポットを追加する', new_admin_contents_spot_path, class: 'bg-yellow-300 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-400 transition' %>
+  </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>スポット名</th>
-      <th>説明</th>
-      <th>人気スコア</th>
-      <th>作成日</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @spots.each do |spot| %>
-      <tr>
-        <td><%= spot.name %></td>
-        <td><%= truncate(spot.description, length: 50) %></td>
-        <td><%= spot.popularity_score %></td>
-        <td><%= spot.created_at.strftime('%Y-%m-%d') %></td>
-        <td>
-          <%= link_to '詳細', admin_contents_spot_path(spot), class: 'btn btn-info btn-sm' %>
-          <%= link_to '編集', edit_admin_contents_spot_path(spot), class: 'btn btn-warning btn-sm' %>
-          <%= link_to '削除', admin_contents_spot_path(spot), data: { id:spot.id, confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden">
+      <thead class="bg-gray-100 border-b border-gray-300">
+        <tr>
+          <th class="px-6 py-3 text-left text-gray-600 font-medium">スポット名</th>
+          <th class="px-6 py-3 text-left text-gray-600 font-medium">説明</th>
+          <th class="px-6 py-3 text-left text-gray-600 font-medium">人気スコア</th>
+          <th class="px-6 py-3 text-left text-gray-600 font-medium">作成日</th>
+          <th class="px-6 py-3 text-left text-gray-600 font-medium">更新日</th>
+          <th class="px-6 py-3 text-left text-gray-600 font-medium">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @spots.each do |spot| %>
+          <tr class="border-b hover:bg-gray-50 transition">
+            <td class="px-6 py-4"><%= spot.name %></td>
+            <td class="px-6 py-4"><%= truncate(spot.description, length: 50) %></td>
+            <td class="px-6 py-4 text-center"><%= spot.popularity_score %></td>
+            <td class="px-6 py-4 text-center"><%= spot.created_at.strftime('%Y-%m-%d') %></td>
+            <td class="px-6 py-4 text-center"><%= spot.updated_at.strftime('%Y-%m-%d') %></td>
+            <td class="px-6 py-4 flex gap-2">
+              <%= link_to '詳細', admin_contents_spot_path(spot), class: 'bg-gray-500 text-black px-3 py-1 rounded-lg text-sm shadow-md hover:bg-gray-600 transition' %>
+              <%= link_to '編集', edit_admin_contents_spot_path(spot), class: 'bg-gray-500 text-black px-3 py-1 rounded-lg text-sm shadow-md hover:bg-gray-600 transition' %>
 
-<%= link_to '内容管理画面に戻る', admin_contents_dashboard_path, class: 'btn btn-info btn-sm hover:underline' %>
+              <%= form_with url: admin_contents_spot_path(spot), method: :delete, local: true do %>
+                <button type="submit" class="bg-gray-500 text-black px-3 py-1 rounded-lg text-sm shadow-md hover:bg-gray-600 transition">
+                  削除
+                </button>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to '内容管理画面に戻る', admin_contents_dashboard_path, class: 'text-yellow-300 hover:underline text-lg font-medium' %>
+  </div>
+</div>

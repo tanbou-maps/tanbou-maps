@@ -1,102 +1,96 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-2xl font-bold mb-6">新しいスポットを追加</h1>
+<div class="container mx-auto px-4 py-8 max-w-md sm:max-w-lg">
+  <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">新しいスポットを追加</h1>
 
-  <%= form_with(model: @spot, url:admin_contents_spots_path, local: true, class: 'space-y-6') do |form| %>
+  <%= form_with(model: @spot, url:admin_contents_spots_path, local: true, class: "space-y-6") do |form| %>
     <% if @spot.errors.any? %>
-      <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-        <div class="text-red-700">
-          <h2><%= pluralize(@spot.errors.count, "error") %> prohibited this spot from being saved:</h2>
-          <ul class="list-disc pl-5">
-            <% @spot.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <h2 class="font-bold mb-2"><%= pluralize(@spot.errors.count, "error") %> prohibited this spot from being saved:</h2>
+        <ul class="list-disc list-inside">
+          <% @spot.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
 
     <div class="space-y-4">
-
       <div>
-        <%= form.label :name, 'スポット名', class: 'block text-sm font-medium text-gray-700' %>
-        <%= form.text_field :name, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+        <%= form.label :name, 'スポット名', class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_field :name, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
       </div>
 
       <div>
-        <%= form.label :description, '説明', class: 'block text-sm font-medium text-gray-700' %>
-        <%= form.text_area :description, rows: 4, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+        <%= form.label :description, '説明', class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :description, rows: 4, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
       </div>
 
       <div>
-        <%= form.label :photos, '写真(最大10枚まで)', class: 'block text-sm font-medium text-gray-700' %>
-        <div class="mt-1">
-          <%= form.file_field :photos, multiple: true,
-              accept: 'image/png,image/jpeg,image/jpg',
-              class: 'w-full border rounded-md shadow-sm px-4 py-2',
-              data: { max_file_size: 5.megabytes } %>
+        <%= form.label :photos, '写真(最大10枚まで)', class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.file_field :photos, multiple: true,
+          accept: 'image/png,image/jpeg,image/jpg',
+          data: { max_file_size: 5.megabytes },
+          class: "w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+        <p class="text-xs text-gray-500 mt-1">PNG, JPG, JPEG ファイル(5MB以下)を選択してください</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= form.label :latitude, '緯度', class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :latitude, id: 'spot_latitude', readonly: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100" %>
         </div>
-        <p class="text-sm text-gray-500 mt-1">
-          PNG, JPG, JPEG ファイル(5MB以下)を選択してください
-        </p>
-      </div>
-
-      <div>
-        <%= form.label :latitude, '緯度', class: 'block text-sm font-medium text-gray-700' %>
-        <%= form.text_field :latitude, id: 'spot_latitude', readonly: true,
-            class: 'mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm' %>
-      </div>
-
-      <div>
-        <%= form.label :longitude, '経度', class: 'block text-sm font-medium text-gray-700' %>
-        <%= form.text_field :longitude, id: 'spot_longitude', readonly: true,
-            class: 'mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm' %>
-      </div>
-
-      <div
-        id="spot-map-picker"
-        data-google-maps-api-key="<%= @google_maps_api_key %>"
-        class="mt-4 h-96"
-      ></div>
-
-      <%= form.fields_for :spot_detail do |detail_form| %>
-        <div class="mt-6 space-y-4">
-          <h3 class="text-lg font-medium text-gray-900">詳細情報</h3>
-
-          <div>
-            <%= detail_form.label :hours_of_operation, '営業時間', class: 'block text-sm font-medium text-gray-700' %>
-            <%= detail_form.text_field :hours_of_operation, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
-          </div>
-
-          <div>
-            <%= detail_form.label :access_info, 'アクセス情報', class: 'block text-sm font-medium text-gray-700' %>
-            <%= detail_form.text_area :access_info, rows: 3, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
-          </div>
-
-          <div>
-            <%= detail_form.label :contact_info, '連絡先', class: 'block text-sm font-medium text-gray-700' %>
-            <%= detail_form.text_field :contact_info, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
-          </div>
-
-          <div>
-            <%= detail_form.label :website_url, 'ウェブサイト', class: 'block text-sm font-medium text-gray-700' %>
-            <%= detail_form.url_field :website_url, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
-          </div>
-
-          <div>
-            <%= detail_form.label :recommended_season, 'おすすめの季節', class: 'block text-sm font-medium text-gray-700' %>
-            <%= detail_form.text_field :recommended_season, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
-          </div>
-
-          <div>
-            <%= detail_form.label :entry_fee, '入場料', class: 'block text-sm font-medium text-gray-700' %>
-            <%= detail_form.text_field :entry_fee, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
-          </div>
+        <div>
+          <%= form.label :longitude, '経度', class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :longitude, id: 'spot_longitude', readonly: true, class: "w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100" %>
         </div>
-      <% end %>
-
-      <div class="mt-6">
-        <%= form.submit '保存', class: 'w-full bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' %>
       </div>
-    </div>
-  <% end %>
+
+      <div>
+        <div id="spot-picker-component" data-google-maps-api-key="<%= @google_maps_api_key %>" class="w-full h-64 rounded-md shadow-md"></div>
+      </div>
+
+      <div class="space-y-4">
+        <%= form.fields_for :spot_detail do |detail_form| %>
+        <br>
+        <br>
+          <h3 class="text-lg font-semibold text-gray-700 mb-3">詳細情報</h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <%= detail_form.label :hours_of_operation, '営業時間', class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= detail_form.text_field :hours_of_operation, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            </div>
+
+            <div>
+              <%= detail_form.label :contact_info, '連絡先', class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= detail_form.text_field :contact_info, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            </div>
+          </div>
+
+          <div>
+            <%= detail_form.label :access_info, 'アクセス情報', class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= detail_form.text_area :access_info, rows: 3, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <%= detail_form.label :website_url, 'ウェブサイト', class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= detail_form.url_field :website_url, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            </div>
+
+            <div>
+              <%= detail_form.label :recommended_season, 'おすすめの季節', class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= detail_form.text_field :recommended_season, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            </div>
+          </div>
+
+          <div>
+            <%= detail_form.label :entry_fee, '入場料', class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= detail_form.text_field :entry_fee, class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= form.submit '保存', class: "w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300" %>
+    <% end %>
+  </div>
 </div>

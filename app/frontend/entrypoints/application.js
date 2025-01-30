@@ -49,6 +49,8 @@ import UserProfile from "../components/UserProfile.vue";
 import UserProfileViewId from "../components/UserProfileViewId.vue";
 import UserProfileView from "../components/UserProfileView.vue";
 import Review from "../components/Review.vue";
+import AdminIndex from "../components/AdminIndex.vue";
+import ContentsManagement from "../components/ContentsManagement.vue";
 import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 
@@ -61,6 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(SignUpCompletePage).mount("#sign-up-complete-page");
   createApp(SignOutPage).mount("#sign-out-page");
   createApp(Review).mount("#review");
+  createApp(AdminIndex).mount("#adminindex");
+  createApp(ContentsManagement).mount("#contentsmanagement");
 });
 
 // --- spots start ---

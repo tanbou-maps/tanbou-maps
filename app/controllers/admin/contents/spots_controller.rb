@@ -1,59 +1,8 @@
-# class Admin::Contents::SpotsController < Admin::BaseController
-#   before_action :set_spot, only: %i[edit update destroy]
-
-#   # すべてのspotが表示される
-#   def index
-#     @spots = Spot.all.order(created_at: :desc)
-#   end
-
-#   def new
-#     @spot = Spot.new
-#   end
-
-#   def edit
-#   end
-
-#   def create
-#     @spot = Spot.new(spot_params)
-#     if @spot.save
-#       redirect_to admin_contents_spots_path, notice: 'スポットが追加されました。'
-#     else
-#       render :new, alert: 'スポットの追加が失敗しました。もう一度やり直してください。'
-#     end
-#   end
-
-#   def update
-#     if @spot.update(spot_params)
-#       redirect_to admin_contents_spots_path, notice: 'スポットが更新されました。'
-#     else
-#       render :edit, alert: 'スポットの更新が失敗しました。もう一度やり直してください。'
-#     end
-#   end
-
-#   def destroy
-#     @spot.destroy
-#     redirect_to admin_contents_spots_path, notice: 'スポットが削除されました。'
-#   end
-
-#   private
-
-#   def set_spot
-#     @spot = Spot.find(params[:id])
-#   end
-
-#   def spot_params
-#     permitted = params.require(:spot).permit(:name, :description, :latitude, :longitude, :popularity_score)
-#     if permitted[:latitude].present? && permitted[:longitude].present?
-#       factory = RGeo::Geographic.spherical_factory(srid: 4326) # 设置 SRID 为 4326
-#       permitted[:location] = factory.point(permitted[:longitude].to_f, permitted[:latitude].to_f)
-#     end
-#     permitted.except(:latitude, :longitude)
-#   end
-# end
-
 class Admin::Contents::SpotsController < Admin::BaseController
   before_action :set_spot, only: %i[edit update destroy show]
   before_action :set_google_maps_api_key
+  skip_before_action :verify_authenticity_token, only: [:delete_photo]
+
 
   def index
     @spots = Spot.all.order(created_at: :desc)
@@ -64,6 +13,11 @@ class Admin::Contents::SpotsController < Admin::BaseController
   def new
     @spot = Spot.new
     @spot.build_spot_detail
+  end
+
+  def edit
+    @spot = Spot.find(params[:id])
+    @spot.build_spot_detail unless @spot.spot_detail
   end
 
   def create
@@ -78,6 +32,7 @@ class Admin::Contents::SpotsController < Admin::BaseController
   end
 
   def update
+    params[:spot].delete(:photos) if params[:spot][:photos].blank?
     if @spot.update(spot_params)
       redirect_to admin_contents_spot_path(@spot), notice: 'スポットが更新されました。'
     else
@@ -85,9 +40,24 @@ class Admin::Contents::SpotsController < Admin::BaseController
     end
   end
 
+  # def delete_photo
+  #   photo = ActiveStorage::Blob.find_signed(params[:id])
+  #   if photo
+  #     photo.purge
+  #     redirect_to edit_admin_contents_spot_path(params[:id]), notice: '画像が削除されました。'
+  #   else
+  #     redirect_to edit_admin_contents_spot_path(params[:id]), alert: '画像の削除に失敗しました。'
+  #   end
+  # end
+
   def destroy
-    @spot.destroy
-    redirect_to admin_contents_spots_path, notice: 'スポットが削除されました。'
+    ActiveRecord::Base.transaction do
+      @spot.photos.purge if @spot.photos.attached?
+      @spot.destroy
+      redirect_to admin_contents_spots_path, notice: 'スポットが削除されました。'
+    end
+  rescue StandardError => e
+    redirect_to admin_contents_spots_path, alert: 'スポットの削除に失敗しました。'
   end
 
   private
