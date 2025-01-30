@@ -132,15 +132,13 @@
         <blockquote class="mx-auto max-w-4xl">
           <p class="mb-6 md:text-lg">
             <span class="font-semibold text-yellow-400">Model </span>
-            <span class="text-neutral-500">Courses</span>
+            <span class="text-neutral-500">Courses - Tadataka Inou</span>
           </p>
 
           <p
             class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
           >
-            "I've been using this app for a while now and I'm really impressed
-            with the quality of the courses. I've learned so much and I'm
-            looking forward to learning more."
+            "人間は夢を持ち、前へ歩き続ける限り、余生はいらない"
           </p>
 
           <footer class="mt-6 md:mt-10">
