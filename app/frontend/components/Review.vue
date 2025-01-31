@@ -1,16 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="mx-auto max-w-4xl">
-      <!-- ローディング表示 -->
-      <div v-if="loading" class="flex items-center justify-center py-8">
-        <div class="text-center">
-          <div
-            class="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"
-          ></div>
-          <p class="text-gray-600">データを読み込み中...</p>
-        </div>
-      </div>
-
       <!-- エラー表示 -->
       <div
         v-if="error"
@@ -22,7 +12,7 @@
       </div>
 
       <!-- メインコンテンツ -->
-      <template v-if="!loading && !error">
+      <template v-if="!error">
         <!-- ヘッダーセクション -->
         <div class="mb-8">
           <div class="flex items-center justify-between">
@@ -243,7 +233,6 @@ export default {
     return {
       spot: null,
       reviews: [],
-      loading: true,
       error: null,
       showCreateModal: false,
       submitting: false,
@@ -257,7 +246,7 @@ export default {
 
   computed: {
     canAddReview() {
-      return this.currentUserId && !this.loading;
+      return this.currentUserId;
     },
   },
 
@@ -295,7 +284,6 @@ export default {
     },
 
     async fetchData() {
-      this.loading = true;
       this.error = null;
 
       try {
@@ -316,8 +304,6 @@ export default {
       } catch (error) {
         console.error("Error fetching data:", error);
         this.error = "データの読み込み中にエラーが発生しました。";
-      } finally {
-        this.loading = false;
       }
     },
 

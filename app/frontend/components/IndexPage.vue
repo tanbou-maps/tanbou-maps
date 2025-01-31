@@ -138,7 +138,8 @@
           <p
             class="text-xl text-white sm:text-2xl md:text-3xl md:leading-normal"
           >
-            "人間は夢を持ち、前へ歩き続ける限り、余生はいらない" - 伊能忠敬
+            "人間は夢を持ち、前へ歩き続ける限り、余生はいらない"<br />
+            - 伊能忠敬
           </p>
 
           <footer class="mt-6 md:mt-10">
