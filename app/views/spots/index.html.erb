@@ -1,34 +1,23 @@
 <div id="app-header-component"></div>
 <div class="min-h-screen bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-wrap justify-between items-center mb-8">
-      <h1 class="flex text-2xl font-bold text-gray-900">スポット一覧</h1>
-      <a
-        href="spots/new" class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
-      >
-        <span
-          class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
-        ></span>
-        <span
-          class="ease absolute right-0 flex h-10 w-10 translate-x-full transform items-center justify-start duration-300 group-hover:translate-x-0"
+  <div class="container mx-auto px-4 py-8 max-w-md sm:max-w-2xl lg:max-w-4xl">
+    <div
+      class="mb-8 flex flex-col items-center justify-between sm:flex-row"
+    >
+      <h1 class="mb-4 text-2xl font-bold text-gray-900 sm:mb-0">
+        スポット一覧
+      </h1>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <a
+          href="/spots/new"
+          class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-8 py-2 text-yellow-300 hover:text-black"
         >
-          <svg
-            class="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M14 5l7 7m0 0l-7 7m7-7H3"
-            ></path>
-          </svg>
-        </span>
-        <span class="relative">新規スポット作成</span>
-      </a>
+          <span
+            class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
+          ></span>
+          <span class="relative">スポット投稿</span>
+        </a>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -48,7 +37,7 @@
 
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500">投稿者ID: <%= spot.application_user.nickname %></span>
+                <span class="text-sm text-gray-500"><%= spot.application_user.nickname %></span>
               </div>
               <%= link_to "詳細", spot_path(spot), class: "text-blue-500 hover:text-blue-600" %>
             </div>
