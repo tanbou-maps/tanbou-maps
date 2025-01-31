@@ -1,55 +1,3 @@
-<script setup lang="ts">
-import { ref } from "vue";
-
-const user_id = ref("");
-const password = ref("");
-const showPasswords = ref(false);
-const error = ref<string | null>(null);
-
-// フォーム送信処理
-async function handleSubmit() {
-  error.value = null;
-
-  // CSRFトークンを取得
-  try {
-    const csrfToken = document
-      .querySelector('meta[name="csrf-token"]')
-      ?.getAttribute("content");
-    if (!csrfToken) {
-      throw new Error("CSRF token is missing.");
-    }
-
-    // サインインリクエストを送信
-    const response = await fetch("/sign-in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": csrfToken,
-      },
-      body: JSON.stringify({
-        user_id: user_id.value,
-        password: password.value,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.redirect_url) {
-        window.location.href = data.redirect_url;
-      }
-    } else if (response.status === 422) {
-      const result = await response.json();
-      error.value = result.error || "ログインに失敗しました。";
-    } else {
-      error.value = "予期しないエラーが発生しました。";
-    }
-  } catch (err) {
-    console.error("Error during form submission:", err);
-    error.value = "通信エラーが発生しました。";
-  }
-}
-</script>
-
 <template>
   <div
     class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
@@ -149,3 +97,55 @@ async function handleSubmit() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+const user_id = ref("");
+const password = ref("");
+const showPasswords = ref(false);
+const error = ref<string | null>(null);
+
+// フォーム送信処理
+async function handleSubmit() {
+  error.value = null;
+
+  // CSRFトークンを取得
+  try {
+    const csrfToken = document
+      .querySelector('meta[name="csrf-token"]')
+      ?.getAttribute("content");
+    if (!csrfToken) {
+      throw new Error("CSRF token is missing.");
+    }
+
+    // サインインリクエストを送信
+    const response = await fetch("/sign-in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrfToken,
+      },
+      body: JSON.stringify({
+        user_id: user_id.value,
+        password: password.value,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      }
+    } else if (response.status === 422) {
+      const result = await response.json();
+      error.value = result.error || "ログインに失敗しました。";
+    } else {
+      error.value = "予期しないエラーが発生しました。";
+    }
+  } catch (err) {
+    console.error("Error during form submission:", err);
+    error.value = "通信エラーが発生しました。";
+  }
+}
+</script>

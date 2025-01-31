@@ -1,106 +1,3 @@
-<script setup lang="ts">
-import { ref, computed } from "vue";
-
-const user_id = ref("");
-const nickname = ref("");
-const email = ref("");
-const password = ref("");
-const password_confirmation = ref("");
-const showPasswords = ref(false);
-const account_type = ref("individual");
-const corporate_type = ref("");
-const errorMessages = ref<string[]>([]);
-
-// !TODO: 法人の種類の定義はアプリケーショ全体で統一する必要があるので config\corporate_types.yml から取得するように修正する
-const corporate_types = [
-  "株式会社",
-  "有限会社",
-  "合同会社",
-  "一般社団法人",
-  "合資会社",
-  "一般財団法人",
-  "公益社団法人",
-  "公益財団法人",
-  "独立行政法人",
-  "国立大学法人",
-  "地方独立行政法人",
-  "公立大学法人",
-  "学校法人",
-  "宗教法人",
-  "医療法人",
-  "社会福祉法人",
-];
-
-const isCorporateAccount = computed(() => account_type.value === "corporate");
-
-// フォーム送信処理
-async function submitForm() {
-  errorMessages.value = [];
-
-  try {
-    // CSRFトークンの取得
-    const csrfToken = document
-      .querySelector('meta[name="csrf-token"]')
-      ?.getAttribute("content");
-    if (!csrfToken) {
-      throw new Error("CSRF token is missing.");
-    }
-    // サインアップリクエストを送信
-    const response = await fetch("/sign-up", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": csrfToken,
-      },
-      body: JSON.stringify({
-        sign_up_user: {
-          user_id: user_id.value,
-          nickname: nickname.value,
-          email: email.value,
-          password: password.value,
-          password_confirmation: password_confirmation.value,
-          account_type: account_type.value,
-          corporate_type: isCorporateAccount.value
-            ? corporate_type.value
-            : null,
-        },
-      }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      if (data.redirect_url) {
-        // jump to success page
-        window.location.href = data.redirect_url;
-      } else {
-        resetForm();
-      }
-    } else if (data.errors) {
-      errorMessages.value = data.errors.map(
-        (error: any) => `${error.field}: ${error.messages.join(", ")}`,
-      );
-    } else {
-      errorMessages.value = ["An unexpected error occurred."];
-    }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    errorMessages.value = ["Network error occurred. Please try again later."];
-  }
-}
-
-// フォームをリセットする
-function resetForm() {
-  user_id.value = "";
-  nickname.value = "";
-  email.value = "";
-  password.value = "";
-  password_confirmation.value = "";
-  account_type.value = "individual";
-  corporate_type.value = "";
-  errorMessages.value = [];
-}
-</script>
-
 <template>
   <div
     class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
@@ -332,3 +229,106 @@ function resetForm() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, computed } from "vue";
+
+const user_id = ref("");
+const nickname = ref("");
+const email = ref("");
+const password = ref("");
+const password_confirmation = ref("");
+const showPasswords = ref(false);
+const account_type = ref("individual");
+const corporate_type = ref("");
+const errorMessages = ref<string[]>([]);
+
+// !TODO: 法人の種類の定義はアプリケーショ全体で統一する必要があるので config\corporate_types.yml から取得するように修正する
+const corporate_types = [
+  "株式会社",
+  "有限会社",
+  "合同会社",
+  "一般社団法人",
+  "合資会社",
+  "一般財団法人",
+  "公益社団法人",
+  "公益財団法人",
+  "独立行政法人",
+  "国立大学法人",
+  "地方独立行政法人",
+  "公立大学法人",
+  "学校法人",
+  "宗教法人",
+  "医療法人",
+  "社会福祉法人",
+];
+
+const isCorporateAccount = computed(() => account_type.value === "corporate");
+
+// フォーム送信処理
+async function submitForm() {
+  errorMessages.value = [];
+
+  try {
+    // CSRFトークンの取得
+    const csrfToken = document
+      .querySelector('meta[name="csrf-token"]')
+      ?.getAttribute("content");
+    if (!csrfToken) {
+      throw new Error("CSRF token is missing.");
+    }
+    // サインアップリクエストを送信
+    const response = await fetch("/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrfToken,
+      },
+      body: JSON.stringify({
+        sign_up_user: {
+          user_id: user_id.value,
+          nickname: nickname.value,
+          email: email.value,
+          password: password.value,
+          password_confirmation: password_confirmation.value,
+          account_type: account_type.value,
+          corporate_type: isCorporateAccount.value
+            ? corporate_type.value
+            : null,
+        },
+      }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      if (data.redirect_url) {
+        // jump to success page
+        window.location.href = data.redirect_url;
+      } else {
+        resetForm();
+      }
+    } else if (data.errors) {
+      errorMessages.value = data.errors.map(
+        (error: any) => `${error.field}: ${error.messages.join(", ")}`,
+      );
+    } else {
+      errorMessages.value = ["An unexpected error occurred."];
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    errorMessages.value = ["Network error occurred. Please try again later."];
+  }
+}
+
+// フォームをリセットする
+function resetForm() {
+  user_id.value = "";
+  nickname.value = "";
+  email.value = "";
+  password.value = "";
+  password_confirmation.value = "";
+  account_type.value = "individual";
+  corporate_type.value = "";
+  errorMessages.value = [];
+}
+</script>
