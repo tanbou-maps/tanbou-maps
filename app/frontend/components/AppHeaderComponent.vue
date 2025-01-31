@@ -14,7 +14,7 @@
 
       <!-- Button Group -->
       <div
-        class="ms-auto flex items-center gap-x-2 py-1 md:order-3 md:col-span-3 md:ps-6"
+        class="ms-auto flex items-center gap-x-2 text-nowrap py-1 md:order-3 md:col-span-3 md:ps-6"
       >
         <a
           href="/sign-out"
@@ -49,7 +49,7 @@
         class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:order-2 md:col-span-6 md:block md:w-auto md:basis-auto"
       >
         <div
-          class="mt-5 flex flex-col gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-center md:gap-x-7 md:gap-y-0"
+          class="mt-5 flex flex-col gap-x-0 gap-y-4 text-nowrap md:mt-0 md:flex-row md:items-center md:justify-center md:gap-x-7 md:gap-y-0"
         >
           <div>
             <a
@@ -77,11 +77,6 @@
               class="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:origin-left before:scale-x-0 before:bg-yellow-400 before:transition hover:before:scale-x-100"
               href="/contacts/new"
               >Contact Us</a
-            >
-          </div>
-          <div>
-            <a class="inline-block text-black hover:text-gray-600" href="#"
-              >Blog</a
             >
           </div>
         </div>
