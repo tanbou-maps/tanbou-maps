@@ -10,7 +10,7 @@
         class="relative"
       >
         <div
-          class="hs-carousel relative h-[30rem] w-full overflow-hidden rounded-2xl md:h-[calc(100vh-106px)]"
+          class="hs-carousel relative h-96 w-full overflow-hidden rounded-2xl lg:min-h-screen"
         >
           <!-- Photo -->
           <img
@@ -258,7 +258,7 @@
                   <p>
                     <a
                       href="/contacts/new"
-                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black"
                     >
                       hello@example.so
                     </a>
@@ -288,7 +288,7 @@
                   <p class="text-sm text-gray-600">Call us</p>
                   <p>
                     <a
-                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black"
                       href="/contacts/new"
                     >
                       +81 45 311 6821
