@@ -298,9 +298,36 @@ async function submitForm() {
         },
       }),
     });
+    const data = await response.json();
+    if (response.ok) {
+      if (data.redirect_url) {
+        // jump to success page
+        window.location.href = data.redirect_url;
+      } else {
+        resetForm();
+      }
+    } else if (data.errors) {
+      errorMessages.value = data.errors.map(
+        (error: any) => `${error.field}: ${error.messages.join(", ")}`,
+      );
+    } else {
+      errorMessages.value = ["An unexpected error occurred."];
+    }
   } catch (error) {
     console.error("Error submitting form:", error);
     errorMessages.value = ["Network error occurred. Please try again later."];
   }
+}
+
+// フォームをリセットする
+function resetForm() {
+  user_id.value = "";
+  nickname.value = "";
+  email.value = "";
+  password.value = "";
+  password_confirmation.value = "";
+  account_type.value = "individual";
+  corporate_type.value = "";
+  errorMessages.value = [];
 }
 </script>
