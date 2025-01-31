@@ -121,7 +121,7 @@
           <div class="text-center">
             <a
               :href="`/spots/${spotId}`"
-              class="text-black underline hover:text-yellow-400"
+              class="text-gray-600 underline hover:text-yellow-400"
             >
               スポット詳細に戻る
             </a>
