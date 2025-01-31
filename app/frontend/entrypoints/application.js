@@ -48,6 +48,8 @@ import CorporateProfile from "../components/CorporateProfile.vue";
 import CorporateProfileView from "../components/CorporateProfileView.vue";
 import CorporateProfileViewId from "../components/CorporateProfileViewId.vue";
 import Review from "../components/Review.vue";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeader).mount("#app-header"); // header
@@ -148,6 +150,7 @@ if (userProfileApp) {
         .replace(/\\\$/g, "$");
       const user = JSON.parse(sanitizedUserData);
       const app = createApp(UserProfile);
+      app.use(Toast); // Toastを使用するように設定
       app.provide("user", user);
       app.mount("#user-profile-app");
     } else {
@@ -191,6 +194,7 @@ if (corporateProfileApp) {
         .replace(/\\\$/g, "$");
       const user = JSON.parse(sanitizedUserData);
       const app = createApp(CorporateProfile);
+      app.use(Toast); // Toastを使用するように設定
       app.provide("user", user);
       app.mount("#corporate-profile-app");
     } else {

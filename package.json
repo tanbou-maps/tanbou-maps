@@ -24,6 +24,7 @@
   "dependencies": {
     "axios": "^1.7.9",
     "cropperjs": "^1.6.2",
-    "vue-cropperjs": "^5.0.0"
+    "vue-cropperjs": "^5.0.0",
+    "vue-toastification": "^2.0.0-rc.5"
   }
 }

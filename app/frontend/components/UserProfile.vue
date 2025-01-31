@@ -38,14 +38,18 @@
       </button>
       <div
         v-if="modals.background"
-        class="modal"
+        class="background-modal"
         @click.self="closeModal('background')"
       >
-        <div class="modal-content">
+        <div class="background-modal-content">
           <span class="close" @click="closeModal('background')">&times;</span>
           <h2 class="h2text">背景画像をアップロード</h2>
           <form @submit.prevent="uploadCroppedImage">
-            <input type="file" @change="onFileChange" />
+            <input
+              class="input-background"
+              type="file"
+              @change="onFileChange"
+            />
             <div v-if="imageUrl">
               <vue-cropper
                 ref="cropper"
@@ -54,7 +58,9 @@
                 style="width: 100%; height: 400px"
               ></vue-cropper>
             </div>
-            <button type="submit" class="modal-button">アップロード</button>
+            <button type="submit" class="background-modal-button">
+              アップロード
+            </button>
           </form>
         </div>
       </div>
@@ -73,6 +79,7 @@
           <h2 class="h2text">プロフィール写真をアップロード</h2>
           <form @submit.prevent="uploadFile('profile')">
             <input
+              class="input-profile"
               type="file"
               ref="profileFile"
               id="profileFile"
@@ -97,9 +104,14 @@
           <h2 class="h2text">ニックネームを変更</h2>
           <form @submit.prevent="updateNickname">
             <div class="field">
-              <p>現在のニックネーム: {{ user.nickname }}</p>
-              <label for="nickname">ニックネーム変更</label>
+              <p class="current-name">
+                現在のニックネーム: {{ user.nickname }}
+              </p>
+              <label class="new-name" for="nickname"
+                >ニックネーム変更後:
+              </label>
               <input
+                class="nickname"
                 type="text"
                 v-model="user.nickname"
                 id="nickname"
@@ -117,7 +129,7 @@
       </button>
       <div
         v-if="modals.favoriteSpots"
-        class="modal"
+        class="favorite-modal"
         @click.self="closeModal('favoriteSpots')"
       >
         <div class="modal-content">
@@ -172,18 +184,18 @@
 import axios from "axios";
 import VueCropper from "vue-cropperjs";
 import "cropperjs/dist/cropper.css";
+import { useToast } from "vue-toastification";
 
 export default {
   components: {
-    VueCropper,
+    VueCropper, // 画像のクロッピングコンポーネント
   },
   props: {
     userId: {
       type: Number,
-      required: true,
+      required: true, // userIdは必須のプロパティ
     },
   },
-
   data() {
     return {
       user: {
@@ -199,21 +211,21 @@ export default {
         favoriteSpots: false,
         deleteAccount: false,
       },
-      imageUrl: null,
+      imageUrl: null, // アップロードする画像のURL
     };
   },
   created() {
-    this.fetchUser();
+    this.fetchUser(); // コンポーネント作成時にユーザーデータを取得
   },
   methods: {
     goToIndex() {
-      window.location.href = "/";
+      window.location.href = "/"; // ホームページにリダイレクト
     },
     fetchUser() {
       axios
-        .get(`/user_profile/${this.userId}`)
+        .get(`/user_profile/${this.userId}`) // ユーザーデータを取得
         .then((response) => {
-          this.user = response.data;
+          this.user = response.data; // 取得したデータをuserにセット
         })
         .catch((error) => {
           console.error("Failed to fetch user data:", error);
@@ -221,108 +233,114 @@ export default {
     },
     openModal(modal) {
       console.log(`Opening modal: ${modal}`);
-      this.modals[modal] = true;
+      this.modals[modal] = true; // 指定したモーダルを開く
     },
     closeModal(modal) {
       console.log(`Closing modal: ${modal}`);
-      this.modals[modal] = false;
+      this.modals[modal] = false; // 指定したモーダルを閉じる
     },
     onFileChange(e) {
       const file = e.target.files[0];
       if (file) {
-        this.imageUrl = URL.createObjectURL(file);
+        this.imageUrl = URL.createObjectURL(file); // 選択したファイルのURLをセット
       }
     },
     uploadCroppedImage() {
+      const toast = useToast();
       if (!this.imageUrl) {
-        alert("ファイルを選択してください");
+        toast.error("ファイルを選択してください");
         return;
       }
       this.$refs.cropper.getCroppedCanvas().toBlob((blob) => {
         const formData = new FormData();
-        formData.append("file", blob);
+        formData.append("file", blob); // クロップした画像をフォームデータに追加
 
         axios
-          .post(`/user_profile/upload_background_picture`, formData)
+          .post(`/user_profile/upload_background_picture`, formData) // 背景画像をアップロード
           .then(() => {
-            // alert("アップロード成功");
+            toast.success("アップロード成功");
             this.fetchUser(); // データを再取得
             this.closeModal("background");
+            this.imageUrl = null; // アップロード後にimageUrlをリセット
           })
           .catch((error) => {
             console.error("File upload failed:", error);
-            alert("アップロードに失敗しました");
+            toast.error("アップロードに失敗しました");
           });
       });
     },
     uploadFile(type) {
+      const toast = useToast();
       const fileInput = this.$refs[`${type}File`];
       if (fileInput && fileInput.files && fileInput.files[0]) {
         const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
+        formData.append("file", fileInput.files[0]); // 選択したファイルをフォームデータに追加
 
         axios
-          .post(`/user_profile/upload_${type}_picture`, formData)
+          .post(`/user_profile/upload_${type}_picture`, formData) // プロフィール画像をアップロード
           .then(() => {
-            // alert("アップロード成功");
+            toast.success("アップロード成功");
             this.fetchUser(); // データを再取得
             this.closeModal(type);
           })
           .catch((error) => {
             console.error("File upload failed:", error);
-            alert("アップロードに失敗しました");
+            toast.error("アップロードに失敗しました");
           });
       } else {
-        alert("ファイルを選択してください");
+        toast.error("ファイルを選択してください");
       }
     },
     updateNickname() {
+      const toast = useToast();
       axios
         .patch("/user_profile/update_nickname", {
-          application_user: { nickname: this.user.nickname },
+          application_user: { nickname: this.user.nickname }, // ニックネームを更新
         })
         .then(() => {
-          // alert("ニックネームが更新されました");
+          toast.success("ニックネームが更新されました");
           this.fetchUser(); // データを再取得
           this.closeModal("nickname");
         })
         .catch((error) => {
           console.error("Nickname update failed:", error);
-          alert("ニックネームの変更に失敗しました");
+          toast.error("ニックネームの変更に失敗しました");
         });
     },
     updateFavoriteSpots() {
+      const toast = useToast();
       axios
         .patch("/user_profile/update_text", {
-          application_user: { favorite_spots: this.user.favorite_spots },
+          application_user: { favorite_spots: this.user.favorite_spots }, // お気に入りスポットを更新
         })
         .then(() => {
-          // alert("おすすめ観光スポットが更新されました");
+          toast.success("おすすめ観光スポットが更新されました");
           this.fetchUser(); // データを再取得
           this.closeModal("favoriteSpots");
         })
         .catch((error) => {
           console.error("Text update failed:", error);
-          alert("お気に入りスポットの変更に失敗しました");
+          toast.error("お気に入りスポットの変更に失敗しました");
         });
     },
     deleteAccount() {
+      const toast = useToast();
       const csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
       axios
         .delete("/user_profile/destroy_account", {
           headers: {
-            "X-CSRF-Token": csrfToken,
+            "X-CSRF-Token": csrfToken, // CSRFトークンをヘッダーに追加
           },
         })
         .then(() => {
-          // alert("アカウントが削除されました");
-          window.location.href = "/sign-in"; // サインインページのURLに変更
+          toast.success("アカウントが削除されました");
+          window.location.href = "/sign-in"; // サインインページにリダイレクト
         })
         .catch((error) => {
           console.error("Account deletion failed:", error);
-          alert("アカウント削除が失敗しました");
+          toast.error("アカウント削除が失敗しました");
         });
     },
   },
@@ -336,20 +354,27 @@ export default {
   position: fixed;
   z-index: 3;
   left: 0;
-  top: 0;
+  top: 10px;
   width: 100%;
   height: 100%;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* 幅を50%に変更して横幅を狭くする */
-  max-width: 600px; /* 最大幅を600pxに設定 */
+  height: 40%;
+  width: 60%;
+  max-width: 600px;
   z-index: 4;
+  position: relative;
+}
+
+.h2text {
+  font-size: 20px;
+  color: blue;
+  text-align: center;
 }
 .close {
   color: #aaa;
@@ -363,8 +388,71 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
+.modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 20px;
+  width: fit-content;
+}
+.modal-button:hover {
+  background-color: #0056b3;
+  color: yellow;
+}
 
 /* 背景 */
+.background-modal {
+  display: block;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 200%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.background-modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px 20px 80px 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  z-index: 4;
+  position: relative;
+  max-height: 90vh;
+  overflow: auto;
+}
+.background-modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+  float: fixed;
+  left: 38%;
+  bottom: 10px;
+  width: fit-content;
+}
+.background-modal-button:hover {
+  background-color: #0056b3;
+  color: yellow;
+}
 .background-image {
   position: relative;
   z-index: 1;
@@ -372,17 +460,23 @@ export default {
   height: 200px !important;
   background-size: cover;
   background-position: center;
-  object-fit: cover;
+  object-fit: fill;
 }
 .background-button-container {
   display: flex;
 }
 .background-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   left: 19%;
   top: 60%;
   font-size: 30px;
+}
+.input-background {
+  text-align: center;
+  position: relative;
+  left: 24%;
+  margin-top: 20px;
 }
 
 /* プロフィール写真 */
@@ -401,11 +495,17 @@ export default {
   display: flex;
 }
 .profile-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   left: 19%;
   top: 75%;
   font-size: 30px;
+}
+.input-profile {
+  text-align: center;
+  position: relative;
+  left: 24%;
+  margin-top: 20px;
 }
 
 /* ニックネーム */
@@ -427,36 +527,62 @@ export default {
   display: flex;
 }
 .nickname-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   right: 19%;
-  top: 65%;
+  top: 66%;
   font-size: 30px;
+}
+.current-name {
+  position: relative;
+  font-size: 20px;
+  text-align: center;
+}
+.new-name {
+  position: relative;
+  font-size: 20px;
+  left: 27%;
+  text-align: center;
+}
+.nickname {
+  width: 40%;
+  left: 27%;
+  position: relative;
+  font-size: 20px;
 }
 
 /* お気に入りスポット */
+.favorite-modal {
+  display: block;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 120%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 .favorite-spots-box {
-  border: 2px solid #ddd;
+  border: 2px solid rgb(77, 77, 95);
   text-align: center;
   padding: 30px;
-  height: 100px; /* 固定の高さを設定 */
-  overflow-y: auto; /* 垂直方向にスクロールバーを表示 */
+  height: 100px;
+  overflow-y: auto;
 }
 .textarea {
   width: 100%;
-}
-.h2text {
-  font-size: 20px;
-  color: blue;
+  text-align: center;
+  overflow-y: auto;
 }
 .favorite-button-container {
   display: flex;
 }
 .favorite-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   right: 19%;
-  top: 55%;
+  top: 57%;
   font-size: 30px;
 }
 
@@ -465,7 +591,7 @@ export default {
   display: flex;
 }
 .account-delete-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   right: 19%;
   top: 75%;
@@ -473,57 +599,43 @@ export default {
 }
 .delete-text {
   color: red;
+  text-align: center;
+  font-size: 30px;
+  position: relative;
+  top: 40px;
 }
 
 /* ボタン */
 button {
-  display: inline-block; /* ボタンをインラインブロック要素にする */
-  width: auto; /* ボタンの幅を自動にする */
+  display: inline-block;
+  width: auto;
   font-size: 18px;
   padding: 10px 20px;
-  color: black; /* テキストの色を黒に設定 */
-  border: none; /* ボーダーを削除 */
-  border-radius: 5px; /* 角を丸くする */
-  cursor: pointer; /* カーソルをポインターに変更 */
-  transition: transform 0.2s; /* トランジションを追加 */
-  font-weight: bold; /* フォントを太くする */
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-weight: bold;
 }
 button:hover {
-  color: blue; /* ホバー時のテキスト色を青に設定 */
-  transform: translateY(-5px); /* ホバー時に浮かせる */
+  color: blue;
+  transform: translateY(-5px);
 }
-
-/* モーダル内のボタン */
-.modal-button {
-  background-color: #007bff; /* ボタンの背景色を設定 */
-  color: white; /* テキストの色を白に設定 */
-  border: none; /* ボーダーを削除 */
-  padding: 10px 20px; /* ボタンの内側の余白を設定 */
-  border-radius: 5px; /* 角を丸くする */
-  cursor: pointer; /* カーソルをポインターに変更 */
-  font-size: 16px; /* フォントサイズを設定 */
-  font-weight: bold; /* フォントを太くする */
-  transition: background-color 0.3s ease; /* 背景色のトランジションを追加 */
-}
-.modal-button:hover {
-  background-color: #0056b3; /* ホバー時の背景色を変更 */
-  color: yellow;
-}
-
 /* 戻るボタン */
 .back-button {
-  position: fixed; /* 固定位置にする */
-  bottom: 20px; /* 下から20pxの位置に配置 */
-  right: 20px; /* 右から20pxの位置に配置 */
-  background-color: black; /* 背景色を黒に設定 */
-  color: white; /* テキストの色を白に設定 */
-  padding: 10px 20px; /* ボックスの内側の余白を追加 */
-  border-radius: 5px; /* 角を丸くする */
-  display: inline-block; /* ボックスをインラインブロックにする */
-  transition: transform 0.2s; /* トランジションを追加 */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  transition: transform 0.2s;
 }
 .back-button:hover {
   color: yellow;
-  transform: translateY(-5px); /* ホバー時に浮かせる */
+  transform: translateY(-5px);
 }
 </style>
