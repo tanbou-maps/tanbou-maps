@@ -17,7 +17,7 @@
       <template v-if="!error">
         <!-- ヘッダーセクション -->
         <div
-          class="mb-8 flex flex-col items-start justify-between sm:flex-row sm:items-center"
+          class="mb-8 flex flex-col items-center justify-between sm:flex-row"
         >
           <h1 class="mb-4 text-2xl font-bold text-gray-900 sm:mb-0">
             {{ spot?.name }}のレビュー
@@ -33,12 +33,6 @@
               ></span>
               <span class="relative">レビューを投稿</span>
             </button>
-            <a
-              :href="`/spots/${spotId}`"
-              class="text-blue-500 underline hover:text-blue-600"
-            >
-              スポット詳細に戻る
-            </a>
           </div>
         </div>
 
@@ -123,6 +117,14 @@
           </template>
           <div v-else class="py-8 text-center text-gray-500">
             まだレビューはありません。最初のレビューを投稿してみましょう！
+          </div>
+          <div class="text-center">
+            <a
+              :href="`/spots/${spotId}`"
+              class="text-black underline hover:text-yellow-400"
+            >
+              スポット詳細に戻る
+            </a>
           </div>
         </div>
       </template>
