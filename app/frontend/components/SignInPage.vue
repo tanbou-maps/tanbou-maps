@@ -90,7 +90,7 @@
       </form>
 
       <div class="mt-4 text-center">
-        <a href="sign-up" class="text-yellow-300 underline">
+        <a href="sign-up" class="text-yellow-300 hover:underline">
           アカウントをお持ちでない方はこちら
         </a>
       </div>

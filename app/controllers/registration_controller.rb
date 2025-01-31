@@ -14,7 +14,7 @@ class RegistrationController < ApplicationController
     @user.corporate_type = nil if @user.account_type == 'individual'
 
     if @user.save
-      render json: { message: "Registration successful!", redirect_url: complete_registration_path }, status: :created
+      redirect_to sign_up_complete_path
     else
       formatted_errors = @user.errors.messages.map do |field, messages|
         { field: field.to_s, messages: messages }
