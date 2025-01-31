@@ -1,27 +1,30 @@
-<!-- ReviewDetail.vue -->
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <div
-      class="mx-auto max-w-4xl overflow-hidden rounded-lg bg-white shadow-lg"
-    >
-      <div class="p-6">
+  <div
+    class="min-h-screen bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
+  >
+    <div class="container mx-auto max-w-md px-4 py-8 sm:max-w-2xl lg:max-w-4xl">
+      <div class="rounded-lg bg-white p-6 shadow-lg">
         <!-- スポット名とレビュー投稿日時 -->
-        <div class="mb-6 border-b pb-4">
-          <h1 class="mb-2 text-2xl font-bold text-gray-900">
-            {{ spot.name }}のレビュー
-          </h1>
-          <p class="text-gray-600">
-            投稿日: {{ formatDate(review.createdAt) }}
-          </p>
+        <div class="mb-6 border-b border-gray-200 pb-6">
+          <div
+            class="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
+          >
+            <h1 class="text-2xl font-bold text-gray-900">
+              {{ spot.name }}のレビュー
+            </h1>
+            <p class="text-sm text-gray-500">
+              投稿日: {{ formatDate(review.createdAt) }}
+            </p>
+          </div>
         </div>
 
         <!-- 評価（星） -->
-        <div class="mb-6">
-          <h2 class="mb-2 text-lg font-semibold text-gray-700">評価</h2>
-          <div class="flex gap-1">
+        <div class="mb-8">
+          <h2 class="mb-3 text-lg font-semibold text-gray-800">評価</h2>
+          <div class="flex">
             <template v-for="n in 5" :key="n">
               <svg
-                class="h-6 w-6"
+                class="h-8 w-8"
                 :class="
                   n <= review.rating ? 'text-yellow-400' : 'text-gray-300'
                 "
@@ -38,50 +41,55 @@
         </div>
 
         <!-- レビューコメント -->
-        <div class="mb-6">
-          <h2 class="mb-2 text-lg font-semibold text-gray-700">コメント</h2>
+        <div class="mb-8">
+          <h2 class="mb-3 text-lg font-semibold text-gray-800">コメント</h2>
           <div class="rounded-lg bg-gray-50 p-4">
-            <p class="whitespace-pre-wrap text-gray-800">
+            <p class="whitespace-pre-wrap text-gray-700">
               {{ review.comment }}
             </p>
           </div>
         </div>
 
         <!-- 画像表示 -->
-        <div v-if="review.images && review.images.length > 0" class="mb-6">
-          <h2 class="mb-2 text-lg font-semibold text-gray-700">写真</h2>
+        <div v-if="review.images && review.images.length > 0" class="mb-8">
+          <h2 class="mb-3 text-lg font-semibold text-gray-800">写真</h2>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div
               v-for="(image, index) in review.images"
               :key="index"
-              class="aspect-w-16 aspect-h-9 relative"
+              class="group relative aspect-video"
             >
               <img
                 :src="image"
                 :alt="`レビュー画像 ${index + 1}`"
-                class="h-full w-full rounded-lg object-cover"
+                class="h-full w-full rounded-lg object-cover transition duration-300 group-hover:opacity-95"
               />
             </div>
           </div>
         </div>
 
-        <!-- 削除ボタン -->
-        <div v-if="isOwner" class="mt-6">
-          <button
-            @click="confirmDelete"
-            class="font-medium text-red-600 hover:text-red-800"
-          >
-            レビューを削除する
-          </button>
-        </div>
+        <div
+          class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-gray-200 pt-6 sm:flex-row"
+        >
+          <!-- 削除ボタン -->
+          <div v-if="isOwner">
+            <button
+              @click="confirmDelete"
+              class="w-full rounded-md bg-red-500 px-6 py-2 text-white transition duration-300 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 sm:w-auto"
+            >
+              レビューを削除する
+            </button>
+          </div>
 
-        <!-- 戻るボタン -->
-        <div class="mt-8 flex justify-end">
+          <!-- 戻るボタン -->
           <a
             :href="`/spots/${spotId}/reviews`"
-            class="font-medium text-blue-600 hover:text-blue-800"
+            class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-8 py-2 text-yellow-300 hover:text-black"
           >
-            レビュー一覧に戻る →
+            <span
+              class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
+            ></span>
+            <span class="relative">レビュー一覧に戻る</span>
           </a>
         </div>
       </div>
