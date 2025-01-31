@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import { ref } from "vue";
-
-const links = ref([
-  { name: "Manage Contents", url: "/admin/contents" },
-  // { name: "Manage Users", url: "/admin/users" },
-]);
-</script>
-
 <template>
   <div class="relative flex min-h-screen flex-col items-center bg-gray-100 p-8">
     <h1 class="absolute left-8 top-16 text-4xl font-bold text-gray-800">
@@ -45,3 +36,9 @@ const links = ref([
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+const links = ref([{ name: "Manage Contents", url: "/admin/contents" }]);
+</script>

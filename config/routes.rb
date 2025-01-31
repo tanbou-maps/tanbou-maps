@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'sign-in', to: 'sessions#create'
   get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'
+  get 'sign-up-complete', to: 'registration#complete'
   get 'sign-out', to: 'sessions#destroy'
 
   # ユーザープロフィール
@@ -22,16 +23,6 @@ Rails.application.routes.draw do
   get 'user-profile-view/:id', to: 'user_profile#profileviewid'
   get 'user-profile-crud', to: 'user_profile#new'
   get 'user-profile-view', to: 'user_profile#profileview'
-
-  # サインアップ完了後の挙動
-  get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'
-  # サインアウト後の挙動
-  get 'sessions/signout', to: 'sessions#signout', as: 'signout_sessions'
-
-  # コンポーネント
-  get 'components/sign_in', to: 'components#sign_in'
-  get 'components/sign_up', to: 'components#sign_up'
-  resources :components, only: %i[index]
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do

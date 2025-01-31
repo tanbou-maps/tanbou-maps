@@ -9,7 +9,7 @@
       <p class="mb-6 text-gray-700">
         正常にログアウトしました。またのご利用をお待ちしています。
       </p>
-      <a href="/sign-in" class="text-yellow-300 underline"
+      <a href="/sign-in" class="text-yellow-300 hover:underline"
         >サインイン画面に戻る</a
       >
     </div>
