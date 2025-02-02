@@ -42,11 +42,12 @@ Rails.application.routes.draw do
   end
 
   # モデルコース
-  resources :model_courses, path: 'model-courses' do
+  resources :model_courses, path: 'model-courses', param: :record_uuid do
     member do
       patch :regenerate_public_key # 公開キー再発行用ルート
     end
   end
+
 
   # お問い合わせ contact
   resources :contacts, only: %i[new create] do

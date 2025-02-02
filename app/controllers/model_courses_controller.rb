@@ -2,45 +2,54 @@ class ModelCoursesController < ApplicationController
   # 一覧表示
   def index
     @model_courses = ModelCourse
-                        .includes(theme_image_attachment: :blob, application_user: {})
+                        .includes(:application_user)
                         .order(updated_at: :desc)
                         .page(params[:page]).per(10)
 
     respond_to do |format|
-      format.html # HTML ビューをレンダリング
-      format.json { render json: {
-        model_courses: @model_courses.as_json(only: [:id, :title, :description, :is_public]),
-        current_page: @model_courses.current_page,
-        total_pages: @model_courses.total_pages
-      }}
-    end
-  end
-
-
-  # 詳細表示
-  def show
-    @model_course = ModelCourse.find(params[:id])
-
-    respond_to do |format|
-      format.html # HTML ビューが必要な場合
+      format.html
       format.json do
         render json: {
-          id: @model_course.id,
-          title: @model_course.title,
-          description: @model_course.description,
-          is_public: @model_course.is_public,
-          theme_image_url: @model_course.theme_image.attached? ? Rails.application.routes.url_helpers.url_for(@model_course.theme_image) : nil,
-          gallery_image_urls: @model_course.gallery_image_urls,
-          application_user: {
-            id: @model_course.application_user.id,
-            nickname: @model_course.application_user.nickname
-          }
+          model_courses: @model_courses.as_json(
+            only: [:id, :record_uuid, :title, :description, :is_public, :budget, :season, :genre_tags],
+            methods: [:genre_tags_array, :theme_image_url], # ここで `theme_image_url` を追加
+            include: { application_user: { only: [:nickname] } }
+          ),
+          current_page: @model_courses.current_page,
+          total_pages: @model_courses.total_pages
         }
       end
     end
   end
 
-  # 新規作成フォーム
+  # 詳細表示
+  def show
+    @model_course = ModelCourse.find_by(record_uuid: params[:record_uuid])
+    return render json: { error: "Model Course not found" }, status: :not_found unless @model_course
+
+    theme_image_url = @model_course.theme_image.attached? ? url_for(@model_course.theme_image) : nil
+    gallery_image_urls = @model_course.gallery_images.attached? ? @model_course.gallery_images.map { |img| url_for(img) } : []
+
+    render json: {
+      model_course: @model_course.as_json(
+        only: [:id, :title, :description, :is_public, :budget, :season, :genre_tags, :record_uuid],
+        methods: [:genre_tags_array],
+        include: { application_user: { only: [:nickname] } }
+      ).merge(
+        theme_image_url: theme_image_url,
+        gallery_image_urls: gallery_image_urls
+        )
+    }
+  end
+
+
+
+
+
+
+
+
+  # 新規作成
   def new
     @model_course = ModelCourse.new
   end
@@ -48,39 +57,22 @@ class ModelCoursesController < ApplicationController
   # 作成処理
   def create
     @model_course = ModelCourse.new(model_course_params)
-    @model_course.application_user_id = current_user.id # 作成者を設定
-
-    Rails.logger.debug("ModelCourse attributes before save: #{@model_course.inspect}") # モデルの初期状態を記録
+    @model_course.record_uuid = SecureRandom.uuid
 
     if @model_course.save
-      Rails.logger.debug("ModelCourse saved with ID: #{@model_course.id}")
+      @model_course.theme_image.attach(params[:theme_image]) if params[:theme_image].present?
 
-      # テーマ画像を添付
-      if params[:model_course][:theme_image].present?
-        @model_course.theme_image.attach(params[:model_course][:theme_image])
-        Rails.logger.debug("Theme image attached? #{@model_course.theme_image.attached?}") # 添付結果の確認
-      else
-        Rails.logger.debug("No theme image provided")
-      end
-
-      # ギャラリー画像を添付
-      if params[:model_course][:gallery_images].present?
-        params[:model_course][:gallery_images].each_with_index do |gallery_image, index|
-          attachment_result = @model_course.gallery_images.attach(gallery_image)
-          Rails.logger.debug("Gallery image ##{index + 1} attached: #{attachment_result.any?}")
-        end
-      else
-        Rails.logger.debug("No gallery images provided")
-      end
-
-      render json: { message: "モデルコース作成成功！", model_course: @model_course }, status: :created
+      render json: { model_course: @model_course }, status: :created
     else
-      Rails.logger.debug("Model course save failed: #{@model_course.errors.full_messages}") # 保存失敗時のエラーメッセージ
       render json: { errors: @model_course.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # 編集フォーム
+
+
+
+
+  # 編集
   def edit
     @model_course = ModelCourse.find(params[:id])
   end
@@ -107,25 +99,16 @@ class ModelCoursesController < ApplicationController
     end
   end
 
-  # 公開キー再発行
-  def regenerate_public_key
-    @model_course = ModelCourse.find(params[:id])
-
-    if @model_course.regenerate_public_key!
-      redirect_to model_course_path(@model_course), notice: '公開キーが再発行されました。'
-    else
-      redirect_to model_course_path(@model_course), alert: '公開キーの再発行に失敗しました。'
-    end
-  end
-
   private
 
-  # ストロングパラメータ
   def model_course_params
     params.require(:model_course).permit(
       :title,
       :description,
       :is_public,
+      :budget,
+      :season,
+      :genre_tags,
       :theme_image,
       gallery_images: []
     )

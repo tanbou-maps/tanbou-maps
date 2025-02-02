@@ -7,7 +7,7 @@ import ModelCourseForm from "./components/ModelCourseForm.vue";
 
 const routes = [
   { path: "/model-courses", component: ModelCourseList },
-  { path: "/model-courses/:id", component: ModelCourseDetail, props: route => ({ id: route.params.id }) },
+  { path: "/model-courses/:record_uuid", component: ModelCourseDetail, props: route => ({ record_uuid: route.params.record_uuid }) },
   { path: "/model-courses/new", component: ModelCourseForm },
 ];
 
