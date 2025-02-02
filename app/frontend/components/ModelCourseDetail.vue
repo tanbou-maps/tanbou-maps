@@ -30,12 +30,19 @@
         </swiper-slide>
       </swiper>
     </div>
+
+    <!-- 削除ボタン -->
+    <div class="text-center mt-6">
+      <button @click="deleteCourse" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition">
+        削除
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
 
@@ -51,6 +58,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const modelCourse = ref({});
 
     const fetchModelCourse = async () => {
@@ -63,12 +71,38 @@ export default {
       }
     };
 
+    const deleteCourse = async () => {
+      if (!confirm("本当に削除しますか？")) return;
+
+      try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        const response = await fetch(`/model-courses/${route.params.record_uuid}`, {
+          method: "DELETE",
+          headers: {
+            "X-CSRF-Token": csrfToken,
+          },
+        });
+
+        if (response.ok) {
+          alert("モデルコースが削除されました！");
+          router.push("/model-courses"); // 一覧ページにリダイレクト
+        } else {
+          const error = await response.json();
+          alert("エラー: " + error.errors.join(", "));
+        }
+      } catch (error) {
+        console.error("削除エラー:", error);
+        alert("モデルコースの削除に失敗しました！");
+      }
+    };
+
     onMounted(fetchModelCourse);
 
     return {
       modelCourse,
       SwiperNavigation: Navigation,
-      SwiperPagination: Pagination
+      SwiperPagination: Pagination,
+      deleteCourse
     };
   }
 };

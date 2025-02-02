@@ -44,6 +44,8 @@ Rails.application.routes.draw do
   # モデルコース
   resources :model_courses, path: 'model-courses', param: :record_uuid do
     member do
+      patch :update
+      delete :destroy
       patch :regenerate_public_key # 公開キー再発行用ルート
     end
   end

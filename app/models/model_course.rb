@@ -2,12 +2,12 @@ class ModelCourse < ApplicationRecord
   belongs_to :application_user
   has_many :course_spots, dependent: :destroy
   has_many :spots, through: :course_spots
-  has_many :favorites, dependent: :destroy
-  has_many :likes, dependent: :destroy
-  has_many :access_keys, dependent: :destroy
+  # has_many :favorites, dependent: :destroy
+  # has_many :likes, dependent: :destroy
+  # has_many :access_keys, dependent: :destroy
 
   # Active Storage
-  has_one_attached :theme_image, dependent: :destroy
+  has_one_attached :theme_image#, dependent: :destroy
   has_many_attached :gallery_images
 
   before_create :assign_record_uuid
