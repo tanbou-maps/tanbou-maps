@@ -28,7 +28,7 @@
             <h2 class="mb-8 text-2xl">- あなたの新しい旅のために -</h2>
             <a
               href="#latest-spots"
-              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
+              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               <span
                 class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
