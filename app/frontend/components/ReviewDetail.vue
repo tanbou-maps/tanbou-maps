@@ -129,7 +129,7 @@
             </button>
             <button
               @click="deleteReview"
-              class="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600"
+              class="rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50"
             >
               削除する
             </button>
