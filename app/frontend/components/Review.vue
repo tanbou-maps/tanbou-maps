@@ -26,7 +26,7 @@
             <button
               v-if="canAddReview"
               @click="showCreateReviewForm"
-              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-8 py-2 text-yellow-300 hover:text-black"
+              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-8 py-2 text-yellow-300 hover:text-black focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               <span
                 class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
@@ -43,7 +43,7 @@
               v-for="review in reviews"
               :key="review.id"
               :href="`/spots/${spotId}/reviews/${review.id}`"
-              class="block rounded-lg bg-white p-6 shadow-md transition duration-200 hover:shadow-lg"
+              class="block rounded-lg bg-white p-6 shadow-md transition duration-200 hover:shadow-lg focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               <!-- レビューヘッダー -->
               <div
@@ -191,7 +191,7 @@
                 @change="handleFileSelect"
                 multiple
                 accept="image/*"
-                class="w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-yellow-50 file:px-4 file:py-2 file:text-sm file:text-yellow-700 hover:file:bg-yellow-100"
+                class="w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-yellow-50 file:px-4 file:py-2 file:text-sm file:text-yellow-700 hover:file:bg-yellow-100 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               />
             </div>
 
@@ -200,14 +200,14 @@
               <button
                 type="button"
                 @click="closeModal"
-                class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 キャンセル
               </button>
               <button
                 type="submit"
                 :disabled="submitting"
-                class="rounded-md bg-yellow-400 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-500 disabled:opacity-50"
+                class="rounded-md bg-yellow-400 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-500 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 disabled:opacity-50"
               >
                 {{ submitting ? "送信中..." : "投稿する" }}
               </button>

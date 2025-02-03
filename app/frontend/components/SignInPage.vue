@@ -21,7 +21,7 @@
             id="user_id"
             v-model="user_id"
             type="text"
-            class="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm sm:text-sm"
+            class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             placeholder="Enter your UserID or Email"
             required
           />
@@ -36,7 +36,7 @@
               id="password"
               v-model="password"
               :type="showPasswords ? 'text' : 'password'"
-              class="block w-full rounded-md border border-gray-300 p-1 pr-12 shadow-sm sm:text-sm"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               placeholder="Enter your Password"
               required
             />
@@ -83,14 +83,14 @@
 
         <button
           type="submit"
-          class="w-full rounded bg-yellow-300 py-2 text-black shadow hover:bg-yellow-400"
+          class="w-full rounded bg-yellow-300 py-2 font-medium text-white shadow hover:bg-yellow-400 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
         >
           サインイン
         </button>
       </form>
 
       <div class="mt-4 text-center">
-        <a href="sign-up" class="text-yellow-300 hover:underline">
+        <a href="sign-up" class="text-gray-600 underline hover:text-yellow-400">
           アカウントをお持ちでない方はこちら
         </a>
       </div>

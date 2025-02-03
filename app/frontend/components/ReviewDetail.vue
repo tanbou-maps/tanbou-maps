@@ -17,7 +17,7 @@
                 {{ spot.name }}のレビュー
               </h1>
               <p class="text-sm text-gray-500">
-                投稿日: {{ formatDate(review.createdAt) }}
+                {{ formatDate(review.created_at) }}
               </p>
             </div>
           </div>
@@ -119,13 +119,13 @@
           <div class="flex justify-end space-x-4">
             <button
               @click="closeModal"
-              class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               キャンセル
             </button>
             <button
               @click="deleteReview"
-              class="rounded-md bg-red-500 px-4 py-2 text-white transition duration-300 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50"
+              class="rounded-md bg-red-500 px-4 py-2 font-medium text-white transition duration-300 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 disabled:opacity-50"
             >
               削除する
             </button>
