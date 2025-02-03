@@ -4,10 +4,10 @@
   >
     <div class="rounded bg-white p-8 text-center shadow-lg">
       <h1 class="mb-4 text-2xl font-bold text-yellow-300">
-        ログアウトしました
+        サインアウトしました
       </h1>
       <p class="mb-6 text-gray-700">
-        正常にログアウトしました。またのご利用をお待ちしています。
+        正常にサインアウトしました。またのご利用をお待ちしています。
       </p>
       <a href="/sign-in" class="text-yellow-300 hover:underline"
         >サインイン画面に戻る</a
