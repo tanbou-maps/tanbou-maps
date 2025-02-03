@@ -75,6 +75,13 @@
           <div
             class="mt-8 flex flex-col items-center justify-between gap-4 border-t border-gray-200 pt-6 sm:flex-row"
           >
+            <!-- 戻るボタン -->
+            <a
+              :href="`/spots/${spotId}/reviews`"
+              class="text-gray-600 underline hover:text-yellow-400"
+            >
+              スポット詳細に戻る
+            </a>
             <!-- 削除ボタン -->
             <div v-if="isOwner">
               <button
@@ -84,17 +91,6 @@
                 レビューを削除する
               </button>
             </div>
-
-            <!-- 戻るボタン -->
-            <a
-              :href="`/spots/${spotId}/reviews`"
-              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-8 py-2 text-yellow-300 hover:text-black"
-            >
-              <span
-                class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
-              ></span>
-              <span class="relative">レビュー一覧に戻る</span>
-            </a>
           </div>
         </div>
       </div>
