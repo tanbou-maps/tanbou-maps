@@ -20,7 +20,7 @@
           class="mb-8 flex flex-col items-center justify-between sm:flex-row"
         >
           <h1 class="mb-4 text-2xl font-bold text-gray-900 sm:mb-0">
-            {{ spot?.name }}のレビュー
+            {{ spot?.name }} のレビュー
           </h1>
           <div class="flex flex-col gap-4 sm:flex-row">
             <button
@@ -100,19 +100,6 @@
                   />
                 </div>
               </div>
-
-              <!-- 操作ボタン -->
-              <div
-                v-if="review.application_user_id === currentUserId"
-                class="flex justify-end"
-              >
-                <button
-                  @click.prevent="deleteReview(review.id)"
-                  class="font-medium text-red-500 hover:text-red-600"
-                >
-                  削除
-                </button>
-              </div>
             </a>
           </template>
           <div v-else class="py-8 text-center text-gray-500">
@@ -129,24 +116,23 @@
         </div>
       </template>
     </div>
-
     <!-- レビュー投稿モーダル -->
-    <div v-if="showCreateModal" class="fixed inset-0 z-50 overflow-y-auto">
-      <!-- モーダルオーバーレイ -->
+    <transition name="modal-fade">
       <div
-        class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-      ></div>
+        v-if="isModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center"
+        @click.self="closeModal"
+      >
+        <!-- オーバーレイ -->
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
 
-      <!-- モーダルコンテンツ -->
-      <div class="flex min-h-full items-end justify-center p-4 sm:items-center">
+        <!-- モーダルコンテンツ -->
         <div
-          class="relative w-full max-w-lg transform rounded-lg bg-white shadow-xl transition-all"
+          class="relative z-50 w-full max-w-md rounded-lg bg-white p-6 shadow-xl"
         >
-          <div class="border-b border-gray-200 px-6 py-4">
-            <h2 class="text-xl font-semibold text-gray-800">レビューを投稿</h2>
-          </div>
+          <h3 class="mb-4 text-lg font-medium text-gray-900">レビューを投稿</h3>
 
-          <form @submit.prevent="submitReview" class="space-y-6 p-6">
+          <form @submit.prevent="submitReview" class="space-y-6">
             <!-- 評価入力 -->
             <div class="space-y-2">
               <label class="block text-sm font-medium text-gray-700"
@@ -191,37 +177,37 @@
                 v-model="newReview.comment"
                 rows="4"
                 required
-                class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
               ></textarea>
             </div>
 
             <!-- 画像アップロード -->
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700"
-                >画像を追加</label
-              >
+              <label class="block text-sm font-medium text-gray-700">
+                画像を追加
+              </label>
               <input
                 type="file"
                 @change="handleFileSelect"
                 multiple
                 accept="image/*"
-                class="w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:text-blue-700 hover:file:bg-blue-100"
+                class="w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-yellow-50 file:px-4 file:py-2 file:text-sm file:text-yellow-700 hover:file:bg-yellow-100"
               />
             </div>
 
-            <!-- 送信ボタン -->
+            <!-- ボタングループ -->
             <div class="flex justify-end space-x-4">
               <button
                 type="button"
-                @click="showCreateModal = false"
-                class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
+                @click="closeModal"
+                class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 キャンセル
               </button>
               <button
                 type="submit"
                 :disabled="submitting"
-                class="rounded-md bg-yellow-300 px-4 py-2 text-black transition duration-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 disabled:opacity-50"
+                class="rounded-md bg-yellow-400 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-500 disabled:opacity-50"
               >
                 {{ submitting ? "送信中..." : "投稿する" }}
               </button>
@@ -229,7 +215,7 @@
           </form>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -252,7 +238,7 @@ export default {
       spot: null,
       reviews: [],
       error: null,
-      showCreateModal: false,
+      isModalOpen: false,
       submitting: false,
       newReview: {
         rating: 0,
@@ -341,7 +327,11 @@ export default {
         comment: "",
         images: [],
       };
-      this.showCreateModal = true;
+      this.isModalOpen = true;
+    },
+
+    closeModal() {
+      this.isModalOpen = false;
     },
 
     handleFileSelect(event) {
@@ -385,26 +375,6 @@ export default {
       }
     },
 
-    async deleteReview(reviewId) {
-      if (!confirm("このレビューを削除してもよろしいですか？")) return;
-
-      try {
-        const response = await fetch(
-          `/spots/${this.spotId}/reviews/${reviewId}`,
-          this.getRequestOptions("DELETE"),
-        );
-
-        if (!response.ok) {
-          throw new Error("レビューの削除に失敗しました");
-        }
-
-        await this.fetchData();
-      } catch (error) {
-        console.error("Error deleting review:", error);
-        this.error = "削除中にエラーが発生しました。";
-      }
-    },
-
     handleImageError(event) {
       console.error("Image loading failed:", event);
       event.target.src = "/images/fallback-image.jpg";
@@ -412,3 +382,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+</style>
