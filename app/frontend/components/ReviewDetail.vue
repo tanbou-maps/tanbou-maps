@@ -17,7 +17,7 @@
                 {{ spot.name }}のレビュー
               </h1>
               <p class="text-sm text-gray-500">
-                投稿日: {{ formatDate(review.createdAt) }}
+                {{ formatDate(review.created_at) }}
               </p>
             </div>
           </div>
