@@ -366,7 +366,7 @@ export default {
         }
 
         await this.fetchData();
-        this.showCreateModal = false;
+        this.isModalOpen = false;
       } catch (error) {
         console.error("Error submitting review:", error);
         this.error = error.message;

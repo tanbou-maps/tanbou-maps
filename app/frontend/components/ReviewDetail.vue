@@ -200,12 +200,15 @@ export default {
         this.error = "データの取得に失敗しました";
       }
     },
+
     openModal() {
       this.isModalOpen = true;
     },
+
     closeModal() {
       this.isModalOpen = false;
     },
+
     async deleteReview() {
       try {
         const response = await fetch(
