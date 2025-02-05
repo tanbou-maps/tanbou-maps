@@ -25,22 +25,18 @@ class ModelCoursesController < ApplicationController
   # 詳細表示
   def show
     @model_course = ModelCourse.find_by(record_uuid: params[:record_uuid])
-    return render json: { error: "Model Course not found" }, status: :not_found unless @model_course
 
-    theme_image_url = @model_course.theme_image.attached? ? url_for(@model_course.theme_image) : nil
-    gallery_image_urls = @model_course.gallery_images.attached? ? @model_course.gallery_images.map { |img| url_for(img) } : []
+    return render json: { error: "Model Course not found" }, status: :not_found unless @model_course
 
     render json: {
       model_course: @model_course.as_json(
         only: [:id, :title, :description, :is_public, :budget, :season, :genre_tags, :record_uuid],
-        methods: [:genre_tags_array],
+        methods: [:genre_tags_array, :theme_image_url, :gallery_image_urls],
         include: { application_user: { only: [:nickname] } }
-      ).merge(
-        theme_image_url: theme_image_url,
-        gallery_image_urls: gallery_image_urls
-        )
+      )
     }
   end
+
 
   # 新規作成
   def new
@@ -87,18 +83,24 @@ class ModelCoursesController < ApplicationController
 
   # 更新処理
   def update
-    @model_course = current_user.model_courses.find_by(record_uuid: params[:record_uuid])
-
-    if @model_course.nil?
-      return render json: { error: "Model Course not found" }, status: :not_found
+    Rails.logger.debug "update 呼び出し: record_uuid=#{params[:record_uuid]}"
+    unless @model_course
+      Rails.logger.error "モデルコースが nil のため更新不可: record_uuid=#{params[:record_uuid]}"
+      render json: { error: "モデルコースが見つかりません" }, status: :not_found
+      return
     end
 
     if @model_course.update(model_course_params)
-      render json: { message: "モデルコースが更新されました", model_course: @model_course }, status: :ok
+      update_images(@model_course, params)
+      @model_course.reload  # 画像の変更を即時反映
+      render json: { message: "モデルコースが更新されました" }, status: :ok
     else
       render json: { errors: @model_course.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+
+
 
 
   # 削除処理
@@ -140,7 +142,45 @@ class ModelCoursesController < ApplicationController
       :season,
       :genre_tags,
       :theme_image,
-      gallery_images: []
-    )
+      gallery_images: [],
+      remove_images: []
+    ).except(:theme_image_url, :application_user, :genre_tags_array)
   end
+
+  def set_model_course
+    Rails.logger.debug "set_model_course 呼び出し: record_uuid=#{params[:record_uuid]}"
+    @model_course = ModelCourse.find_by(record_uuid: params[:record_uuid])
+    unless @model_course
+      Rails.logger.error "モデルコースが見つかりません: record_uuid=#{params[:record_uuid]}"
+      render json: { error: "モデルコースが見つかりません" }, status: :not_found
+      return
+    end
+  end
+
+
+  # 更新時の画像処理（削除 & 追加）
+  def update_images(model_course, params)
+    # 既存のテーマ画像を削除して新しいものに置き換え
+    if params[:model_course][:theme_image].present?
+      model_course.theme_image.purge if model_course.theme_image.attached?
+      model_course.theme_image.attach(params[:model_course][:theme_image])
+    end
+
+    # ギャラリー画像の削除処理
+    if params[:model_course][:remove_images].present?
+      params[:model_course][:remove_images].each do |image_url|
+        image = model_course.gallery_images.find { |img| url_for(img) == image_url }
+        image.purge if image
+      end
+    end
+
+    # 新しいギャラリー画像の追加
+    if params[:model_course][:gallery_images].present?
+      params[:model_course][:gallery_images].each do |image|
+        model_course.gallery_images.attach(image)
+      end
+    end
+  end
+
+
 end

@@ -37,12 +37,12 @@ class ModelCourse < ApplicationRecord
     self.public_key ||= "user#{application_user_id}-course#{SecureRandom.hex(8)}"
   end
 
-  # **修正: ActiveStorage の record_id は bigint（id）を使う**
+   # **修正: JSON で画像を取得**
   def theme_image_url
-    if theme_image.attached?
-      Rails.application.routes.url_helpers.rails_blob_url(theme_image, only_path: true)
-    else
-      nil
-    end
+    theme_image.attached? ? Rails.application.routes.url_helpers.rails_blob_url(theme_image, only_path: true) : nil
+  end
+
+  def gallery_image_urls
+    gallery_images.attached? ? gallery_images.map { |img| Rails.application.routes.url_helpers.rails_blob_url(img, only_path: true) }.uniq : []
   end
 end

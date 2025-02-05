@@ -1,78 +1,65 @@
 <template>
-  <div class="max-w-3xl mx-auto p-6 bg-white shadow-xl rounded-lg">
-    <!-- タイトル -->
-    <h1 class="text-2xl font-bold text-gray-900 text-center">{{ modelCourse.title }}</h1>
+  <div v-if="modelCourse">
+    <h1>{{ modelCourse.title }}</h1>
 
     <!-- テーマ画像 -->
-    <div class="flex justify-center mt-4">
-      <img v-if="modelCourse.theme_image_url"
-        :src="modelCourse.theme_image_url"
-        alt="タイトル画像"
-        class="w-full max-w-3xl rounded-xl shadow-lg hover:scale-105 transition-transform"
-      />
+    <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" />
+    <p v-else>テーマ画像が設定されていません</p>
+
+    <p>{{ modelCourse.description }}</p>
+
+    <!-- ギャラリー画像 -->
+    <div v-if="modelCourse.gallery_image_urls.length > 0">
+      <h3>ギャラリー画像</h3>
+      <div v-for="(image, index) in modelCourse.gallery_image_urls" :key="index">
+        <img :src="image" alt="ギャラリー画像" />
+      </div>
+    </div>
+    <p v-else>ギャラリー画像が設定されていません</p>
+
+    <p>予算: {{ modelCourse.budget }}円</p>
+    <p>ジャンルタグ: {{ modelCourse.genre_tags }}</p>
+    <p>季節: {{ modelCourse.season }}</p>
+
+    <!-- 更新・削除ボタン -->
+    <div>
+      <router-link :to="`/model-courses/${modelCourse.record_uuid}/edit`">
+        <button>編集</button>
+      </router-link>
+      <button @click="deleteModelCourse">削除</button>
     </div>
 
-    <!-- 説明文 -->
-    <p class="mt-4 text-gray-700 text-lg text-center">{{ modelCourse.description }}</p>
-
-    <!-- Swiper.js ギャラリー -->
-    <div v-if="modelCourse.gallery_image_urls?.length" class="mt-6">
-      <swiper
-        :modules="[SwiperNavigation, SwiperPagination]"
-        :space-between="10"
-        :slides-per-view="1"
-        :navigation="true"
-        :pagination="{ clickable: true }"
-        class="gallery-swiper"
-      >
-        <swiper-slide v-for="(image, index) in modelCourse.gallery_image_urls" :key="index">
-          <img :src="image" alt="ギャラリー画像" class="w-full h-60 object-cover rounded-lg shadow-md" />
-        </swiper-slide>
-      </swiper>
-    </div>
-
-    <!-- 削除ボタン -->
-    <div class="text-center mt-6">
-      <button @click="deleteCourse" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition">
-        削除
-      </button>
-    </div>
+  </div>
+  <div v-else>
+    <p>モデルコース情報を取得中...</p>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Navigation, Pagination } from 'swiper/modules';
-
-// SwiperのCSSをインポート
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
-  components: {
-    Swiper,
-    SwiperSlide
-  },
   setup() {
+    const modelCourse = ref(null);
     const route = useRoute();
-    const router = useRouter();
-    const modelCourse = ref({});
 
     const fetchModelCourse = async () => {
       try {
-        const response = await fetch(`/model-courses/${route.params.record_uuid}.json`);
-        const data = await response.json();
-        modelCourse.value = data.model_course;
+        const response = await fetch(`/model-courses/${route.params.record_uuid}`);
+        if (response.ok) {
+          const data = await response.json();
+          modelCourse.value = data.model_course;
+        } else {
+          console.error("データ取得に失敗しました");
+        }
       } catch (error) {
-        console.error('モデルコース詳細の取得に失敗:', error);
+        console.error("エラー:", error);
       }
     };
 
-    const deleteCourse = async () => {
-      if (!confirm("本当に削除しますか？")) return;
+    const deleteModelCourse = async () => {
+      if (!confirm("このモデルコースを削除しますか？")) return;
 
       try {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
@@ -85,10 +72,10 @@ export default {
 
         if (response.ok) {
           alert("モデルコースが削除されました！");
-          router.push("/model-courses"); // 一覧ページにリダイレクト
+          router.push("/model-courses");
         } else {
           const error = await response.json();
-          alert("エラー: " + error.errors.join(", "));
+          alert("削除エラー: " + error.error);
         }
       } catch (error) {
         console.error("削除エラー:", error);
@@ -98,24 +85,7 @@ export default {
 
     onMounted(fetchModelCourse);
 
-    return {
-      modelCourse,
-      SwiperNavigation: Navigation,
-      SwiperPagination: Pagination,
-      deleteCourse
-    };
+    return { modelCourse };
   }
 };
 </script>
-
-<style scoped>
-/* Swiperのナビゲーションボタンとページネーションをカスタマイズ */
-:deep(.swiper-button-prev),
-:deep(.swiper-button-next) {
-  color: #4a5568;
-}
-
-:deep(.swiper-pagination-bullet-active) {
-  background-color: #4a5568;
-}
-</style>

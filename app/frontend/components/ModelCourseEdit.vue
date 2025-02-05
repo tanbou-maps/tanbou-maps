@@ -36,6 +36,18 @@
         <p>選択中の予算: {{ formData.budget }}円</p>
       </div>
 
+      <!-- ギャラリー画像管理 -->
+      <div>
+        <h3>ギャラリー画像</h3>
+        <div v-if="formData.gallery_image_urls.length > 0">
+          <div v-for="(image, index) in formData.gallery_image_urls" :key="index">
+            <img :src="image" alt="ギャラリー画像" width="100" />
+            <button type="button" @click="removeImage(index)">削除</button>
+          </div>
+        </div>
+        <input type="file" multiple @change="addGalleryImages" />
+      </div>
+
       <button type="submit">更新</button>
     </form>
   </div>
@@ -54,7 +66,10 @@ export default {
       is_public: true,
       budget: 5000,
       season: "春",
+      gallery_image_urls: []
     });
+    const galleryImagesToUpload = ref([]);
+    const imagesToRemove = ref([]);
 
     const fetchModelCourse = async () => {
       try {
@@ -66,16 +81,40 @@ export default {
       }
     };
 
+    const addGalleryImages = (event) => {
+      galleryImagesToUpload.value = Array.from(event.target.files);
+    };
+
+    const removeImage = (index) => {
+      imagesToRemove.value.push(formData.value.gallery_image_urls[index]);
+      formData.value.gallery_image_urls.splice(index, 1);
+    };
+
     const updateCourse = async () => {
       try {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        const payload = new FormData();
+
+        for (const key in formData.value) {
+          if (key !== "gallery_image_urls") {
+            payload.append(`model_course[${key}]`, formData.value[key]);
+          }
+        }
+
+        galleryImagesToUpload.value.forEach(image => {
+          payload.append("model_course[gallery_images][]", image);
+        });
+
+        imagesToRemove.value.forEach(imageUrl => {
+          payload.append("model_course[remove_images][]", imageUrl);
+        });
+
         const response = await fetch(`/model-courses/${route.params.record_uuid}`, {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
             "X-CSRF-Token": csrfToken,
           },
-          body: JSON.stringify({ model_course: formData.value }),
+          body: payload,
         });
 
         if (response.ok) {
@@ -96,6 +135,8 @@ export default {
     return {
       formData,
       updateCourse,
+      addGalleryImages,
+      removeImage
     };
   },
 };
