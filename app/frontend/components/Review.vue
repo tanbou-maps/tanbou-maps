@@ -323,7 +323,7 @@ export default {
 
     showCreateReviewForm() {
       this.newReview = {
-        rating: 0,
+        rating: 5,
         comment: "",
         images: [],
       };
