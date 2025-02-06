@@ -124,7 +124,7 @@ async function handleSubmit() {
 
   if (!name.value.trim() || !message.value.trim()) {
     errors.value.push(
-      "お名前またはメッセージには、スペース以外の内容を入力してください。",
+      "お名前またはメッセージには、必ず内容を入力してください。",
     );
     isSubmitting.value = false;
     return;
