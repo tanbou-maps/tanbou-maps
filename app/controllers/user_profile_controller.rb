@@ -1,6 +1,10 @@
 class UserProfileController < ApplicationController
   protect_from_forgery with: :null_session, only: %i[upload_background_picture upload_profile_picture]
 
+  def show
+    @user = current_user
+    render json: @user
+  end
   def new
     @user = current_user
     if @user
@@ -13,19 +17,15 @@ class UserProfileController < ApplicationController
     end
   end
 
-  def show
+
+  def profile_view
     @user = current_user
-    render json: @user
+    render :profile_view
   end
 
-  def profileview
-    @user = current_user
-    render :profileview
-  end
-
-  def profileviewid
+  def profile_view_id
     @user = ApplicationUser.find(params[:id])
-    render :profileviewid
+    render :profile_view_id
   end
 
   def upload_background_picture
