@@ -80,7 +80,7 @@
               :href="`/spots/${spotId}/reviews`"
               class="text-gray-600 underline hover:text-yellow-400"
             >
-              スポット詳細に戻る
+              レビュー閲覧に戻る
             </a>
             <!-- 削除ボタン -->
             <div v-if="isOwner">
