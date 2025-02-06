@@ -782,6 +782,11 @@ concat-map@0.0.1:
   resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+cropperjs@^1.5.6:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.6.2.tgz#d1a5d627d880581cca41b7901f06923500e4201b"
+  integrity sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==
+
 cross-spawn@^7.0.0, cross-spawn@^7.0.6:
   version "7.0.6"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz"
@@ -1906,6 +1911,13 @@ vite@^5.0.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
+vue-cropperjs@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/vue-cropperjs/-/vue-cropperjs-5.0.0.tgz#7f8cbc460737af3831b4ded634c95905198e329e"
+  integrity sha512-RhnC8O33uRZNkn74aiHZwNHnBJOXWlS4P6gsRI0lw4cZlWjKSCywZI9oSI9POlIPI6OYv30jvnHMXGch85tw7w==
+  dependencies:
+    cropperjs "^1.5.6"
+
 vue-eslint-parser@^9.4.3:
   version "9.4.3"
   resolved "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-9.4.3.tgz"
@@ -1925,6 +1937,11 @@ vue-router@4:
   integrity sha512-HDuk+PuH5monfNuY+ct49mNmkCRK4xJAV9Ts4z9UFc4rzdDnxQLyCMGGc8pKhZhHTVzfanpNwB/lwqevcBwI4w==
   dependencies:
     "@vue/devtools-api" "^6.6.4"
+
+vue-toastification@^1.7.14:
+  version "1.7.14"
+  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.7.14.tgz#4d6af4085f7122463c2821a27f851898b265cc85"
+  integrity sha512-khZR8t3NWZ/JJ2MZxXLbesHrRJ8AKa75PY5Zq8yMifF9x8lHq8ljYkC0d2PD9yahooygQB5tcFyRDkbbIPx8hw==
 
 vue@^3.5.12:
   version "3.5.13"

@@ -23,6 +23,21 @@ Rails.application.routes.draw do
   get 'user-profile-crud', to: 'user_profile#new'
   get 'user-profile-view', to: 'user_profile#profileview'
 
+  # 企業プロフィール
+  resources :corporate_profile, only: %i[new create show] do
+    collection do
+      post :upload_background_picture
+      post :upload_profile_picture
+      patch :update_nickname
+      patch :update_text
+      delete :destroy_account
+    end
+  end
+
+  get 'corporate-profile-crud', to: 'corporate_profile#new'
+  get 'corporate-profile-view', to: 'corporate_profile#profileview'
+  get 'corporate-profile-view/:id', to: 'corporate_profile#profileviewid'
+
   # サインアップ完了後の挙動
   get 'registration/registration-success', to: 'registration#complete', as: 'complete_registration'
   # サインアウト後の挙動

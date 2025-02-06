@@ -1,4 +1,3 @@
-<!-- filepath: /c:/Users/admin/Rails/tanbou-maps/app/frontend/components/UserProfile.vue -->
 <template>
   <div>
     <!-- 背景画像 -->
@@ -39,20 +38,29 @@
       </button>
       <div
         v-if="modals.background"
-        class="modal"
+        class="background-modal"
         @click.self="closeModal('background')"
       >
-        <div class="modal-content">
+        <div class="background-modal-content">
           <span class="close" @click="closeModal('background')">&times;</span>
-          <h2>背景画像をアップロード</h2>
-          <form @submit.prevent="uploadFile('background')">
+          <h2 class="h2text">背景画像をアップロード</h2>
+          <form @submit.prevent="uploadCroppedImage">
             <input
+              class="input-background"
               type="file"
-              ref="backgroundFile"
-              id="backgroundFile"
-              name="backgroundFile"
+              @change="onFileChange"
             />
-            <button type="submit">アップロード</button>
+            <div v-if="imageUrl">
+              <vue-cropper
+                ref="cropper"
+                :src="imageUrl"
+                :aspect-ratio="16 / 9"
+                style="width: 100%; height: 400px"
+              ></vue-cropper>
+            </div>
+            <button type="submit" class="background-modal-button">
+              アップロード
+            </button>
           </form>
         </div>
       </div>
@@ -68,15 +76,16 @@
       >
         <div class="modal-content">
           <span class="close" @click="closeModal('profile')">&times;</span>
-          <h2>プロフィール写真をアップロード</h2>
+          <h2 class="h2text">プロフィール写真をアップロード</h2>
           <form @submit.prevent="uploadFile('profile')">
             <input
+              class="input-profile"
               type="file"
               ref="profileFile"
               id="profileFile"
               name="profileFile"
             />
-            <button type="submit">アップロード</button>
+            <button type="submit" class="modal-button">アップロード</button>
           </form>
         </div>
       </div>
@@ -92,19 +101,24 @@
       >
         <div class="modal-content">
           <span class="close" @click="closeModal('nickname')">&times;</span>
-          <h2>ニックネームを変更</h2>
+          <h2 class="h2text">ニックネームを変更</h2>
           <form @submit.prevent="updateNickname">
             <div class="field">
-              <p>現在のニックネーム: {{ user.nickname }}</p>
-              <label for="nickname">ニックネーム変更</label>
+              <p class="current-name">
+                現在のニックネーム: {{ user.nickname }}
+              </p>
+              <label class="new-name" for="nickname"
+                >ニックネーム変更後:
+              </label>
               <input
+                class="nickname"
                 type="text"
                 v-model="user.nickname"
                 id="nickname"
                 name="nickname"
               />
             </div>
-            <button type="submit">更新</button>
+            <button type="submit" class="modal-button">更新</button>
           </form>
         </div>
       </div>
@@ -115,24 +129,27 @@
       </button>
       <div
         v-if="modals.favoriteSpots"
-        class="modal"
+        class="favorite-modal"
         @click.self="closeModal('favoriteSpots')"
       >
         <div class="modal-content">
           <span class="close" @click="closeModal('favoriteSpots')"
             >&times;</span
           >
-          <h2>あなたのおすすめの観光スポットを入力してください</h2>
+          <h2 class="h2text">
+            あなたのおすすめの観光スポットを入力してください
+          </h2>
           <form @submit.prevent="updateFavoriteSpots">
             <div class="field">
               <textarea
+                class="textarea"
                 v-model="user.favorite_spots"
                 id="favoriteSpots"
                 name="favoriteSpots"
                 rows="5"
               ></textarea>
             </div>
-            <button type="submit">送信</button>
+            <button type="submit" class="modal-button">送信</button>
           </form>
         </div>
       </div>
@@ -150,9 +167,9 @@
           <span class="close" @click="closeModal('deleteAccount')"
             >&times;</span
           >
-          <h2>アカウントを削除しますか？</h2>
+          <h2 class="delete-text">アカウントを削除しますか？</h2>
           <form @submit.prevent="deleteAccount">
-            <button type="submit">削除</button>
+            <button type="submit" class="modal-button">削除</button>
           </form>
         </div>
       </div>
@@ -165,15 +182,19 @@
 
 <script>
 import axios from "axios";
+import VueCropper from "vue-cropperjs";
+import "cropperjs/dist/cropper.css";
 
 export default {
+  components: {
+    VueCropper, // 画像のクロッピングコンポーネント
+  },
   props: {
     userId: {
       type: Number,
-      required: true,
+      required: true, // userIdは必須のプロパティ
     },
   },
-
   data() {
     return {
       user: {
@@ -189,20 +210,21 @@ export default {
         favoriteSpots: false,
         deleteAccount: false,
       },
+      imageUrl: null, // アップロードする画像のURL
     };
   },
   created() {
-    this.fetchUser();
+    this.fetchUser(); // コンポーネント作成時にユーザーデータを取得
   },
   methods: {
     goToIndex() {
-      window.location.href = "/";
+      window.location.href = "/"; // ホームページにリダイレクト
     },
     fetchUser() {
       axios
-        .get(`/user_profile/${this.userId}`)
+        .get(`/user_profile/${this.userId}`) // ユーザーデータを取得
         .then((response) => {
-          this.user = response.data;
+          this.user = response.data; // 取得したデータをuserにセット
         })
         .catch((error) => {
           console.error("Failed to fetch user data:", error);
@@ -210,61 +232,81 @@ export default {
     },
     openModal(modal) {
       console.log(`Opening modal: ${modal}`);
-      this.modals[modal] = true;
+      this.modals[modal] = true; // 指定したモーダルを開く
     },
     closeModal(modal) {
       console.log(`Closing modal: ${modal}`);
-      this.modals[modal] = false;
+      this.modals[modal] = false; // 指定したモーダルを閉じる
+    },
+    onFileChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        this.imageUrl = URL.createObjectURL(file); // 選択したファイルのURLをセット
+      }
+    },
+    uploadCroppedImage() {
+      if (!this.imageUrl) {
+        return;
+      }
+      this.$refs.cropper.getCroppedCanvas().toBlob((blob) => {
+        const formData = new FormData();
+        formData.append("file", blob); // クロップした画像をフォームデータに追加
+
+        axios
+          .post(`/user_profile/upload_background_picture`, formData) // 背景画像をアップロード
+          .then(() => {
+            this.fetchUser(); // データを再取得
+            this.closeModal("background");
+            this.imageUrl = null; // アップロード後にimageUrlをリセット
+          })
+          .catch((error) => {
+            console.error("File upload failed:", error);
+          });
+      });
     },
     uploadFile(type) {
       const fileInput = this.$refs[`${type}File`];
       if (fileInput && fileInput.files && fileInput.files[0]) {
         const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
+        formData.append("file", fileInput.files[0]); // 選択したファイルをフォームデータに追加
 
         axios
-          .post(`/user_profile/upload_${type}_picture`, formData)
+          .post(`/user_profile/upload_${type}_picture`, formData) // プロフィール画像をアップロード
           .then(() => {
-            alert("File uploaded successfully");
             this.fetchUser(); // データを再取得
             this.closeModal(type);
           })
           .catch((error) => {
             console.error("File upload failed:", error);
-            alert("File upload failed");
           });
       } else {
-        alert("No file selected");
+        alert.error("ファイルを選択してください");
       }
     },
     updateNickname() {
       axios
         .patch("/user_profile/update_nickname", {
-          application_user: { nickname: this.user.nickname },
+          application_user: { nickname: this.user.nickname }, // ニックネームを更新
         })
         .then(() => {
-          alert("ニックネームが更新されました");
           this.fetchUser(); // データを再取得
           this.closeModal("nickname");
         })
         .catch((error) => {
           console.error("Nickname update failed:", error);
-          alert("Nickname update failed");
         });
     },
     updateFavoriteSpots() {
       axios
         .patch("/user_profile/update_text", {
-          application_user: { favorite_spots: this.user.favorite_spots },
+          application_user: { favorite_spots: this.user.favorite_spots }, // お気に入りスポットを更新
         })
         .then(() => {
-          alert("テキストが送信されました");
           this.fetchUser(); // データを再取得
           this.closeModal("favoriteSpots");
         })
         .catch((error) => {
           console.error("Text update failed:", error);
-          alert("Text update failed");
         });
     },
     deleteAccount() {
@@ -274,16 +316,14 @@ export default {
       axios
         .delete("/user_profile/destroy_account", {
           headers: {
-            "X-CSRF-Token": csrfToken,
+            "X-CSRF-Token": csrfToken, // CSRFトークンをヘッダーに追加
           },
         })
         .then(() => {
-          alert("アカウントが削除されました");
-          window.location.href = "/sign-in"; // サインインページのURLに変更
+          window.location.href = "/sign-in"; // サインインページにリダイレクト
         })
         .catch((error) => {
           console.error("Account deletion failed:", error);
-          alert("Account deletion failed");
         });
     },
   },
@@ -297,37 +337,105 @@ export default {
   position: fixed;
   z-index: 3;
   left: 0;
-  top: 0;
+  top: 10px;
   width: 100%;
   height: 100%;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
-
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* 幅を50%に変更して横幅を狭くする */
-  max-width: 600px; /* 最大幅を600pxに設定 */
+  height: 40%;
+  width: 60%;
+  max-width: 600px;
   z-index: 4;
+  position: relative;
 }
 
+.h2text {
+  font-size: 20px;
+  color: blue;
+  text-align: center;
+}
 .close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
+.modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 20px;
+  width: fit-content;
+}
+.modal-button:hover {
+  background-color: #0056b3;
+  color: yellow;
+}
 
+/* 背景 */
+.background-modal {
+  display: block;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 200%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.background-modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px 20px 80px 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  z-index: 4;
+  position: relative;
+  max-height: 90vh;
+  overflow: auto;
+}
+.background-modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  text-align: center;
+  float: fixed;
+  left: 38%;
+  bottom: 10px;
+  width: fit-content;
+}
+.background-modal-button:hover {
+  background-color: #0056b3;
+  color: yellow;
+}
 .background-image {
   position: relative;
   z-index: 1;
@@ -335,8 +443,26 @@ export default {
   height: 200px !important;
   background-size: cover;
   background-position: center;
+  object-fit: fill;
+}
+.background-button-container {
+  display: flex;
+}
+.background-button {
+  display: block;
+  position: absolute;
+  left: 19%;
+  top: 60%;
+  font-size: 30px;
+}
+.input-background {
+  text-align: center;
+  position: relative;
+  left: 24%;
+  margin-top: 20px;
 }
 
+/* プロフィール写真 */
 .profile-icon {
   position: absolute;
   z-index: 2;
@@ -348,7 +474,24 @@ export default {
   top: 4%;
   left: 2%;
 }
+.profile-button-container {
+  display: flex;
+}
+.profile-button {
+  display: block;
+  position: absolute;
+  left: 19%;
+  top: 75%;
+  font-size: 30px;
+}
+.input-profile {
+  text-align: center;
+  position: relative;
+  left: 24%;
+  margin-top: 20px;
+}
 
+/* ニックネーム */
 .nickname-box {
   position: absolute;
   top: 74px;
@@ -358,74 +501,71 @@ export default {
   padding: 10px;
   border-radius: 5px;
 }
-
 .nickname-overlay {
   color: black;
   font-size: 16px;
   z-index: 3;
 }
-
-.favorite-spots-box {
-  border: 2px solid #ddd;
-  text-align: center;
-  padding: 30px;
-  height: 100px; /* 固定の高さを設定 */
-  overflow-y: auto; /* 垂直方向にスクロールバーを表示 */
-}
-
-.h2text {
-  font-size: 20px;
-  color: rgb(240, 125, 54);
-}
-
-.button-container {
-}
-
-/* 背景設定ボタン */
-.background-button-container {
-  display: flex;
-}
-.background-button {
-  display: block; /* ブロック要素にする */
-  position: absolute;
-  left: 19%;
-  top: 60%;
-  font-size: 30px;
-}
-
-/* プロフィール設定ボタン */
-.profile-button-container {
-  display: flex;
-}
-.profile-button {
-  display: block; /* ブロック要素にする */
-  position: absolute;
-  left: 19%;
-  top: 75%;
-  font-size: 30px;
-}
-
-/* おすすめスポットボタン */
-.favorite-button-container {
-  display: flex;
-}
-.favorite-button {
-  display: block; /* ブロック要素にする */
-  position: absolute;
-  right: 19%;
-  top: 55%;
-  font-size: 30px;
-}
-
-/* ニックネームボタン */
 .nickname-button-container {
   display: flex;
 }
 .nickname-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   right: 19%;
-  top: 65%;
+  top: 66%;
+  font-size: 30px;
+}
+.current-name {
+  position: relative;
+  font-size: 20px;
+  text-align: center;
+}
+.new-name {
+  position: relative;
+  font-size: 20px;
+  left: 27%;
+  text-align: center;
+}
+.nickname {
+  width: 40%;
+  left: 27%;
+  position: relative;
+  font-size: 20px;
+}
+
+/* お気に入りスポット */
+.favorite-modal {
+  display: block;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 120%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.favorite-spots-box {
+  border: 2px solid rgb(77, 77, 95);
+  text-align: center;
+  padding: 30px;
+  height: 100px;
+  overflow-y: auto;
+}
+.textarea {
+  width: 100%;
+  text-align: center;
+  overflow-y: auto;
+}
+.favorite-button-container {
+  display: flex;
+}
+.favorite-button {
+  display: block;
+  position: absolute;
+  right: 19%;
+  top: 57%;
   font-size: 30px;
 }
 
@@ -434,45 +574,51 @@ export default {
   display: flex;
 }
 .account-delete-button {
-  display: block; /* ブロック要素にする */
+  display: block;
   position: absolute;
   right: 19%;
   top: 75%;
   font-size: 30px;
 }
+.delete-text {
+  color: red;
+  text-align: center;
+  font-size: 30px;
+  position: relative;
+  top: 40px;
+}
 
 /* ボタン */
 button {
-  display: inline-block; /* ボタンをインラインブロック要素にする */
-  width: auto; /* ボタンの幅を自動にする */
+  display: inline-block;
+  width: auto;
   font-size: 18px;
   padding: 10px 20px;
-  color: black; /* テキストの色を黒に設定 */
-  border: none; /* ボーダーを削除 */
-  border-radius: 5px; /* 角を丸くする */
-  cursor: pointer; /* カーソルをポインターに変更 */
-  transition: transform 0.2s; /* トランジションを追加 */
-  font-weight: bold; /* フォントを太くする */
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-weight: bold;
 }
 button:hover {
-  color: blue; /* ホバー時のテキスト色を青に設定 */
-  transform: translateY(-5px); /* ホバー時に浮かせる */
+  color: blue;
+  transform: translateY(-5px);
 }
-
-/* indexページ遷移用ボタン */
+/* 戻るボタン */
 .back-button {
-  position: fixed; /* 固定位置にする */
-  bottom: 20px; /* 下から20pxの位置に配置 */
-  right: 20px; /* 右から20pxの位置に配置 */
-  background-color: black; /* 背景色を黒に設定 */
-  color: white; /* テキストの色を白に設定 */
-  padding: 10px 20px; /* ボックスの内側の余白を追加 */
-  border-radius: 5px; /* 角を丸くする */
-  display: inline-block; /* ボックスをインラインブロックにする */
-  transition: transform 0.2s; /* トランジションを追加 */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  transition: transform 0.2s;
 }
 .back-button:hover {
   color: yellow;
-  transform: translateY(-5px); /* ホバー時に浮かせる */
+  transform: translateY(-5px);
 }
 </style>

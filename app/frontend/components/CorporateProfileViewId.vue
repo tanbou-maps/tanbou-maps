@@ -27,19 +27,18 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true, // userプロパティは必須
+      required: true,
     },
     rootPath: {
       type: String,
-      required: true, // rootPathプロパティは必須
+      required: true,
     },
   },
   computed: {
     formattedFavoriteSpots() {
-      // favorite_spotsが存在する場合、改行を<br>タグに置換して返す
       return this.user.favorite_spots
         ? this.user.favorite_spots.replace(/\n/g, "<br>")
-        : ""; // 存在しない場合は空文字を返す
+        : "";
     },
   },
 };
@@ -84,7 +83,7 @@ export default {
   margin: 0 0 0 900px;
   text-align: center;
   background-color: rgb(226, 227, 222);
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* 改行を反映させる */
 }
 .favorite-text {
   font-size: 15px;
@@ -94,18 +93,18 @@ export default {
 /* indexページ遷移用ボタン */
 .back-button {
   margin-top: 20px;
-  position: fixed;
-  bottom: 20px;
-  right: 30%;
-  background-color: black;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  display: inline-block;
-  transition: transform 0.2s;
+  position: fixed; /* 固定位置にする */
+  bottom: 20px; /* 下から20pxの位置に配置 */
+  right: 30%; /* 右から20pxの位置に配置 */
+  background-color: black; /* 背景色を黒に設定 */
+  color: white; /* テキストの色を白に設定 */
+  padding: 10px 20px; /* ボックスの内側の余白を追加 */
+  border-radius: 5px; /* 角を丸くする */
+  display: inline-block; /* ボックスをインラインブロックにする */
+  transition: transform 0.2s; /* トランジションを追加 */
 }
 .back-button:hover {
   color: yellow;
-  transform: translateY(-5px);
+  transform: translateY(-5px); /* ホバー時に浮かせる */
 }
 </style>

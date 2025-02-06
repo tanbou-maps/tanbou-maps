@@ -1,6 +1,11 @@
 class UserProfileController < ApplicationController
   protect_from_forgery with: :null_session, only: %i[upload_background_picture upload_profile_picture]
 
+  def show
+    @user = current_user
+    render json: @user
+  end
+
   def new
     @user = current_user
     if @user
@@ -11,11 +16,6 @@ class UserProfileController < ApplicationController
       Rails.logger.debug "No current user found"
       render json: { error: 'User not found' }, status: :not_found
     end
-  end
-
-  def show
-    @user = current_user
-    render json: @user
   end
 
   def profileview

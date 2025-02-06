@@ -42,11 +42,11 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true,
+      required: true, // userプロパティは必須
     },
     rootPath: {
       type: String,
-      required: true,
+      required: true, // rootPathプロパティは必須
     },
   },
 };
@@ -61,6 +61,7 @@ export default {
   height: 200px !important;
   background-size: cover;
   background-position: center;
+  object-fit: cover;
 }
 
 .profile-icon {
@@ -93,27 +94,26 @@ export default {
 
 /* indexページ遷移用ボタン */
 .back-button {
-  position: fixed; /* 固定位置にする */
-  bottom: 20px; /* 下から20pxの位置に配置 */
-  right: 20px; /* 右から20pxの位置に配置 */
-  background-color: black; /* 背景色を黒に設定 */
-  color: white; /* テキストの色を白に設定 */
-  padding: 10px 20px; /* ボックスの内側の余白を追加 */
-  border-radius: 5px; /* 角を丸くする */
-  display: inline-block; /* ボックスをインラインブロックにする */
-  transition: transform 0.2s; /* トランジションを追加 */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  transition: transform 0.2s;
 }
 .back-button:hover {
   color: yellow;
-  transform: translateY(-5px); /* ホバー時に浮かせる */
+  transform: translateY(-5px);
 }
 
 .favorite-spots-box {
-  /* border: 2px solid #ddd; */
   text-align: center;
   padding: 30px;
-  height: 100px; /* 固定の高さを設定 */
-  overflow-y: auto; /* 垂直方向にスクロールバーを表示 */
+  height: 100px;
+  overflow-y: auto;
   color: black;
   font-family: monospace;
   font-size: 25px;
@@ -122,7 +122,7 @@ export default {
 .h2text {
   font-size: 35px;
   font-family: monospace;
-  color: rgb(240, 125, 54);
+  color: blue;
   text-align: center;
   margin-top: 40px;
 }
