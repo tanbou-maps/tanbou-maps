@@ -1,13 +1,5 @@
 <template>
   <div class="space-y-4">
-    <input
-      type="text"
-      v-model="searchQuery"
-      @keyup.enter="handleSearch"
-      placeholder="場所を検索..."
-      class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-
     <div
       ref="mapContainer"
       class="h-64 w-full rounded-lg border border-gray-200 shadow-md"
@@ -59,40 +51,6 @@ const initMap = () => {
     };
     updateFormFields();
   });
-};
-
-// 検索処理
-const handleSearch = async () => {
-  if (!searchQuery.value) return;
-
-  const geocoder = new google.maps.Geocoder();
-
-  try {
-    const { results } = await new Promise((resolve, reject) => {
-      geocoder.geocode({ address: searchQuery.value }, (results, status) => {
-        if (status === "OK") {
-          resolve({ results });
-        } else {
-          reject(new Error("Geocoding failed"));
-        }
-      });
-    });
-
-    const location = results[0].geometry.location;
-
-    map.value.setCenter(location);
-    marker.value.setPosition(location);
-
-    selectedLocation.value = {
-      lat: location.lat(),
-      lng: location.lng(),
-    };
-
-    updateFormFields();
-  } catch (error) {
-    console.error("検索エラー:", error);
-    alert("場所の検索に失敗しました");
-  }
 };
 
 // フォームのフィールドを更新

@@ -11,10 +11,10 @@
           <div class="prose max-w-none">
             <h2 class="text-xl font-semibold text-gray-700 mb-4">スポット詳細</h2>
 
-            <div class="space-y-4">
+            <div class="space-y-4 break-all">
               <div class="bg-gray-50 p-4 rounded-lg">
                 <p class="font-medium text-gray-700 mb-1">説明</p>
-                <p class="text-gray-600 break-all"><%= @spot.description %></p>
+                <p class="text-gray-600"><%= @spot.description %></p>
               </div>
 
               <% if @spot.spot_detail.present? %>
