@@ -85,14 +85,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
 
   create_table "course_spots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "model_course_id", null: false
+    t.bigint "spot_id", null: false
     t.integer "order_number", null: false
     t.integer "stay_time_minutes"
     t.string "transportation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "spot_id", null: false
     t.index ["model_course_id", "order_number"], name: "index_course_spots_on_model_course_id_and_order_number", unique: true
     t.index ["model_course_id"], name: "index_course_spots_on_model_course_id"
+    t.index ["spot_id"], name: "index_course_spots_on_spot_id"
   end
 
   create_table "event_categories", force: :cascade do |t|
@@ -137,16 +138,24 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.index ["application_user_id"], name: "index_logs_on_application_user_id"
   end
 
+  create_table "model_course_images", force: :cascade do |t|
+    t.uuid "model_course_id", null: false
+    t.string "url", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["model_course_id"], name: "index_model_course_images_on_model_course_id"
+  end
+
   create_table "model_courses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
+    t.string "theme_image_url"
     t.boolean "is_public", default: false, null: false
     t.string "public_key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "application_user_id"
-    t.string "transportation", default: "未設定", null: false
-    t.integer "estimated_time", default: 60, null: false
     t.integer "budget"
     t.string "season"
     t.text "genre_tags"
@@ -247,11 +256,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
   add_foreign_key "categories_spots", "categories"
   add_foreign_key "categories_spots", "spots"
   add_foreign_key "course_spots", "model_courses"
+  add_foreign_key "course_spots", "spots"
   add_foreign_key "event_categories", "categories"
   add_foreign_key "event_categories", "events"
   add_foreign_key "events", "spots"
   add_foreign_key "images", "spots"
   add_foreign_key "logs", "application_users"
+  add_foreign_key "model_course_images", "model_courses"
   add_foreign_key "model_courses", "application_users"
   add_foreign_key "review_images", "reviews"
   add_foreign_key "reviews", "application_users"
