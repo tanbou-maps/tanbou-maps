@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :spots, only: %i[new create index show] do
     resources :reviews, only: %i[index new create show destroy]
     collection do
-      get 'search'
+      get :search
     end
   end
 
