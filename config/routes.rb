@@ -20,13 +20,13 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'user-profile-view/:id', to: 'user_profile#profileviewid'
+  get 'user-profile-view/:id', to: 'user_profile#profile_view_id'
   get 'user-profile-crud', to: 'user_profile#new'
-  get 'user-profile-view', to: 'user_profile#profileview'
+  get 'user-profile-view', to: 'user_profile#profile_view'
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do
-    resources :reviews, only: %i[index new create show destroy] # destroyを追加
+    resources :reviews, only: %i[index new create show destroy]
     collection do
       get 'search'
     end
