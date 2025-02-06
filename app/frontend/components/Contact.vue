@@ -122,6 +122,14 @@ async function handleSubmit() {
     return;
   }
 
+  if (!name.value.trim() || !message.value.trim()) {
+    errors.value.push(
+      "お名前またはメッセージには、スペース以外の内容を入力してください。",
+    );
+    isSubmitting.value = false;
+    return;
+  }
+
   try {
     // CSRF トークン取得
     const csrfToken = document
