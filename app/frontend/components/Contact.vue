@@ -1,93 +1,10 @@
-<script setup lang="ts">
-import { ref } from "vue";
-
-declare global {
-  interface Window {
-    defaultEmail?: string;
-  }
-}
-
-const name = ref("");
-const email = ref(window.defaultEmail || "");
-const message = ref("");
-const agreeToTerms = ref(false);
-const errors = ref<string[]>([]);
-const isSubmitting = ref(false);
-
-// フォーム送信処理
-async function handleSubmit() {
-  errors.value = [];
-  isSubmitting.value = true;
-
-  if (!agreeToTerms.value) {
-    errors.value.push("利用規約に同意してください。");
-    isSubmitting.value = false;
-    return;
-  }
-
-  try {
-    // CSRF トークン取得
-    const csrfToken = document
-      .querySelector('meta[name="csrf-token"]')
-      ?.getAttribute("content");
-    if (!csrfToken) {
-      throw new Error("CSRF トークンが見つかりません。");
-    }
-
-    // リクエスト送信
-    const response = await fetch("/contacts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": csrfToken,
-      },
-      body: JSON.stringify({
-        name: name.value,
-        email: email.value,
-        message: message.value,
-      }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      if (data.redirect_url) {
-        window.location.href = data.redirect_url;
-      } else {
-        resetForm();
-      }
-    } else if (data.errors) {
-      errors.value = data.errors.map(
-        (error: { field: string; messages: string[] }) =>
-          `${error.field}: ${error.messages.join(", ")}`,
-      );
-    } else {
-      errors.value = ["予期しないエラーが発生しました。"];
-    }
-  } catch (error) {
-    console.error("フォーム送信中のエラー:", error);
-    errors.value = ["通信エラーが発生しました。"];
-  } finally {
-    isSubmitting.value = false;
-  }
-}
-
-// フォームをリセットする
-function resetForm() {
-  name.value = "";
-  email.value = "";
-  message.value = "";
-}
-</script>
-
 <template>
   <div
     class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
   >
-    <div class="mx-auto max-w-lg rounded bg-white p-6 shadow-md">
+    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
       <h1 class="mb-6 text-center text-2xl font-bold">Contact Us</h1>
-      <p class="text-center">
-        Let's talk:we're available to help with your needs.
-      </p>
+      <p class="text-center">お問い合わせは以下のフォームからお願いします</p>
       <br />
 
       <div
@@ -164,7 +81,7 @@ function resetForm() {
         <button
           type="submit"
           :disabled="isSubmitting"
-          class="w-full rounded bg-yellow-300 px-4 py-2 text-white shadow hover:bg-yellow-400 disabled:opacity-50"
+          class="w-full rounded bg-yellow-300 px-4 py-2 text-black shadow hover:bg-yellow-400 disabled:opacity-50"
         >
           送信
         </button>
@@ -177,3 +94,92 @@ function resetForm() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+declare global {
+  interface Window {
+    defaultEmail?: string;
+  }
+}
+
+const name = ref("");
+const email = ref(window.defaultEmail || "");
+const message = ref("");
+const agreeToTerms = ref(false);
+const errors = ref<string[]>([]);
+const isSubmitting = ref(false);
+
+// フォーム送信処理
+async function handleSubmit() {
+  errors.value = [];
+  isSubmitting.value = true;
+
+  if (!agreeToTerms.value) {
+    errors.value.push("利用規約に同意してください。");
+    isSubmitting.value = false;
+    return;
+  }
+
+  if (!name.value.trim() || !message.value.trim()) {
+    errors.value.push(
+      "お名前またはメッセージには、必ず内容を入力してください。",
+    );
+    isSubmitting.value = false;
+    return;
+  }
+
+  try {
+    // CSRF トークン取得
+    const csrfToken = document
+      .querySelector('meta[name="csrf-token"]')
+      ?.getAttribute("content");
+    if (!csrfToken) {
+      throw new Error("CSRF トークンが見つかりません。");
+    }
+
+    // リクエスト送信
+    const response = await fetch("/contacts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrfToken,
+      },
+      body: JSON.stringify({
+        name: name.value,
+        email: email.value,
+        message: message.value,
+      }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      } else {
+        resetForm();
+      }
+    } else if (data.errors) {
+      errors.value = data.errors.map(
+        (error: { field: string; messages: string[] }) =>
+          `${error.field}: ${error.messages.join(", ")}`,
+      );
+    } else {
+      errors.value = ["予期しないエラーが発生しました。"];
+    }
+  } catch (error) {
+    console.error("フォーム送信中のエラー:", error);
+    errors.value = ["通信エラーが発生しました。"];
+  } finally {
+    isSubmitting.value = false;
+  }
+}
+
+// フォームをリセットする
+function resetForm() {
+  name.value = "";
+  email.value = "";
+  message.value = "";
+}
+</script>

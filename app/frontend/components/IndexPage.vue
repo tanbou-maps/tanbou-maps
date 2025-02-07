@@ -10,7 +10,7 @@
         class="relative"
       >
         <div
-          class="hs-carousel relative h-[30rem] w-full overflow-hidden rounded-2xl md:h-[calc(100vh-106px)]"
+          class="hs-carousel relative h-96 w-full overflow-hidden rounded-2xl lg:min-h-screen"
         >
           <!-- Photo -->
           <img
@@ -28,7 +28,7 @@
             <h2 class="mb-8 text-2xl">- あなたの新しい旅のために -</h2>
             <a
               href="#latest-spots"
-              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black"
+              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-12 py-3 text-lg font-medium text-yellow-300 hover:border-yellow-400 hover:text-black focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >
               <span
                 class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
@@ -258,7 +258,7 @@
                   <p>
                     <a
                       href="/contacts/new"
-                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black"
                     >
                       hello@example.so
                     </a>
@@ -288,7 +288,7 @@
                   <p class="text-sm text-gray-600">Call us</p>
                   <p>
                     <a
-                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-lime-400 hover:before:bg-black focus:outline-none focus:before:bg-black"
+                      class="relative inline-block font-medium text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:h-1 before:w-full before:bg-yellow-300 hover:before:bg-black focus:outline-none focus:before:bg-black"
                       href="/contacts/new"
                     >
                       +81 45 311 6821

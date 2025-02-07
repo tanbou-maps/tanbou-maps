@@ -9,23 +9,21 @@ class UserProfileController < ApplicationController
   def new
     @user = current_user
     if @user
-      # Rails.logger.debug { "Current user: #{@user.inspect}" }
-      # Rails.logger.debug "User JSON: #{@user.to_json}"
-      render :new
+      redirect_to new_user_profile_path # ユーザーがログインしている場合はプロフィールページへリダイレクト
     else
       Rails.logger.debug "No current user found"
       render json: { error: 'User not found' }, status: :not_found
     end
   end
 
-  def profileview
+  def profile_view
     @user = current_user
-    render :profileview
+    render :profile_view
   end
 
-  def profileviewid
+  def profile_view_id
     @user = ApplicationUser.find(params[:id])
-    render :profileviewid
+    render :profile_view_id
   end
 
   def upload_background_picture

@@ -1,175 +1,91 @@
 <template>
-  <div class="container">
+  <div v-if="modelCourse">
+    <h1>{{ modelCourse.title }}</h1>
 
-    <LoadingWave v-if="isLoading" />
+    <!-- テーマ画像 -->
+    <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" />
+    <p v-else>テーマ画像が設定されていません</p>
 
-    <div class="course-card">
-      <h1 class="course-title">{{ course.title }}</h1>
-      <p class="course-date">{{ formattedDate }}</p>
+    <p>{{ modelCourse.description }}</p>
 
-      <!-- 拡大画像のオーバーレイ -->
-      <div v-if="expandedImage" class="overlay" @click="expandedImage = null">
-        <img :src="expandedImage" class="expanded-image" />
+    <!-- ギャラリー画像 -->
+    <div v-if="modelCourse.gallery_image_urls.length > 0">
+      <h3>ギャラリー画像</h3>
+      <div v-for="(image, index) in modelCourse.gallery_image_urls" :key="index">
+        <img :src="image" alt="ギャラリー画像" />
       </div>
-
-      <!-- クリックで拡大表示 -->
-      <img
-        v-if="course.theme_image_url"
-        :src="course.theme_image_url"
-        alt="コース画像"
-        class="course-image"
-        @click="expandedImage = course.theme_image_url"
-      />
-
-      <p class="course-description">本文： {{ course.description }}</p>
-
-      <div class="course-meta">
-        <p>作成者: <strong>{{ course.application_user.nickname }}</strong></p>
-      </div>
-
-      <router-link to="/model-courses" class="back-button">一覧に戻る</router-link>
     </div>
+    <p v-else>ギャラリー画像が設定されていません</p>
+
+    <p>予算: {{ modelCourse.budget }}円</p>
+    <p>ジャンルタグ: {{ modelCourse.genre_tags }}</p>
+    <p>季節: {{ modelCourse.season }}</p>
+
+    <!-- 更新・削除ボタン -->
+    <div>
+      <router-link :to="`/model-courses/${modelCourse.record_uuid}/edit`">
+        <button>編集</button>
+      </router-link>
+      <button @click="deleteModelCourse">削除</button>
+    </div>
+
+  </div>
+  <div v-else>
+    <p>モデルコース情報を取得中...</p>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import LoadingWave from "./LoadingWave.vue";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
-  components: {
-    LoadingWave,
-  },
-  data() {
-    return {
-      course: null,
-      expandedImage: null, // 拡大画像の状態を管理
-      isLoading: true, // 初期状態はローディング
-    };
-  },
-  computed: {
-    formattedDate() {
-      if (this.course && this.course.created_at) {
-        const date = new Date(this.course.created_at);
-        return date.toLocaleDateString("ja-JP", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          weekday: "long",
-        });
+  setup() {
+    const modelCourse = ref(null);
+    const route = useRoute();
+
+    const fetchModelCourse = async () => {
+      try {
+        const response = await fetch(`/model-courses/${route.params.record_uuid}`);
+        if (response.ok) {
+          const data = await response.json();
+          modelCourse.value = data.model_course;
+        } else {
+          console.error("データ取得に失敗しました");
+        }
+      } catch (error) {
+        console.error("エラー:", error);
       }
-      return "";
-    }
-  },
-  async mounted() {
-    const courseId = this.$route.params.id;
+    };
 
-    // ローディングの開始時間を記録
-    const startTime = Date.now();
+    const deleteModelCourse = async () => {
+      if (!confirm("このモデルコースを削除しますか？")) return;
 
-    try {
-      const response = await axios.get(`/model-courses/${courseId}.json`);
-      this.course = response.data;
-    } catch (error) {
-      console.error("データの取得に失敗しました", error);
-    }
+      try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        const response = await fetch(`/model-courses/${route.params.record_uuid}`, {
+          method: "DELETE",
+          headers: {
+            "X-CSRF-Token": csrfToken,
+          },
+        });
 
-    // 最低 1.5 秒間はローディングを表示
-    const elapsedTime = Date.now() - startTime;
-    const delay = Math.max(1500 - elapsedTime, 0);
+        if (response.ok) {
+          alert("モデルコースが削除されました！");
+          router.push("/model-courses");
+        } else {
+          const error = await response.json();
+          alert("削除エラー: " + error.error);
+        }
+      } catch (error) {
+        console.error("削除エラー:", error);
+        alert("モデルコースの削除に失敗しました！");
+      }
+    };
 
-    setTimeout(() => {
-      this.isLoading = false;
-    }, delay);
+    onMounted(fetchModelCourse);
+
+    return { modelCourse };
   }
 };
 </script>
-
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.course-card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%;
-  max-width: 600px;
-  text-align: center;
-}
-
-.course-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.course-date {
-  font-size: 14px;
-  color: gray;
-  margin-bottom: 10px;
-}
-
-.course-image {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.course-description {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.course-meta {
-  font-size: 14px;
-  color: #555;
-}
-
-.back-button {
-  display: inline-block;
-  padding: 10px 15px;
-  background: #007bff;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-  margin-top: 20px;
-}
-
-.back-button:hover {
-  background: #0056b3;
-}
-
-.course-image:hover {
-  transform: scale(1.05);
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.expanded-image {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 8px;
-}
-</style>

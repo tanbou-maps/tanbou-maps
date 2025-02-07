@@ -48,6 +48,12 @@ class SpotsController < ApplicationController
 
   def search
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
+    @spots = Spot.all
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @spots }
+    end
   end
 
   private

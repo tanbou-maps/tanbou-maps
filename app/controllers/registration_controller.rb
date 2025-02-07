@@ -1,5 +1,5 @@
 class RegistrationController < ApplicationController
-  skip_before_action :require_sign_in, only: %i[new create]
+  skip_before_action :require_sign_in, only: %i[new create complete]
 
   def new
     @user = ApplicationUser.new
@@ -14,7 +14,7 @@ class RegistrationController < ApplicationController
     @user.corporate_type = nil if @user.account_type == 'individual'
 
     if @user.save
-      render json: { message: "Registration successful!", redirect_url: complete_registration_path }, status: :created
+      render json: { message: "Registration successful!", redirect_url: sign_up_complete_path }, status: :created
     else
       formatted_errors = @user.errors.messages.map do |field, messages|
         { field: field.to_s, messages: messages }

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'sign-in', to: 'sessions#create'
   get 'sign-up', to: 'registration#new'
   post 'sign-up', to: 'registration#create'
+  get 'sign-up-complete', to: 'registration#complete'
   get 'sign-out', to: 'sessions#destroy'
 
   # ユーザープロフィール
@@ -19,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'user-profile-view/:id', to: 'user_profile#profileviewid'
+  get 'user-profile-view/:id', to: 'user_profile#profile_view_id'
   get 'user-profile-crud', to: 'user_profile#new'
   get 'user-profile-view', to: 'user_profile#profileview'
 
@@ -47,18 +48,21 @@ Rails.application.routes.draw do
   get 'components/sign_in', to: 'components#sign_in'
   get 'components/sign_up', to: 'components#sign_up'
   resources :components, only: %i[index]
+  get 'user-profile-view', to: 'user_profile#profile_view'
 
   # スポット CRUD
   resources :spots, only: %i[new create index show] do
-    resources :reviews, only: %i[index new create show destroy] # destroyを追加
+    resources :reviews, only: %i[index new create show destroy]
     collection do
-      get 'search'
+      get :search
     end
   end
 
   # モデルコース
-  resources :model_courses, path: 'model-courses' do
+  resources :model_courses, path: 'model-courses', param: :record_uuid do
     member do
+      patch :update
+      delete :destroy
       patch :regenerate_public_key # 公開キー再発行用ルート
     end
   end

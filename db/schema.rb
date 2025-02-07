@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_28_014958) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -156,8 +156,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_28_014958) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "application_user_id"
+    t.integer "budget"
+    t.string "season"
+    t.text "genre_tags"
+    t.string "record_uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["application_user_id"], name: "index_model_courses_on_application_user_id"
     t.index ["public_key"], name: "index_model_courses_on_public_key", unique: true
+    t.index ["record_uuid"], name: "index_model_courses_on_record_uuid", unique: true
   end
 
   create_table "review_images", force: :cascade do |t|
