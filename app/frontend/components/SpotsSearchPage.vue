@@ -1,10 +1,15 @@
 <template>
-  <div>
-    <h1>Spots Search Page</h1>
-    <div id="map" style="height: 500px; width: 100%"></div>
+  <div
+    class="flex min-h-screen items-start justify-center bg-gradient-to-t from-fuchsia-50 via-gray-100 to-orange-100"
+  >
+    <div class="w-full max-w-4xl rounded-2xl bg-white p-4 shadow-lg">
+      <h1 class="mb-4 text-center text-2xl font-bold text-gray-900">
+        スポット一覧
+      </h1>
+      <div id="map" class="rounded-xl" style="height: 500px; width: 100%"></div>
+    </div>
   </div>
 </template>
-
 <script>
 export default {
   mounted() {
