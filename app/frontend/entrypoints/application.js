@@ -70,17 +70,28 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const profileShowElement = document.getElementById("profile-show");
   if (profileShowElement) {
-    const user = JSON.parse(profileShowElement.dataset.user);
-    const isCurrentUser = JSON.parse(profileShowElement.dataset.isCurrentUser);
-    createApp(ProfileShow, { props: { user, isCurrentUser } }).mount(
-      "#profile-show",
-    );
+    console.log(profileShowElement.dataset.user); // デバッグ用ログ出力
+    try {
+      const user = JSON.parse(profileShowElement.dataset.user);
+      const isCurrentUser = JSON.parse(
+        profileShowElement.dataset.isCurrentUser,
+      );
+      createApp(ProfileShow, { props: { user, isCurrentUser } }).mount(
+        "#profile-show",
+      );
+    } catch (error) {
+      console.error("Error parsing JSON data:", error);
+    }
   }
 
   const profileEditElement = document.getElementById("profile-edit");
   if (profileEditElement) {
-    const user = JSON.parse(profileEditElement.dataset.user);
-    createApp(ProfileEdit, { props: { user } }).mount("#profile-edit");
+    try {
+      const user = JSON.parse(profileEditElement.dataset.user);
+      createApp(ProfileEdit, { props: { user } }).mount("#profile-edit");
+    } catch (error) {
+      console.error("Error parsing JSON data:", error);
+    }
   }
 });
 // --- profile end ---
@@ -114,10 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const reviewContainer = document.getElementById("review");
 
   if (reviewContainer && reviewContainer.dataset) {
-    console.log("Review container found:", reviewContainer);
-    console.log("Spot ID:", reviewContainer.dataset.spotId);
-    console.log("Current User ID:", reviewContainer.dataset.currentUserId);
-
     try {
       const app = createApp(Review, {
         spotId: reviewContainer.dataset.spotId,

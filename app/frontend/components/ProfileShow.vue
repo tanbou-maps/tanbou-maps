@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ user.nickname }}'s Profile</h1>
+    <h1 class="text-black">{{ user.nickname }}'s Profile</h1>
     <p>User ID: {{ user.id }}</p>
     <p>Account Type: {{ user.account_type }}</p>
     <img :src="user.avatar_image" alt="Avatar Image" />
