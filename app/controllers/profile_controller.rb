@@ -4,7 +4,7 @@ class ProfileController < ApplicationController
   # GET /profile/:id
   def show
     # ユーザーのプロフィール情報を取得
-    @user = User.find(params[:id])
+    @user = ApplicationUser.find(params[:id])
   end
 
   # GET /profile/:id/edit
@@ -30,7 +30,7 @@ class ProfileController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = ApplicationUser.find(params[:id])
   end
 
   def user_params
