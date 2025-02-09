@@ -7,14 +7,13 @@ class ApplicationUser < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :stamps, dependent: :destroy
   has_many :user_rewards, dependent: :destroy
-  has_many :spots # ユーザーがスポットを作成したときのためのリレーション
+  has_many :spots, dependent: :destroy
   has_many :model_courses, dependent: :destroy
 
   # パスワード管理
   has_secure_password
 
   # バリデーション
-  ## 必須項目
   validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: '半角英数字とアンダースコアのみ使用できます' }
   validates :nickname, presence: true,
                        format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: '日本語や記号が使用できます' }
@@ -25,8 +24,6 @@ class ApplicationUser < ApplicationRecord
   validates :corporate_type, inclusion: { in: CORPORATE_TYPES }, allow_nil: true, if: -> { account_type == 'corporate' }
   validates :corporate_type, absence: true, if: -> { account_type == 'individual' }
 
-  ## その他のフィールド
-  validates :profile_picture_url, :background_picture_url, :favorite_spots, length: { maximum: 255 }, allow_nil: true
 
   ## 役割
   validates :role, inclusion: { in: ROLES }
