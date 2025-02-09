@@ -87,7 +87,7 @@ if (spotShowComponent) {
 }
 // --- spots end ---
 
-// --reviews start--
+// --- reviews start ---
 document.addEventListener("DOMContentLoaded", () => {
   // レビュー関連の処理
   const reviewContainer = document.getElementById("review");
@@ -132,7 +132,7 @@ if (reviewDetailElement) {
   });
   app.mount("#review-detail");
 }
-// --reviews end--
+// --- reviews end ---
 
 // VueRouter
 document.addEventListener("DOMContentLoaded", () => {
