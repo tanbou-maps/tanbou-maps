@@ -1,3 +1,1 @@
-<div id="profile-show">
-  <profile-show :user="<%= @user.to_json.html_safe %>" :is-current-user="<%= current_user == @user %>"></profile-show>
-</div>
+<div id="profile-show" data-user="<%= @user.to_json.html_safe %>" data-is-current-user="<%= current_user == @user %>"></div>

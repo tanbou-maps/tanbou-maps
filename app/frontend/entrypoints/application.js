@@ -50,6 +50,8 @@ import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
 import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
+import ProfileShow from "../components/ProfileShow.vue";
+import ProfileEdit from "../components/ProfileEdit.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -63,6 +65,25 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(AdminIndex).mount("#admin-index");
   createApp(ContentsManagement).mount("#contents-management");
 });
+
+// --- profile start ---
+document.addEventListener("DOMContentLoaded", () => {
+  const profileShowElement = document.getElementById("profile-show");
+  if (profileShowElement) {
+    const user = JSON.parse(profileShowElement.dataset.user);
+    const isCurrentUser = JSON.parse(profileShowElement.dataset.isCurrentUser);
+    createApp(ProfileShow, { props: { user, isCurrentUser } }).mount(
+      "#profile-show",
+    );
+  }
+
+  const profileEditElement = document.getElementById("profile-edit");
+  if (profileEditElement) {
+    const user = JSON.parse(profileEditElement.dataset.user);
+    createApp(ProfileEdit, { props: { user } }).mount("#profile-edit");
+  }
+});
+// --- profile end ---
 
 // --- spots start ---
 const spotsSearchPage = document.getElementById("spots-search-page");
