@@ -1,91 +1,41 @@
 <template>
-  <div v-if="modelCourse">
-    <h1>{{ modelCourse.title }}</h1>
+  <div class="container mx-auto p-4">
+    <h2 class="text-2xl font-bold">{{ modelCourse.title }}</h2>
+    <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" class="w-full h-60 object-cover mb-4" />
+    <p class="text-gray-600">{{ modelCourse.description }}</p>
 
-    <!-- テーマ画像 -->
-    <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" />
-    <p v-else>テーマ画像が設定されていません</p>
-
-    <p>{{ modelCourse.description }}</p>
-
-    <!-- ギャラリー画像 -->
-    <div v-if="modelCourse.gallery_image_urls.length > 0">
-      <h3>ギャラリー画像</h3>
-      <div v-for="(image, index) in modelCourse.gallery_image_urls" :key="index">
-        <img :src="image" alt="ギャラリー画像" />
-      </div>
-    </div>
-    <p v-else>ギャラリー画像が設定されていません</p>
-
-    <p>予算: {{ modelCourse.budget }}円</p>
-    <p>ジャンルタグ: {{ modelCourse.genre_tags }}</p>
-    <p>季節: {{ modelCourse.season }}</p>
-
-    <!-- 更新・削除ボタン -->
-    <div>
-      <router-link :to="`/model-courses/${modelCourse.record_uuid}/edit`">
-        <button>編集</button>
-      </router-link>
-      <button @click="deleteModelCourse">削除</button>
+    <div v-if="modelCourse.gallery_image_urls.length > 0" class="mt-4">
+      <swiper :slides-per-view="1" navigation>
+        <swiper-slide v-for="(img, index) in modelCourse.gallery_image_urls" :key="index">
+          <img :src="img" class="w-full h-40 object-cover" />
+        </swiper-slide>
+      </swiper>
     </div>
 
-  </div>
-  <div v-else>
-    <p>モデルコース情報を取得中...</p>
+    <router-link :to="`/model-courses/${modelCourse.id}/edit`" class="btn-primary mt-4">編集</router-link>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/navigation";
 
 export default {
-  setup() {
-    const modelCourse = ref(null);
-    const route = useRoute();
-
-    const fetchModelCourse = async () => {
-      try {
-        const response = await fetch(`/model-courses/${route.params.record_uuid}`);
-        if (response.ok) {
-          const data = await response.json();
-          modelCourse.value = data.model_course;
-        } else {
-          console.error("データ取得に失敗しました");
-        }
-      } catch (error) {
-        console.error("エラー:", error);
-      }
+  components: { Swiper, SwiperSlide },
+  data() {
+    return {
+      modelCourse: {},
     };
-
-    const deleteModelCourse = async () => {
-      if (!confirm("このモデルコースを削除しますか？")) return;
-
-      try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        const response = await fetch(`/model-courses/${route.params.record_uuid}`, {
-          method: "DELETE",
-          headers: {
-            "X-CSRF-Token": csrfToken,
-          },
-        });
-
-        if (response.ok) {
-          alert("モデルコースが削除されました！");
-          router.push("/model-courses");
-        } else {
-          const error = await response.json();
-          alert("削除エラー: " + error.error);
-        }
-      } catch (error) {
-        console.error("削除エラー:", error);
-        alert("モデルコースの削除に失敗しました！");
-      }
-    };
-
-    onMounted(fetchModelCourse);
-
-    return { modelCourse };
-  }
+  },
+  async created() {
+    try {
+      const response = await axios.get(`/model_courses/${this.$route.params.id}`);
+      this.modelCourse = response.data;
+    } catch (error) {
+      console.error("詳細取得に失敗しました:", error);
+    }
+  },
 };
 </script>

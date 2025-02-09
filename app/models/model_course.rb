@@ -10,7 +10,7 @@ class ModelCourse < ApplicationRecord
   has_one_attached :theme_image#, dependent: :destroy
   has_many_attached :gallery_images
 
-  before_create :assign_record_uuid
+  # before_create :assign_record_uuid
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 500 }
@@ -26,23 +26,25 @@ class ModelCourse < ApplicationRecord
     genre_tags.present? ? genre_tags.split(",").map(&:strip) : []
   end
 
-  # **修正: UUID を自動生成**
-  private
+  # # **修正: UUID を自動生成**
+  # private
 
-  def assign_record_uuid
-    self.record_uuid ||= SecureRandom.uuid
-  end
+  # def assign_record_uuid
+  #   self.record_uuid ||= SecureRandom.uuid
+  # end
 
-  def generate_public_key
-    self.public_key ||= "user#{application_user_id}-course#{SecureRandom.hex(8)}"
-  end
-
-   # **修正: JSON で画像を取得**
+  # **修正: JSON で画像を取得**
   def theme_image_url
     theme_image.attached? ? Rails.application.routes.url_helpers.rails_blob_url(theme_image, only_path: true) : nil
   end
 
   def gallery_image_urls
     gallery_images.attached? ? gallery_images.map { |img| Rails.application.routes.url_helpers.rails_blob_url(img, only_path: true) }.uniq : []
+  end
+
+  private
+
+  def generate_public_key
+    self.public_key ||= "user#{application_user_id}-course#{SecureRandom.hex(8)}"
   end
 end

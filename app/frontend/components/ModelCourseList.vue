@@ -1,97 +1,53 @@
 <template>
-  <div class="container">
-    <h1>モデルコース一覧</h1>
-    <ul class="course-list">
-      <li v-for="course in modelCourses" :key="course.id" class="course-item">
-        <router-link :to="`/model-courses/${course.record_uuid}`" class="course-link">
-          <div class="course-card">
-            <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像" class="theme-image" />
-            <div class="course-info">
-              <h2>{{ course.title }}</h2>
-              <p>{{ course.description }}</p>
-            </div>
+  <div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">モデルコース一覧</h2>
+
+    <div v-if="loading" class="text-center">読み込み中...</div>
+    <div v-else-if="modelCourses.length === 0" class="text-center text-gray-600">モデルコースがありません</div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="course in modelCourses" :key="course.id" class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <router-link :to="`/model-courses/${course.id}`">
+          <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像"
+            class="w-full h-40 object-cover" />
+          <div v-else class="w-full h-40 bg-gray-300 flex items-center justify-center">
+            <span class="text-gray-600">画像なし</span>
+          </div>
+
+          <div class="p-4">
+            <h3 class="text-xl font-semibold">{{ course.title }}</h3>
+            <p class="text-gray-600 text-sm mt-2">{{ truncateDescription(course.description) }}</p>
           </div>
         </router-link>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import axios from "axios";
 
 export default {
-  setup() {
-    const modelCourses = ref([]);
-
-    const fetchModelCourses = async () => {
-      try {
-        const response = await fetch('/model-courses.json');
-        const data = await response.json();
-        modelCourses.value = data.model_courses;
-      } catch (error) {
-        console.error('モデルコースの取得に失敗:', error);
-      }
-    };
-
-    onMounted(fetchModelCourses);
-
+  data() {
     return {
-      modelCourses
+      modelCourses: [],
+      loading: true,
     };
-  }
+  },
+  async created() {
+    try {
+      const response = await axios.get("/model_courses.json"); // ← ここ修正！
+      this.modelCourses = response.data;
+    } catch (error) {
+      console.error("一覧取得に失敗しました:", error);
+    } finally {
+      this.loading = false;
+    }
+  },
+  methods: {
+    truncateDescription(text) {
+      return text.length > 50 ? text.substring(0, 50) + "..." : text;
+    },
+  },
 };
 </script>
-
-<style scoped>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.course-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 0;
-}
-
-.course-item {
-  list-style: none;
-}
-
-.course-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.course-card {
-  width: 300px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.course-card:hover {
-  transform: scale(1.05);
-}
-
-.theme-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.course-info {
-  padding: 15px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-</style>

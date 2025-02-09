@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_09_010631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -84,15 +84,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
   end
 
   create_table "course_spots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "model_course_id", null: false
     t.bigint "spot_id", null: false
     t.integer "order_number", null: false
     t.integer "stay_time_minutes"
     t.string "transportation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["model_course_id", "order_number"], name: "index_course_spots_on_model_course_id_and_order_number", unique: true
-    t.index ["model_course_id"], name: "index_course_spots_on_model_course_id"
+    t.bigint "model_course_id", null: false
     t.index ["spot_id"], name: "index_course_spots_on_spot_id"
   end
 
@@ -139,15 +137,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
   end
 
   create_table "model_course_images", force: :cascade do |t|
-    t.uuid "model_course_id", null: false
     t.string "url", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["model_course_id"], name: "index_model_course_images_on_model_course_id"
+    t.bigint "model_course_id", null: false
   end
 
-  create_table "model_courses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "model_courses", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
     t.string "theme_image_url"
@@ -159,10 +156,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.integer "budget"
     t.string "season"
     t.text "genre_tags"
-    t.string "record_uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["application_user_id"], name: "index_model_courses_on_application_user_id"
     t.index ["public_key"], name: "index_model_courses_on_public_key", unique: true
-    t.index ["record_uuid"], name: "index_model_courses_on_record_uuid", unique: true
   end
 
   create_table "review_images", force: :cascade do |t|
@@ -255,14 +250,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categories_spots", "categories"
   add_foreign_key "categories_spots", "spots"
-  add_foreign_key "course_spots", "model_courses"
+  add_foreign_key "course_spots", "model_courses", on_delete: :cascade
   add_foreign_key "course_spots", "spots"
   add_foreign_key "event_categories", "categories"
   add_foreign_key "event_categories", "events"
   add_foreign_key "events", "spots"
   add_foreign_key "images", "spots"
   add_foreign_key "logs", "application_users"
-  add_foreign_key "model_course_images", "model_courses"
+  add_foreign_key "model_course_images", "model_courses", on_delete: :cascade
   add_foreign_key "model_courses", "application_users"
   add_foreign_key "review_images", "reviews"
   add_foreign_key "reviews", "application_users"

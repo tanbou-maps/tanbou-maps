@@ -32,8 +32,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # モデルコース
-  resources :model_courses, path: 'model-courses', param: :record_uuid do
+  # モデルコース（UUIDを排除しIDを使用）
+  resources :model_courses, path: 'model-courses' do
     member do
       patch :update
       delete :destroy
