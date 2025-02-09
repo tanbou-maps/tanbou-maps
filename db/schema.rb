@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_09_091910) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_09_092109) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -155,15 +155,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_09_091910) do
     t.index ["record_uuid"], name: "index_model_courses_on_record_uuid", unique: true
   end
 
-  create_table "review_images", force: :cascade do |t|
-    t.text "url"
-    t.text "description"
-    t.bigint "review_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["review_id"], name: "index_review_images_on_review_id"
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
@@ -253,7 +244,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_09_091910) do
   add_foreign_key "logs", "application_users"
   add_foreign_key "model_course_images", "model_courses"
   add_foreign_key "model_courses", "application_users"
-  add_foreign_key "review_images", "reviews"
   add_foreign_key "reviews", "application_users"
   add_foreign_key "reviews", "spots"
   add_foreign_key "spot_details", "spots"
