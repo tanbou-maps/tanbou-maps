@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get 'sign-up-complete', to: 'registration#complete'
   get 'sign-out', to: 'sessions#destroy'
 
+  # profile
+  resources :profile, only: [:show, :edit, :update, :destroy]
+
   # spots
   resources :spots, only: %i[new create index show] do
     resources :reviews, only: %i[index new create show destroy]
