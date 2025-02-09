@@ -21,10 +21,51 @@ export default {
   methods: {
     updateProfile() {
       // プロフィール更新ロジック
+      const formData = new FormData();
+      formData.append("user[nickname]", this.user.nickname);
+      formData.append("user[email]", this.user.email);
+      if (this.avatarImage) {
+        formData.append("user[avatar_image]", this.avatarImage);
+      }
+      if (this.coverImage) {
+        formData.append("user[cover_image]", this.coverImage);
+      }
+
+      fetch(`/profile/${this.user.id}`, {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-Token": document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content"),
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            window.location.href = `/profile/${this.user.id}`;
+          } else {
+            alert("Failed to update profile.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Failed to update profile.");
+        });
     },
     onFileChange(event) {
-      // ファイル変更ロジック
+      const file = event.target.files[0];
+      if (event.target.id === "avatar_image") {
+        this.avatarImage = file;
+      } else if (event.target.id === "cover_image") {
+        this.coverImage = file;
+      }
     },
+  },
+  data() {
+    return {
+      avatarImage: null,
+      coverImage: null,
+    };
   },
 };
 </script>

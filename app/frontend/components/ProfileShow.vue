@@ -16,9 +16,32 @@ export default {
   methods: {
     editProfile() {
       // 編集画面への遷移ロジック
+      window.location.href = `/profile/${this.user.id}/edit`;
     },
     deleteAccount() {
       // アカウント削除ロジック
+      if (confirm("Are you sure you want to delete your account?")) {
+        fetch(`/profile/${this.user.id}`, {
+          method: "DELETE",
+          headers: {
+            "X-CSRF-Token": document
+              .querySelector('meta[name="csrf-token"]')
+              .getAttribute("content"),
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              window.location.href = "/";
+            } else {
+              alert("Failed to delete account.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Failed to delete account.");
+          });
+      }
     },
   },
 };
