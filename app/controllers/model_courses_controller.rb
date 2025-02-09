@@ -1,7 +1,7 @@
 class ModelCoursesController < ApplicationController
   before_action :set_model_course, only: [:show, :update, :destroy]
 
-  # 🔹 モデルコース一覧
+  # モデルコース一覧
   def index
     @model_courses = ModelCourse.includes(:application_user).order(created_at: :desc)
 
@@ -11,7 +11,7 @@ class ModelCoursesController < ApplicationController
     end
   end
 
-  # 🔹 モデルコースの詳細
+  # モデルコースの詳細
   def show
     respond_to do |format|
       format.html { render :show }
@@ -19,7 +19,7 @@ class ModelCoursesController < ApplicationController
     end
   end
 
-  # 🔹 モデルコースの作成
+  # モデルコースの作成
   def create
     @model_course = current_user.model_courses.new(model_course_params)
 
@@ -31,7 +31,7 @@ class ModelCoursesController < ApplicationController
     end
   end
 
-  # 🔹 モデルコースの更新
+  # モデルコースの更新
   def update
     if @model_course.update(model_course_params)
       handle_image_attachments(@model_course, params)
@@ -41,7 +41,7 @@ class ModelCoursesController < ApplicationController
     end
   end
 
-  # 🔹 モデルコースの削除
+  # モデルコースの削除
   def destroy
     @model_course.destroy
     render json: { message: "モデルコースが削除されました" }, status: :ok
@@ -56,7 +56,7 @@ class ModelCoursesController < ApplicationController
   end
 
   def model_course_params
-    params.require(:model_course).permit(:title, :description, :budget, :season, :genre_tags, :is_public, :theme_image, gallery_images: [])
+    params.require(:model_course).permit(:title, :description, :budget, :season, {genre_tags: []}, :is_public, :theme_image, gallery_images: [])
   end
 
   def handle_image_attachments(model_course, params)
@@ -65,8 +65,9 @@ class ModelCoursesController < ApplicationController
     end
 
     if params[:model_course][:gallery_images].present?
-      gallery_images = [params[:model_course][:gallery_images]].flatten
-      gallery_images.each { |image| model_course.gallery_images.attach(image) if image.is_a?(ActionDispatch::Http::UploadedFile) }
+      params[:model_course][:gallery_images].values.each do |image|
+        model_course.gallery_images.attach(image) if image.is_a?(ActionDispatch::Http::UploadedFile)
+      end
     end
   end
 end

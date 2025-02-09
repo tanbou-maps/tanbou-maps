@@ -1,80 +1,84 @@
 <template>
-  <div class="container mx-auto p-6">
-    <h2 class="text-3xl font-bold mb-6 text-center">モデルコースの新規作成</h2>
-
-    <form @submit.prevent="submitForm" class="bg-white p-6 shadow-md rounded-lg">
-      <!-- タイトル -->
-      <div class="mb-4">
-        <label class="block text-gray-700">タイトル</label>
-        <input v-model="form.title" type="text" required class="form-input mt-1 w-full border rounded-lg p-2" />
-      </div>
-
-      <!-- 詳細文 -->
-      <div class="mb-4">
-        <label class="block text-gray-700">詳細文</label>
-        <textarea v-model="form.description" required class="form-textarea mt-1 w-full border rounded-lg p-2"></textarea>
-      </div>
-
-      <!-- テーマ画像 -->
-      <div class="mb-4">
-        <label class="block text-gray-700">テーマ画像</label>
-        <input type="file" @change="handleThemeImage" class="form-input mt-1 w-full border rounded-lg p-2" />
-      </div>
-
-      <!-- ギャラリー画像 (複数可) -->
-      <div class="mb-4">
-        <label class="block text-gray-700">ギャラリー画像 (複数可)</label>
-        <input type="file" multiple @change="handleGalleryImages" class="form-input mt-1 w-full border rounded-lg p-2" />
-      </div>
-
-      <!-- 予算 -->
-      <div class="mb-4">
-        <label class="block text-gray-700">予算 (円)</label>
-        <input v-model="form.budget" type="number" required class="form-input mt-1 w-full border rounded-lg p-2" />
-      </div>
-
-      <!-- ジャンルタグ -->
-      <div class="mb-4">
-        <label class="block text-gray-700">ジャンルタグ</label>
-        <div class="flex flex-wrap gap-2">
-          <label v-for="tag in genreTags" :key="tag" class="inline-flex items-center">
-            <input type="checkbox" v-model="form.genre_tags" :value="tag" class="form-checkbox" />
-            <span class="ml-2">{{ tag }}</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- 公開/非公開 -->
-      <div class="mb-4">
-        <label class="block text-gray-700">公開設定</label>
-        <label class="inline-flex items-center">
-          <input type="checkbox" v-model="form.public_status" class="form-checkbox" />
-          <span class="ml-2">{{ form.public_status ? "公開" : "非公開" }}</span>
-        </label>
-      </div>
-
-      <!-- 季節 -->
-      <div class="mb-4">
-        <label class="block text-gray-700">季節</label>
-        <select v-model="form.season" class="form-select mt-1 w-full border rounded-lg p-2">
-          <option disabled value="">選択してください</option>
-          <option v-for="option in seasonOptions" :key="option" :value="option">{{ option }}</option>
-        </select>
-      </div>
-
-      <!-- 送信ボタン -->
-      <div class="text-center">
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-          作成する
+  <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black']">
+    <div class="container mx-auto p-6">
+      <div class="flex justify-end mb-4">
+        <button @click="toggleDarkMode" class="px-4 py-2 rounded-lg text-2xl" :class="darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'">
+          {{ darkMode ? '🌚' : '🌞' }}
         </button>
       </div>
-    </form>
+
+      <h2 class="text-3xl font-bold mb-6 text-center">モデルコースの新規作成</h2>
+
+      <form @submit.prevent="submitForm" :class="['p-6 shadow-md rounded-lg max-w-3xl mx-auto', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
+        <!-- タイトル -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">タイトル <span class="text-red-500">*</span></label>
+          <input v-model="form.title" type="text" required maxlength="100" class="form-input mt-1 w-full border rounded-lg p-2 text-black" />
+          <p v-if="errors.title" class="text-red-500">{{ errors.title }}</p>
+        </div>
+
+        <!-- 詳細文 -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">詳細文 <span class="text-red-500">*</span></label>
+          <textarea v-model="form.description" required maxlength="3000" class="form-textarea mt-1 w-full border rounded-lg p-2"></textarea>
+          <p v-if="errors.description" class="text-red-500">{{ errors.description }}</p>
+        </div>
+
+        <!-- テーマ画像 -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">テーマ画像</label>
+          <input type="file" @change="handleThemeImage" class="form-input mt-1 w-full border rounded-lg p-2" />
+        </div>
+
+        <!-- ギャラリー画像 (複数可) -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">ギャラリー画像 (複数可)</label>
+          <input type="file" multiple @change="handleGalleryImages" class="form-input mt-1 w-full border rounded-lg p-2" />
+        </div>
+
+        <!-- 予算 -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">予算 (円) <span class="text-red-500">*</span></label>
+          <input v-model="form.budget" type="number" required min="0" max="10000000" class="form-input mt-1 w-full border rounded-lg p-2" />
+          <p v-if="errors.budget" class="text-red-500">{{ errors.budget }}</p>
+        </div>
+
+        <!-- ジャンルタグ -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">ジャンルタグ</label>
+          <input v-model="form.genre_tags_input" @input="updateGenreTags" type="text" placeholder="カンマ区切りで入力 (例：観光, グルメ, コスパ, 日帰り)" class="form-input mt-1 w-full border rounded-lg p-2" />
+        </div>
+
+        <!-- 公開/非公開 -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">公開設定</label>
+          <select v-model="form.is_public" class="form-select mt-1 w-full border rounded-lg p-2">
+            <option value="true">公開</option>
+            <option value="false">非公開</option>
+          </select>
+        </div>
+
+        <!-- 季節 -->
+        <div class="mb-4">
+          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">季節</label>
+          <select v-model="form.season" class="form-select mt-1 w-full border rounded-lg p-2">
+            <option disabled value="">選択してください</option>
+            <option v-for="option in seasonOptions" :key="option" :value="option">{{ option }}</option>
+          </select>
+        </div>
+
+        <!-- 送信ボタン -->
+        <div class="text-center">
+          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+            作成する
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -83,13 +87,15 @@ export default {
         description: "",
         budget: "",
         genre_tags: [],
-        public_status: false,
-        season: "",
+        genre_tags_input: "",
+        is_public: "true",
+        season: "春",
         theme_image: null,
         gallery_images: [],
       },
-      genreTags: ["観光", "グルメ", "歴史", "自然", "アクティビティ"],
+      errors: {},
       seasonOptions: ["春", "夏", "秋", "冬"],
+      darkMode: false, // ダークモードの状態を管理
     };
   },
   methods: {
@@ -99,12 +105,36 @@ export default {
     handleGalleryImages(event) {
       this.form.gallery_images = Array.from(event.target.files);
     },
+    updateGenreTags() {
+      this.form.genre_tags = this.form.genre_tags_input.split(",").map(tag => tag.trim());
+    },
+    validateForm() {
+      this.errors = {};
+      if (!this.form.title) {
+        this.errors.title = "タイトルは必須です。";
+      }
+      if (!this.form.description) {
+        this.errors.description = "詳細文は必須です。";
+      } else if (this.form.description.length > 3000) {
+        this.errors.description = "詳細文は3000文字以内で入力してください。";
+      }
+      if (!this.form.budget) {
+        this.errors.budget = "予算は必須です。";
+      } else if (this.form.budget < 0 || this.form.budget > 10000000) {
+        this.errors.budget = "予算は0円から10,000,000円の間で入力してください。";
+      }
+      return Object.keys(this.errors).length === 0;
+    },
     async submitForm() {
+      if (!this.validateForm()) {
+        return;
+      }
+
       const formData = new FormData();
       formData.append("model_course[title]", this.form.title);
       formData.append("model_course[description]", this.form.description);
       formData.append("model_course[budget]", this.form.budget);
-      formData.append("model_course[public_status]", this.form.public_status);
+      formData.append("model_course[is_public]", this.form.is_public);
       formData.append("model_course[season]", this.form.season);
 
       this.form.genre_tags.forEach(tag => {
@@ -120,15 +150,29 @@ export default {
       });
 
       try {
-        await axios.post("/model-courses", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const response = await fetch("/model-courses", {
+          method: "POST",
+          headers: {
+            "X-CSRF-Token": csrfToken,
+          },
+          body: formData,
         });
+
+        if (!response.ok) {
+          throw new Error("作成に失敗しました");
+        }
+
+        const data = await response.json();
         alert("モデルコースが作成されました！");
         this.$router.push("/model-courses");
       } catch (error) {
         console.error("作成に失敗しました:", error);
         alert("作成に失敗しました。入力内容を確認してください。");
       }
+    },
+    toggleDarkMode() {
+      this.darkMode = !this.darkMode; // ダークモードの切り替え
     },
   },
 };
