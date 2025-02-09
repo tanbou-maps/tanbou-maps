@@ -10,7 +10,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const searchQuery = ref("");
 const mapContainer = ref(null);
 const map = ref(null);
 const marker = ref(null);

@@ -1,11 +1,9 @@
 class Admin::Contents::SpotsController < Admin::BaseController
   before_action :set_spot, only: %i[edit update destroy show]
   before_action :set_google_maps_api_key
-  skip_before_action :verify_authenticity_token, only: [:delete_photo]
-
 
   def index
-    @spots = Spot.all.order(created_at: :desc)
+    @spots = Spot.order(created_at: :desc)
   end
 
   def show; end
@@ -32,7 +30,7 @@ class Admin::Contents::SpotsController < Admin::BaseController
   end
 
   def update
-    params[:spot].delete(:photos) if params[:spot][:photos].blank?
+    params[:spot].delete(:images) if params[:spot][:images].blank?
     if @spot.update(spot_params)
       redirect_to admin_contents_spot_path(@spot), notice: 'スポットが更新されました。'
     else
@@ -40,19 +38,9 @@ class Admin::Contents::SpotsController < Admin::BaseController
     end
   end
 
-  # def delete_photo
-  #   photo = ActiveStorage::Blob.find_signed(params[:id])
-  #   if photo
-  #     photo.purge
-  #     redirect_to edit_admin_contents_spot_path(params[:id]), notice: '画像が削除されました。'
-  #   else
-  #     redirect_to edit_admin_contents_spot_path(params[:id]), alert: '画像の削除に失敗しました。'
-  #   end
-  # end
-
   def destroy
     ActiveRecord::Base.transaction do
-      @spot.photos.purge if @spot.photos.attached?
+      @spot.images.purge if @spot.photos.attached?
       @spot.destroy
       redirect_to admin_contents_spots_path, notice: 'スポットが削除されました。'
     end
@@ -76,7 +64,7 @@ class Admin::Contents::SpotsController < Admin::BaseController
       :description,
       :latitude,
       :longitude,
-      photos: [],
+      images: [],
       spot_detail_attributes: %i[hours_of_operation access_info contact_info website_url recommended_season entry_fee]
     )
   end

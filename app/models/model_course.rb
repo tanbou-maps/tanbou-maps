@@ -7,9 +7,11 @@ class ModelCourse < ApplicationRecord
   # has_many :access_keys, dependent: :destroy
 
   # Active Storage
-  has_one_attached :theme_image#, dependent: :destroy
+  has_one_attached :theme_image # dependent: :destroy <- active_storage では不要らしい
   has_many_attached :gallery_images
 
+  # 公開キー生成
+  before_validation :generate_public_key, on: :create
   before_create :assign_record_uuid
 
   validates :title, presence: true, length: { maximum: 100 }
@@ -17,9 +19,6 @@ class ModelCourse < ApplicationRecord
   validates :budget, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validates :season, presence: true
   validates :genre_tags, length: { maximum: 255 }
-
-  # 公開キー生成
-  before_validation :generate_public_key, on: :create
 
   # カンマ区切りのタグを配列化
   def genre_tags_array

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_09_094024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,8 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.string "password_digest"
     t.string "account_type"
     t.string "corporate_type"
-    t.text "profile_picture_url"
-    t.text "background_picture_url"
     t.text "favorite_spots"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -120,14 +118,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.index ["spot_id"], name: "index_events_on_spot_id"
   end
 
-  create_table "images", force: :cascade do |t|
-    t.text "url"
-    t.bigint "spot_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["spot_id"], name: "index_images_on_spot_id"
-  end
-
   create_table "logs", force: :cascade do |t|
     t.bigint "application_user_id", null: false
     t.string "action_type", null: false
@@ -138,19 +128,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.index ["application_user_id"], name: "index_logs_on_application_user_id"
   end
 
-  create_table "model_course_images", force: :cascade do |t|
-    t.uuid "model_course_id", null: false
-    t.string "url", null: false
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["model_course_id"], name: "index_model_course_images_on_model_course_id"
-  end
-
   create_table "model_courses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
-    t.string "theme_image_url"
     t.boolean "is_public", default: false, null: false
     t.string "public_key", null: false
     t.datetime "created_at", null: false
@@ -163,15 +143,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.index ["application_user_id"], name: "index_model_courses_on_application_user_id"
     t.index ["public_key"], name: "index_model_courses_on_public_key", unique: true
     t.index ["record_uuid"], name: "index_model_courses_on_record_uuid", unique: true
-  end
-
-  create_table "review_images", force: :cascade do |t|
-    t.text "url"
-    t.text "description"
-    t.bigint "review_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["review_id"], name: "index_review_images_on_review_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -260,11 +231,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
   add_foreign_key "event_categories", "categories"
   add_foreign_key "event_categories", "events"
   add_foreign_key "events", "spots"
-  add_foreign_key "images", "spots"
   add_foreign_key "logs", "application_users"
-  add_foreign_key "model_course_images", "model_courses"
   add_foreign_key "model_courses", "application_users"
-  add_foreign_key "review_images", "reviews"
   add_foreign_key "reviews", "application_users"
   add_foreign_key "reviews", "spots"
   add_foreign_key "spot_details", "spots"
