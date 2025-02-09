@@ -9,14 +9,15 @@ class ApplicationUser < ApplicationRecord
   has_many :user_rewards, dependent: :destroy
   has_many :spots, dependent: :destroy
   has_many :model_courses, dependent: :destroy
+  has_one_attached :avatar_image # active storage を使用して avatar_image を追加
+  has_one_attached :cover_image # active storage を使用して cover_image を追加
 
   # パスワード管理
   has_secure_password
 
   # バリデーション
   validates :user_id, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: '半角英数字とアンダースコアのみ使用できます' }
-  validates :nickname, presence: true,
-                       format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: '日本語や記号が使用できます' }
+  validates :nickname, presence: true, format: { with: /\A[\p{Alnum}\p{Han}\p{Hiragana}\p{Katakana}ー―\p{Punct}\s]+\z/, message: '日本語や記号が使用できます' }
   validates :email, presence: true, uniqueness: true
   validates :account_type, presence: true, inclusion: { in: %w[individual corporate] }
 
