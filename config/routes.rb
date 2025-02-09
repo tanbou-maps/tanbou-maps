@@ -32,11 +32,9 @@ Rails.application.routes.draw do
     end
   end
 
-  # モデルコース（UUIDを排除しIDを使用）
+  # モデルコース（最新）
   resources :model_courses, path: 'model-courses' do
     member do
-      patch :update
-      delete :destroy
       patch :regenerate_public_key # 公開キー再発行用ルート
     end
   end

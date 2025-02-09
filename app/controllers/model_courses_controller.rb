@@ -1,5 +1,4 @@
 class ModelCoursesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_model_course, only: [:show, :update, :destroy]
 
   # 🔹 モデルコース一覧
@@ -7,15 +6,15 @@ class ModelCoursesController < ApplicationController
     @model_courses = ModelCourse.includes(:application_user).order(created_at: :desc)
 
     respond_to do |format|
-      format.html { render :index }  # ← ビューを表示
-      format.json { render json: @model_courses } # JSON も返せる
+      format.html { render :index }
+      format.json { render json: @model_courses }
     end
   end
 
   # 🔹 モデルコースの詳細
   def show
     respond_to do |format|
-      format.html { render :show }  # ビューを表示
+      format.html { render :show }
       format.json { render json: @model_course }
     end
   end
@@ -26,9 +25,9 @@ class ModelCoursesController < ApplicationController
 
     if @model_course.save
       handle_image_attachments(@model_course, params)
-      redirect_to model_courses_path, notice: "モデルコースが作成されました"
+      render json: { message: "モデルコースが作成されました", model_course: @model_course }, status: :created
     else
-      render :new, status: :unprocessable_entity
+      render json: { errors: @model_course.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -36,16 +35,16 @@ class ModelCoursesController < ApplicationController
   def update
     if @model_course.update(model_course_params)
       handle_image_attachments(@model_course, params)
-      redirect_to model_course_path(@model_course), notice: "モデルコースが更新されました"
+      render json: { message: "モデルコースが更新されました", model_course: @model_course }, status: :ok
     else
-      render :edit, status: :unprocessable_entity
+      render json: { errors: @model_course.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   # 🔹 モデルコースの削除
   def destroy
     @model_course.destroy
-    redirect_to model_courses_path, notice: "モデルコースが削除されました"
+    render json: { message: "モデルコースが削除されました" }, status: :ok
   end
 
   private
@@ -53,11 +52,11 @@ class ModelCoursesController < ApplicationController
   def set_model_course
     @model_course = ModelCourse.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to model_courses_path, alert: "モデルコースが見つかりません"
+    render json: { error: "モデルコースが見つかりません" }, status: :not_found
   end
 
   def model_course_params
-    params.require(:model_course).permit(:title, :description, :budget, :season, :genre_tags)
+    params.require(:model_course).permit(:title, :description, :budget, :season, :genre_tags, :is_public, :theme_image, gallery_images: [])
   end
 
   def handle_image_attachments(model_course, params)
