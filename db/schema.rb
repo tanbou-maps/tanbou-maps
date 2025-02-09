@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_09_092109) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_09_093451) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -128,15 +128,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_09_092109) do
     t.index ["application_user_id"], name: "index_logs_on_application_user_id"
   end
 
-  create_table "model_course_images", force: :cascade do |t|
-    t.uuid "model_course_id", null: false
-    t.string "url", null: false
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["model_course_id"], name: "index_model_course_images_on_model_course_id"
-  end
-
   create_table "model_courses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
@@ -242,7 +233,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_09_092109) do
   add_foreign_key "event_categories", "events"
   add_foreign_key "events", "spots"
   add_foreign_key "logs", "application_users"
-  add_foreign_key "model_course_images", "model_courses"
   add_foreign_key "model_courses", "application_users"
   add_foreign_key "reviews", "application_users"
   add_foreign_key "reviews", "spots"
