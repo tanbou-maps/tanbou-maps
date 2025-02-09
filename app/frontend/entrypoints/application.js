@@ -50,8 +50,6 @@ import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
 import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
-import ProfileShow from "../components/ProfileShow.vue";
-import ProfileEdit from "../components/ProfileEdit.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -65,36 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(AdminIndex).mount("#admin-index");
   createApp(ContentsManagement).mount("#contents-management");
 });
-
-// --- profile start ---
-document.addEventListener("DOMContentLoaded", () => {
-  const profileShowElement = document.getElementById("profile-show");
-  if (profileShowElement) {
-    console.log(profileShowElement.dataset.user); // デバッグ用ログ出力
-    try {
-      const user = JSON.parse(profileShowElement.dataset.user);
-      const isCurrentUser = JSON.parse(
-        profileShowElement.dataset.isCurrentUser,
-      );
-      createApp(ProfileShow, { props: { user, isCurrentUser } }).mount(
-        "#profile-show",
-      );
-    } catch (error) {
-      console.error("Error parsing JSON data:", error);
-    }
-  }
-
-  const profileEditElement = document.getElementById("profile-edit");
-  if (profileEditElement) {
-    try {
-      const user = JSON.parse(profileEditElement.dataset.user);
-      createApp(ProfileEdit, { props: { user } }).mount("#profile-edit");
-    } catch (error) {
-      console.error("Error parsing JSON data:", error);
-    }
-  }
-});
-// --- profile end ---
 
 // --- spots start ---
 const spotsSearchPage = document.getElementById("spots-search-page");

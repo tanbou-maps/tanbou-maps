@@ -22,8 +22,4 @@ user_id, nickname, email, avatar_image, cover_image
 また自身のプロフィール参照画面にはアカウント削除ボタンを表示して、
 ユーザーが任意でアカウントを削除する仕組みを作成する
 
-views の表示には `app\frontend\components` 以下に .vue ファイルを作成してそこに画面を作成し、
-`app\views\profile` は エントリーポイントとの連携として使用する
-template の スタイリングには tailwind css を使用して 他のコンポーネント同様のスタイリングにする
-
 バックエンドのルーティングには REST API の設計思想で 保守管理を用意にしてほしい
