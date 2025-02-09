@@ -27,7 +27,7 @@
       あなたの手でモデルコースを登録してみませんか？</div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-for="course in modelCourses" :key="course.id" class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div v-for="course in modelCourses" :key="course.id" :class="['shadow-lg rounded-lg overflow-hidden', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
           <a :href="`/model-courses/${course.id}`">
             <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像"
               class="w-full h-40 object-cover" />
@@ -59,7 +59,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get("/model_courses.json");
+      const response = await axios.get("/model-courses.json");
       this.modelCourses = response.data;
     } catch (error) {
       console.error("一覧取得に失敗しました:", error);
