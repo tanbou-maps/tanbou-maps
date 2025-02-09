@@ -48,7 +48,6 @@ import Contact from "../components/Contact.vue";
 import Review from "../components/Review.vue";
 import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
-import CreateReview from "../components/CreateReview.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -107,16 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Review container not found or missing dataset");
   }
 });
-
-// レビューフォームコンポーネント
-const reviewFormElement = document.getElementById("#create-review");
-if (reviewFormElement) {
-  const app = createApp(CreateReview, {
-    spotId: reviewFormElement.dataset.spotId,
-    currentUserId: reviewFormElement.dataset.currentUserId,
-  });
-  app.mount("#create-review");
-}
 
 // レビュー詳細コンポーネントのマウント処理を有効化
 const reviewDetailElement = document.getElementById("review-detail");
