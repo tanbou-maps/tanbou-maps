@@ -45,9 +45,6 @@ import SpotsSearchPage from "../components/SpotsSearchPage.vue";
 import SpotPickerComponent from "../components/SpotPickerComponent.vue";
 import SpotShowComponent from "../components/SpotShowComponent.vue";
 import Contact from "../components/Contact.vue";
-import UserProfile from "../components/UserProfile.vue";
-import UserProfileViewId from "../components/UserProfileViewId.vue";
-import UserProfileView from "../components/UserProfileView.vue";
 import Review from "../components/Review.vue";
 import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
@@ -90,7 +87,7 @@ if (spotShowComponent) {
 }
 // --- spots end ---
 
-// レビュー関連の処理
+// --reviews start--
 document.addEventListener("DOMContentLoaded", () => {
   // レビュー関連の処理
   const reviewContainer = document.getElementById("review");
@@ -135,6 +132,7 @@ if (reviewDetailElement) {
   });
   app.mount("#review-detail");
 }
+// --reviews end--
 
 // VueRouter
 document.addEventListener("DOMContentLoaded", () => {
@@ -146,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// モデルコース関連ここから
+// --- model courses start ---
 // モデルコース一覧
 const modelCourseListElement = document.getElementById("model-course-list");
 if (modelCourseListElement) {
@@ -182,7 +180,7 @@ if (modelCourseShowElement) {
     createApp(ModelCourseDetail).mount("#model-course-show");
   });
 }
-// モデルコース関連ここまで
+// --- model courses end ---
 
 // お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");
@@ -190,43 +188,4 @@ if (contactElement) {
   console.log("Mounting Contact");
   createApp(Contact).mount("#contact");
   console.log("Mounted Contact");
-}
-
-// ユーザープロフィールCRUD画面
-const userProfileApp = document.getElementById("user-profile-app");
-if (userProfileApp) {
-  try {
-    const userData = userProfileApp.dataset.user;
-    if (userData) {
-      const sanitizedUserData = userData
-        .replace(/\\\"/g, '"')
-        .replace(/\\\$/g, "$");
-      const user = JSON.parse(sanitizedUserData);
-      const app = createApp(UserProfile);
-      app.provide("user", user);
-      app.mount("#user-profile-app");
-    } else {
-      console.error("user data not found in dataset");
-    }
-  } catch (e) {
-    console.error("Failed to parse user data:", e);
-  }
-}
-
-const userProfileViewIdApp = document.getElementById(
-  "user-profile-view-id-app",
-);
-if (userProfileViewIdApp) {
-  const user = JSON.parse(userProfileViewIdApp.dataset.user);
-  const rootPath = userProfileViewIdApp.dataset.rootPath;
-  const app = createApp(UserProfileViewId, { user, rootPath });
-  app.mount("#user-profile-view-id-app");
-}
-
-const userProfileViewApp = document.getElementById("user-profile-view-app");
-if (userProfileViewApp) {
-  const user = JSON.parse(userProfileViewApp.dataset.user);
-  const rootPath = userProfileViewApp.dataset.rootPath;
-  const app = createApp(UserProfileView, { user, rootPath });
-  app.mount("#user-profile-view-app");
 }
