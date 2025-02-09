@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(SignUpCompletePage).mount("#sign-up-complete-page");
   createApp(SignOutPage).mount("#sign-out-page");
   createApp(Review).mount("#review");
-  createApp(AdminIndex).mount("#adminindex");
-  createApp(ContentsManagement).mount("#contentsmanagement");
+  createApp(AdminIndex).mount("#admin-index");
+  createApp(ContentsManagement).mount("#contents-management");
 });
 
 // --- spots start ---
@@ -149,12 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // モデルコース関連ここから
 // モデルコース一覧
 const modelCourseListElement = document.getElementById("model-course-list");
-  if (modelCourseListElement) {
-    import("../components/ModelCourseList.vue").then((module) => {
-      const ModelCourseList = module.default;
-      createApp(ModelCourseList).mount("#model-course-list");
-    });
-  }
+if (modelCourseListElement) {
+  import("../components/ModelCourseList.vue").then((module) => {
+    const ModelCourseList = module.default;
+    createApp(ModelCourseList).mount("#model-course-list");
+  });
+}
 
 // モデルコース新規作成
 const modelCourseNewElement = document.getElementById("model-course-new");
