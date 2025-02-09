@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_09_091300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,8 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_01_103654) do
     t.string "password_digest"
     t.string "account_type"
     t.string "corporate_type"
-    t.text "profile_picture_url"
-    t.text "background_picture_url"
     t.text "favorite_spots"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
