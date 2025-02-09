@@ -3,12 +3,13 @@ class ProfileController < ApplicationController
 
   # GET /profile/:id
   def show
-    # Logic to display user profile
+    # ユーザーのプロフィール情報を取得
+    @user = User.find(params[:id])
   end
 
   # GET /profile/:id/edit
   def edit
-    # Logic to display edit form
+    # 編集フォームの表示ロジック
   end
 
   # PATCH/PUT /profile/:id
