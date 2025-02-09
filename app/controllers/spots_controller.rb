@@ -64,7 +64,7 @@ class SpotsController < ApplicationController
       :description,
       :latitude,
       :longitude,
-      photos: [],
+      images: [],
       spot_detail_attributes: %i[hours_of_operation access_info contact_info website_url recommended_season entry_fee]
     )
   end
