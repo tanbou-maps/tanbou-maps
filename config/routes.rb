@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'sign-out', to: 'sessions#destroy'
 
   # profile
-  resources :profile, only: [:show, :edit, :update, :destroy]
+  resources :profiles, only: [:show, :edit, :update, :destroy]
 
   # spots
   resources :spots, only: %i[new create index show] do
