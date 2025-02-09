@@ -9,22 +9,7 @@ Rails.application.routes.draw do
   get 'sign-up-complete', to: 'registration#complete'
   get 'sign-out', to: 'sessions#destroy'
 
-  # ユーザープロフィール
-  resources :user_profile, only: %i[new create show] do
-    collection do
-      post :upload_background_picture
-      post :upload_profile_picture
-      patch :update_nickname
-      patch :update_text
-      delete :destroy_account
-    end
-  end
-
-  get 'user-profile-view/:id', to: 'user_profile#profile_view_id'
-  get 'user-profile-crud', to: 'user_profile#new'
-  get 'user-profile-view', to: 'user_profile#profile_view'
-
-  # スポット CRUD
+  # spots
   resources :spots, only: %i[new create index show] do
     resources :reviews, only: %i[index new create show destroy]
     collection do
@@ -32,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # モデルコース
+  # model courses
   resources :model_courses, path: 'model-courses', param: :record_uuid do
     member do
       patch :update
@@ -42,7 +27,7 @@ Rails.application.routes.draw do
   end
 
 
-  # お問い合わせ contact
+  # contact
   resources :contacts, only: %i[new create] do
     collection do
       get 'complete'
@@ -52,7 +37,7 @@ Rails.application.routes.draw do
   # お問い合わせ-利用規約
   get '/contacts/terms', to: 'contacts#terms'
 
-  # 管理者　admin
+  # admin
   get 'admin', to: 'admin/base#index', as: :admin_dashboard
   namespace :admin do
     # コンテンツ管理
