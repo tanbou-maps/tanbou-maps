@@ -84,7 +84,7 @@
 
 <script>
 export default {
-  props: ['id'],
+  props: ['id'], // id プロパティを受け取る
   data() {
     return {
       form: {
@@ -190,12 +190,13 @@ export default {
         });
 
         if (!response.ok) {
-          throw new Error(this.isEditMode ? "更新に失敗しました" : "作成に失敗しました");
+          const errorData = await response.json();
+          throw new Error(errorData.errors.join(", "));
         }
 
         const data = await response.json();
         alert(this.isEditMode ? "モデルコースが更新されました！" : "モデルコースが作成されました！");
-        this.$router.push("/model-courses");
+        window.location.href = "/model-courses";
       } catch (error) {
         console.error(this.isEditMode ? "更新に失敗しました:" : "作成に失敗しました:", error);
         alert(this.isEditMode ? "更新に失敗しました。入力内容を確認してください。" : "作成に失敗しました。入力内容を確認してください。");

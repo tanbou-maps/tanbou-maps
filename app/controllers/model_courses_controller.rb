@@ -45,6 +45,14 @@ class ModelCoursesController < ApplicationController
     end
   end
 
+  def edit
+    @model_course = ModelCourse.find_by(id: params[:id])
+
+    if @model_course.nil?
+      redirect_to model_courses_path, alert: "指定されたモデルコースが見つかりません。"
+    end
+  end
+
   # モデルコースの作成
   def create
     @model_course = current_user.model_courses.new(model_course_params)
