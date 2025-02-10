@@ -171,7 +171,7 @@ if (modelCourseNewElement) {
 // モデルコース編集
 const modelCourseEditElement = document.getElementById("model-course-edit");
 if (modelCourseEditElement) {
-  import("../components/ModelCourseForm.vue").then((module) => {
+  import("../components/ModelCourseEdit.vue").then((module) => {
     const ModelCourseForm = module.default;
     createApp(ModelCourseForm).mount("#model-course-edit");
   });

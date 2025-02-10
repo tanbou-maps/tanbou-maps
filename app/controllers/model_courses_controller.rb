@@ -1,7 +1,8 @@
 class ModelCoursesController < ApplicationController
   # モデルコース一覧
   def index
-    @model_courses = ModelCourse.includes(:application_user).order(created_at: :desc)
+    @sort_order = params[:sort] || 'created_at_desc'
+    @model_courses = ModelCourse.includes(:application_user).order(sort_column + ' ' + sort_direction)
 
     respond_to do |format|
       format.html { render :index }
@@ -101,6 +102,32 @@ class ModelCoursesController < ApplicationController
   end
 
   private
+
+  def sort_column
+    case @sort_order
+    when 'title_asc'
+      'title'
+    when 'title_desc'
+      'title'
+    when 'created_at_asc'
+      'created_at'
+    else
+      'created_at'
+    end
+  end
+
+  def sort_direction
+    case @sort_order
+    when 'title_asc'
+      'asc'
+    when 'title_desc'
+      'desc'
+    when 'created_at_asc'
+      'asc'
+    else
+      'desc'
+    end
+  end
 
   def model_course_params
     params.require(:model_course).permit(:title, :description, :budget, :season, {genre_tags: []}, :is_public, :theme_image, gallery_images: [])
