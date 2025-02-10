@@ -15,7 +15,7 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profile/:id
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile was successfully updated.'
+      redirect_to profile_path(@user), notice: 'Profile was successfully updated.'
     else
       render :edit
     end
@@ -23,8 +23,18 @@ class ProfilesController < ApplicationController
 
   # DELETE /profile/:id
   def destroy
-    @user.destroy
-    redirect_to root_path, notice: 'Account was successfully deleted.'
+    begin
+      @user.destroy
+      respond_to do |format|
+        format.html { redirect_to sign_in_path, notice: 'アカウントが削除されました' }
+        format.json { head :no_content }
+      end
+    rescue => e
+      respond_to do |format|
+        format.html { redirect_to profile_path(@user), alert: 'アカウントの削除に失敗しました' }
+        format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
