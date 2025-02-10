@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
-  before_action :set_spot, only: %i[index new create show destroy] # destroyを追加
-  before_action :set_review, only: %i[show destroy] # destroyを追加
+  before_action :set_spot, only: %i[index new create show destroy]
+  before_action :set_review, only: %i[show destroy]
   before_action :ensure_review_owner, only: [:destroy]
 
   def index

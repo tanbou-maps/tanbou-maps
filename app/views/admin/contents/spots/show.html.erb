@@ -73,12 +73,12 @@
         ></div>
 
         <!-- スポット写真セクション -->
-        <% if @spot.photos.attached? %>
+        <% if @spot.images.attached? %>
           <div class="mt-6">
             <h2 class="text-xl font-semibold text-gray-700 mb-4">スポット写真</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <% @spot.photos.each do |photo| %>
-                <%= image_tag photo,
+              <% @spot.images.each do |image| %>
+                <%= image_tag image
                     class: "w-full h-48 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-300" %>
               <% end %>
             </div>

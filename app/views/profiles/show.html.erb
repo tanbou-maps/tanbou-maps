@@ -1,0 +1,34 @@
+<h1>Profile</h1>
+<p>
+  <strong>User ID:</strong>
+  <%= @user.id %>
+</p>
+<p>
+  <strong>Nickname:</strong>
+  <%= @user.nickname %>
+</p>
+<p>
+  <strong>Account Type:</strong>
+  <%= @user.account_type %>
+</p>
+<p>
+  <strong>Avatar Image:</strong>
+  <% if @user.avatar_image.attached? %>
+    <%= image_tag @user.avatar_image %>
+  <% else %>
+    No avatar image available
+  <% end %>
+</p>
+<p>
+  <strong>Cover Image:</strong>
+  <% if @user.cover_image.attached? %>
+    <%= image_tag @user.cover_image %>
+  <% else %>
+    No cover image available
+  <% end %>
+</p>
+
+<% if current_user == @user %>
+  <%= link_to 'Edit Profile', edit_profile_path(@user) %>
+  <%= link_to 'Delete Account', profile_path(@user), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>

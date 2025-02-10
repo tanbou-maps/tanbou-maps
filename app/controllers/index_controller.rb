@@ -7,7 +7,7 @@ class IndexController < ApplicationController
         id: spot.id,
         name: spot.name,
         description: spot.description,
-        photos: spot.photos.map { |photo| url_for(photo) }
+        images: spot.images.map { |image| url_for(image) }
       }
     end
   end

@@ -77,9 +77,9 @@
         <div v-for="spot in latestSpots" :key="spot.id" class="group block">
           <div class="overflow-hidden rounded-2xl bg-gray-100">
             <img
-              v-if="spot.photos && spot.photos.length > 0"
+              v-if="spot.images && spot.images.length > 0"
               class="h-48 w-full rounded-2xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 md:h-64 lg:h-96"
-              :src="spot.photos[0]"
+              :src="spot.images[0]"
               :alt="spot.name"
             />
           </div>
