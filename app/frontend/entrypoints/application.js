@@ -49,6 +49,7 @@ import Review from "../components/Review.vue";
 import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
+import DeleteAccountModal from "../components/DeleteAccountModal.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -61,6 +62,25 @@ document.addEventListener("DOMContentLoaded", () => {
   createApp(Review).mount("#review");
   createApp(AdminIndex).mount("#admin-index");
   createApp(ContentsManagement).mount("#contents-management");
+
+  // Delete Account Modal
+  const deleteAccountModalElement = document.getElementById(
+    "delete-account-modal",
+  );
+  if (deleteAccountModalElement) {
+    const app = createApp(DeleteAccountModal, {
+      userId: deleteAccountModalElement.dataset.userId,
+    });
+    const vm = app.mount("#delete-account-modal");
+
+    // ボタンクリックイベントの設定
+    const deleteButton = document.getElementById("delete-account-button");
+    if (deleteButton) {
+      deleteButton.addEventListener("click", () => {
+        vm.openModal();
+      });
+    }
+  }
 });
 
 // --- spots start ---
