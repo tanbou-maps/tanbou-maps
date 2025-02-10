@@ -222,13 +222,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_09_094024) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "categories_spots", "categories"
   add_foreign_key "categories_spots", "spots"
-  add_foreign_key "course_spots", "model_courses", on_delete: :cascade
+  add_foreign_key "course_spots", "model_courses"
   add_foreign_key "course_spots", "spots"
   add_foreign_key "event_categories", "categories"
   add_foreign_key "event_categories", "events"
   add_foreign_key "events", "spots"
   add_foreign_key "logs", "application_users"
-
   add_foreign_key "model_courses", "application_users"
   add_foreign_key "reviews", "application_users"
   add_foreign_key "reviews", "spots"
