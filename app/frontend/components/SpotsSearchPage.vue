@@ -1,8 +1,10 @@
 <template>
   <div
-    class="flex min-h-screen items-start justify-center bg-gradient-to-t from-fuchsia-50 via-gray-100 to-orange-100"
+    class="flex min-h-screen items-center justify-center bg-gradient-to-t from-fuchsia-50 from-0% via-gray-100 via-50% to-orange-100 to-100%"
   >
-    <div class="w-full max-w-4xl rounded-2xl bg-white p-4 shadow-lg">
+    <div
+      class="container mx-auto max-w-md rounded-xl bg-white px-4 py-8 sm:max-w-2xl lg:max-w-4xl"
+    >
       <h1 class="mb-4 text-center text-2xl font-bold text-gray-900">
         スポット一覧
       </h1>
