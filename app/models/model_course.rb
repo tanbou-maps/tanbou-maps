@@ -13,7 +13,6 @@ class ModelCourse < ApplicationRecord
 
   # 公開キー生成
   before_validation :generate_public_key, on: :create
-  before_create :assign_record_uuid
 
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 500 }

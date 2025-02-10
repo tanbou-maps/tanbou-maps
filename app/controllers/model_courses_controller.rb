@@ -5,7 +5,20 @@ class ModelCoursesController < ApplicationController
 
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: @model_courses }
+      format.json do
+        render json: @model_courses.map { |model_course|
+          theme_image_url = model_course.theme_image.attached? ? url_for(model_course.theme_image) : nil
+          gallery_image_urls = model_course.gallery_images.attached? ? model_course.gallery_images.map { |img| url_for(img) } : []
+          model_course.as_json(
+            only: [:id, :title, :description, :is_public, :budget, :season, :genre_tags],
+            methods: [:genre_tags_array],
+            include: { application_user: { only: [:nickname] } }
+          ).merge(
+            theme_image_url: theme_image_url,
+            gallery_image_urls: gallery_image_urls
+          )
+        }
+      end
     end
   end
 
@@ -55,8 +68,6 @@ class ModelCoursesController < ApplicationController
 
   # モデルコースの更新
   def update
-    @model_course = ModelCourse.find(params[:id])
-
     if @model_course.update(model_course_params)
       if params[:model_course][:theme_image].present?
         @model_course.theme_image.attach(params[:model_course][:theme_image])

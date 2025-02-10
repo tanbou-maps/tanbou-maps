@@ -183,7 +183,9 @@ const modelCourseShowElement = document.getElementById("model-course-show");
 if (modelCourseShowElement) {
   import("../components/ModelCourseDetail.vue").then((module) => {
     const ModelCourseDetail = module.default;
-    createApp(ModelCourseDetail).mount("#model-course-show");
+    createApp(ModelCourseDetail, {
+      id: modelCourseShowElement.dataset.id
+    }).mount("#model-course-show");
   });
 }
 // --- model courses end ---
