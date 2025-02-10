@@ -157,6 +157,7 @@ if (modelCourseEditElement) {
   });
 }
 
+
 // モデルコース詳細
 const modelCourseShowElement = document.getElementById("model-course-show");
 if (modelCourseShowElement) {

@@ -1,97 +1,87 @@
 <template>
-  <div class="container">
-    <h1>モデルコース一覧</h1>
-    <ul class="course-list">
-      <li v-for="course in modelCourses" :key="course.id" class="course-item">
-        <router-link :to="`/model-courses/${course.record_uuid}`" class="course-link">
-          <div class="course-card">
-            <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像" class="theme-image" />
-            <div class="course-info">
-              <h2>{{ course.title }}</h2>
-              <p>{{ course.description }}</p>
+  <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-yellow-50 text-black']"> <!-- ダークモードとライトモードの切り替え -->
+    <div class="container mx-auto p-6">
+      <h2 class="text-3xl font-bold mb-6 text-center">モデルコース一覧</h2>
+
+      <!-- ホーム画面への遷移ボタン -->
+      <div class="flex justify-between mb-6">
+        <a href="/" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
+          ホームに戻る
+        </a>
+
+        <!-- 新規作成ボタン -->
+        <a href="/model-courses/new" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+          新規作成
+        </a>
+      </div>
+
+      <!-- ダークモード切り替えボタン -->
+      <div class="absolute top-4 right-4"> <!-- ボタンを画面右上に設置 -->
+        <button @click="toggleDarkMode" class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 text-2xl">
+          {{ darkMode ? '🌚' : '🌞' }}
+        </button>
+      </div>
+
+      <div v-if="loading" class="text-center">読み込み中...</div>
+      <div v-else-if="modelCourses.length === 0" class="text-center text-gray-600">まだ登録されたモデルコースがありません
+      あなたの手でモデルコースを登録してみませんか？</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="course in modelCourses" :key="course.id" :class="['shadow-lg rounded-lg overflow-hidden', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
+          <a :href="`/model-courses/${course.id}`">
+            <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像"
+              class="w-full h-40 object-cover" />
+            <div v-else class="w-full h-40 bg-gray-300 flex items-center justify-center">
+              <span class="text-gray-600">画像なし</span>
             </div>
-          </div>
-        </router-link>
-      </li>
-    </ul>
+
+            <div class="p-4">
+              <h3 class="text-xl font-semibold">{{ course.title }}</h3>
+              <p class="text-gray-600 text-sm mt-2">{{ truncateDescription(course.description) }}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import axios from "axios";
 
 export default {
-  setup() {
-    const modelCourses = ref([]);
-
-    const fetchModelCourses = async () => {
-      try {
-        const response = await fetch('/model-courses.json');
-        const data = await response.json();
-        modelCourses.value = data.model_courses;
-      } catch (error) {
-        console.error('モデルコースの取得に失敗:', error);
-      }
-    };
-
-    onMounted(fetchModelCourses);
-
+  data() {
     return {
-      modelCourses
+      modelCourses: [],
+      loading: true,
+      darkMode: false, // ダークモードの状態を管理
     };
-  }
+  },
+  async created() {
+    try {
+      const response = await axios.get("/model-courses.json");
+      this.modelCourses = response.data;
+    } catch (error) {
+      console.error("一覧取得に失敗しました:", error);
+    } finally {
+      this.loading = false;
+    }
+  },
+  methods: {
+    truncateDescription(text) {
+      return text.length > 50 ? text.substring(0, 50) + "..." : text;
+    },
+    toggleDarkMode() {
+      this.darkMode = !this.darkMode; // ダークモードの切り替え
+    },
+  },
 };
 </script>
 
 <style scoped>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.course-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 0;
-}
-
-.course-item {
-  list-style: none;
-}
-
-.course-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.course-card {
-  width: 300px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.course-card:hover {
-  transform: scale(1.05);
-}
-
-.theme-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.course-info {
-  padding: 15px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
+.form-input, .form-textarea, .form-select {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
 }
 </style>
