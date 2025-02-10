@@ -10,7 +10,7 @@
         </button>
       </div>
 
-      <h2 class="text-3xl font-bold mb-6 text-center">モデルコースの新規作成</h2>
+      <h2 class="text-3xl font-bold mb-6 text-center">{{ isEditMode ? 'モデルコースの編集' : 'モデルコースの新規作成' }}</h2>
 
       <form @submit.prevent="submitForm" :class="['p-6 shadow-md rounded-lg max-w-3xl mx-auto', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
         <!-- タイトル -->
@@ -74,7 +74,7 @@
         <!-- 送信ボタン -->
         <div class="text-center">
           <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-            作成する
+            {{ isEditMode ? '更新する' : '作成する' }}
           </button>
         </div>
       </form>
@@ -84,6 +84,7 @@
 
 <script>
 export default {
+  props: ['id'],
   data() {
     return {
       form: {
@@ -100,7 +101,32 @@ export default {
       errors: {},
       seasonOptions: ["春", "夏", "秋", "冬"],
       darkMode: false, // ダークモードの状態を管理
+      isEditMode: !!this.id // idがある場合は編集モード
     };
+  },
+  async created() {
+    if (this.isEditMode) {
+      try {
+        const response = await fetch(`/model-courses/${this.id}.json`);
+        if (!response.ok) {
+          throw new Error('データ取得に失敗しました');
+        }
+        const data = await response.json();
+        this.form = {
+          title: data.model_course.title,
+          description: data.model_course.description,
+          budget: data.model_course.budget,
+          genre_tags: data.model_course.genre_tags,
+          genre_tags_input: data.model_course.genre_tags.join(', '),
+          is_public: data.model_course.is_public.toString(),
+          season: data.model_course.season,
+          theme_image: null,
+          gallery_images: []
+        };
+      } catch (error) {
+        console.error('データ取得に失敗しました:', error);
+      }
+    }
   },
   methods: {
     handleThemeImage(event) {
@@ -155,8 +181,8 @@ export default {
 
       try {
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const response = await fetch("/model-courses", {
-          method: "POST",
+        const response = await fetch(this.isEditMode ? `/model-courses/${this.id}` : "/model-courses", {
+          method: this.isEditMode ? "PATCH" : "POST",
           headers: {
             "X-CSRF-Token": csrfToken,
           },
@@ -164,15 +190,15 @@ export default {
         });
 
         if (!response.ok) {
-          throw new Error("作成に失敗しました");
+          throw new Error(this.isEditMode ? "更新に失敗しました" : "作成に失敗しました");
         }
 
         const data = await response.json();
-        alert("モデルコースが作成されました！");
+        alert(this.isEditMode ? "モデルコースが更新されました！" : "モデルコースが作成されました！");
         this.$router.push("/model-courses");
       } catch (error) {
-        console.error("作成に失敗しました:", error);
-        alert("作成に失敗しました。入力内容を確認してください。");
+        console.error(this.isEditMode ? "更新に失敗しました:" : "作成に失敗しました:", error);
+        alert(this.isEditMode ? "更新に失敗しました。入力内容を確認してください。" : "作成に失敗しました。入力内容を確認してください。");
       }
     },
     toggleDarkMode() {
