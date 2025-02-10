@@ -40,7 +40,7 @@ class Admin::Contents::SpotsController < Admin::BaseController
 
   def destroy
     ActiveRecord::Base.transaction do
-      @spot.images.purge if @spot.photos.attached?
+      @spot.images.purge if @spot.images.attached?
       @spot.destroy
       redirect_to admin_contents_spots_path, notice: 'スポットが削除されました。'
     end
