@@ -1,0 +1,14 @@
+<div id="app"></div>
+
+<script type="module">
+  import { createApp } from "vue";
+  import ModelCourseList from "@components/ModelCourseList.vue";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const target = document.getElementById("model-course-list");
+    if (target) {
+      const app = createApp(ModelCourseList);
+      app.mount(target);
+    }
+  });
+</script>

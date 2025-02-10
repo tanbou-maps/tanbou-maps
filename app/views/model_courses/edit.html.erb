@@ -1,0 +1,16 @@
+<div id="model-course-edit" data-id="<%= @model_course.id %>"></div>
+
+<script type="module">
+  import { createApp } from "vue";
+  import ModelCourseEdit from "../components/ModelCourseEdit.vue";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const target = document.getElementById("model-course-edit");
+    if (target) {
+      const app = createApp(ModelCourseEdit, {
+        id: target.dataset.id
+      });
+      app.mount(target);
+    }
+  });
+</script>

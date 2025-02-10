@@ -61,6 +61,8 @@ GEM
       activesupport (= 7.0.8.6)
       marcel (~> 1.0)
       mini_mime (>= 1.1.0)
+    activestorage-validator (0.4.0)
+      rails (>= 6.1.0)
     activesupport (7.0.8.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -70,6 +72,7 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -107,6 +110,18 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.7.6)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
     logger (1.6.1)
     loofah (2.23.1)
@@ -148,6 +163,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.10)
+    rack-cors (2.0.2)
+      rack (>= 2.0.0)
     rack-proxy (0.7.7)
       rack
     rack-test (2.1.0)
@@ -202,6 +219,16 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.34.0)
       parser (>= 3.3.1.0)
+    rubocop-performance (1.23.0)
+      rubocop (>= 1.48.1, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rails (2.27.0)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.52.0, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rspec (3.2.0)
+      rubocop (~> 1.61)
     ruby-lsp (0.21.3)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
@@ -261,16 +288,23 @@ PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
+  activestorage-validator
+  bcrypt (~> 3.1.7)
   bootsnap
   capybara
   debug
   importmap-rails
   jbuilder
+  kaminari (~> 1.2)
   pg (~> 1.1)
   psych (~> 4.0)
   puma (~> 5.0)
+  rack-cors
   rails (~> 7.0.8, >= 7.0.8.6)
   rubocop
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   ruby-lsp
   selenium-webdriver
   sprockets-rails

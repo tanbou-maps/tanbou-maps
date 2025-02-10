@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+# Create a default admin user
+ApplicationUser.create!(
+  user_id: "admin",
+  nickname: "admin_name",
+  email: "admin@exmaple.com",
+  password: "password",
+  password_confirmation: "password",
+  account_type: "individual",
+  role: "admin"
+)

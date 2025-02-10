@@ -18,5 +18,6 @@ module TanbouMaps
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    # ActiveStorageのバリデーター設定を追加
   end
 end

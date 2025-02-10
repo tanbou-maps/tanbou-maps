@@ -3,14 +3,14 @@
   "editor.minimap.enabled": false, // 右側に表示されるミニマップを非表示
   "explorer.compactFolders": false, // フォルダの中に1つしかフォルダがないときの省略表示を無効化
   "files.trimTrailingWhitespace": true, // 保存時に行末の空白を削除
-  "files.trimFinalNewlines": true, //保存時にファイル末尾の無駄な空行を削除
+  "files.trimFinalNewlines": true, // 保存時にファイル末尾の無駄な空行を削除
   "files.insertFinalNewline": true, // 保存時にファイル末尾に空行を挿入
   "editor.defaultFormatter": "esbenp.prettier-vscode", // デフォルトのフォーマッターを設定
   "editor.formatOnSave": true, // 保存時にフォーマッターを適用
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit" // 保存時にeslinterを実行させる
   },
-  "eslint.format.enable": false, // eslintでのいフォーマットを無効化
+  "eslint.format.enable": false, // eslintでのフォーマットを無効化
   /* --- HTML Settings --- */
   "[html]": {
     "editor.tabSize": 2 // Use 2 spaces for indentation
@@ -38,6 +38,7 @@
     "editor.formatOnType": true // Enable formatting while typing
   },
   "[erb]": {
+    "editor.tabSize": 2, // Use 2 spaces for indentation
     "editor.defaultFormatter": "Shopify.ruby-lsp"
   },
   "rubyLsp.formatter": "auto",

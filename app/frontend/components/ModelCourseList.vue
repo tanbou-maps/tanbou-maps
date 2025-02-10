@@ -1,0 +1,141 @@
+<template>
+  <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-yellow-50 text-black']"> <!-- ダークモードとライトモードの切り替え -->
+    <div class="container mx-auto p-6">
+      <h2 class="text-3xl font-bold mb-6 text-center">モデルコース一覧</h2>
+
+      <!-- ホーム画面への遷移ボタン -->
+      <div class="flex justify-between mb-6">
+        <a href="/" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
+          ホームに戻る
+        </a>
+
+        <!-- 新規作成ボタン -->
+        <a href="/model-courses/new" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+          新規作成
+        </a>
+      </div>
+
+      <!-- ダークモード切り替えボタン -->
+      <div class="absolute top-4 right-4"> <!-- ボタンを画面右上に設置 -->
+        <button @click="toggleDarkMode" class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 text-2xl">
+          {{ darkMode ? '🌚' : '🌞' }}
+        </button>
+      </div>
+
+      <!-- ソートリンク -->
+      <div class="sort-links mb-6 flex flex-wrap justify-center gap-2">
+        <button @click="sort('title_asc')" class="sort-button">タイトル順 (昇順)</button>
+        <button @click="sort('title_desc')" class="sort-button">タイトル順 (降順)</button>
+        <button @click="sort('created_at_asc')" class="sort-button">作成日順 (昇順)</button>
+        <button @click="sort('created_at_desc')" class="sort-button">作成日順 (降順)</button>
+      </div>
+
+      <div v-if="loading" class="text-center">読み込み中...</div>
+      <div v-else-if="modelCourses.length === 0" class="text-center text-gray-600">まだ登録されたモデルコースがありません
+      あなたの手でモデルコースを登録してみませんか？</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="course in modelCourses" :key="course.id" :class="['shadow-lg rounded-lg overflow-hidden', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
+          <a :href="`/model-courses/${course.id}`">
+            <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像"
+              class="w-full h-40 object-cover" />
+            <div v-else class="w-full h-40 bg-gray-300 flex items-center justify-center">
+              <span class="text-gray-600">画像なし</span>
+            </div>
+
+            <div class="p-4">
+              <h3 class="text-xl font-semibold">{{ course.title }}</h3>
+              <p class="text-gray-600 text-sm mt-2">{{ truncateDescription(course.description) }}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      modelCourses: [],
+      loading: true,
+      darkMode: false, // ダークモードの状態を管理
+      sortOrder: 'created_at_desc' // デフォルトのソート順
+    };
+  },
+  async created() {
+    await this.fetchModelCourses();
+  },
+  methods: {
+    async fetchModelCourses() {
+      try {
+        const response = await fetch(`/model-courses.json?sort=${this.sortOrder}`);
+        if (!response.ok) {
+          throw new Error('データ取得に失敗しました');
+        }
+        const data = await response.json();
+        this.modelCourses = data;
+      } catch (error) {
+        console.error("一覧取得に失敗しました:", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    truncateDescription(text) {
+      return text.length > 50 ? text.substring(0, 50) + "..." : text;
+    },
+    toggleDarkMode() {
+      this.darkMode = !this.darkMode; // ダークモードの切り替え
+    },
+    sort(order) {
+      this.sortOrder = order;
+      this.fetchModelCourses();
+    }
+  }
+};
+</script>
+
+<style scoped>
+.form-input, .form-textarea, .form-select {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.sort-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.sort-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color:rgb(231, 195, 96);
+  color: #fff;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.sort-button:hover {
+  background-color:rgb(165, 146, 50);
+}
+
+@media (max-width: 768px) {
+  .sort-button {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  .sort-button {
+    padding: 6px 12px;
+    font-size: 0.8em;
+  }
+}
+</style>
