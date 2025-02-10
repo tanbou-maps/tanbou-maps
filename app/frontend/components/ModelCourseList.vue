@@ -1,6 +1,7 @@
 <template>
   <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-yellow-50 text-black']"> <!-- ダークモードとライトモードの切り替え -->
-    <div class="container mx-auto p-6">
+    <LoadingScreen v-if="loading" />
+    <div v-else class="container mx-auto p-6">
       <h2 class="text-3xl font-bold mb-6 text-center">モデルコース一覧</h2>
 
       <!-- ホーム画面への遷移ボタン -->
@@ -30,11 +31,10 @@
         <button @click="sort('created_at_desc')" class="sort-button">作成日順 (降順)</button>
       </div>
 
-      <div v-if="loading" class="text-center">読み込み中...</div>
-      <div v-else-if="modelCourses.length === 0" class="text-center text-gray-600">まだ登録されたモデルコースがありません
+      <div v-if="modelCourses.length === 0" class="text-center text-gray-600">まだ登録されたモデルコースがありません
       あなたの手でモデルコースを登録してみませんか？</div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="course in modelCourses" :key="course.id" :class="['shadow-lg rounded-lg overflow-hidden', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
           <a :href="`/model-courses/${course.id}`">
             <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像"
@@ -55,7 +55,12 @@
 </template>
 
 <script>
+import LoadingScreen from './LoadingScreen.vue';
+
 export default {
+  components: {
+    LoadingScreen
+  },
   data() {
     return {
       modelCourses: [],
@@ -69,6 +74,8 @@ export default {
   },
   methods: {
     async fetchModelCourses() {
+      this.loading = true;
+      const startTime = Date.now();
       try {
         const response = await fetch(`/model-courses.json?sort=${this.sortOrder}`);
         if (!response.ok) {
@@ -79,7 +86,15 @@ export default {
       } catch (error) {
         console.error("一覧取得に失敗しました:", error);
       } finally {
-        this.loading = false;
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = 1000 - elapsedTime;
+        if (remainingTime > 0) {
+          setTimeout(() => {
+            this.loading = false;
+          }, remainingTime);
+        } else {
+          this.loading = false;
+        }
       }
     },
     truncateDescription(text) {
@@ -115,14 +130,14 @@ export default {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color:rgb(231, 195, 96);
+  background-color:rgb(201, 183, 26);
   color: #fff;
   font-size: 1em;
   transition: background-color 0.3s ease;
 }
 
 .sort-button:hover {
-  background-color:rgb(165, 146, 50);
+  background-color:rgb(143, 138, 69);
 }
 
 @media (max-width: 768px) {

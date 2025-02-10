@@ -1,43 +1,53 @@
 <template>
   <div :class="['model-course-detail', darkMode ? 'bg-gray-900 text-white' : 'bg-yellow-50 text-black']">
-    <div class="header">
-      <button @click="goBack" class="btn">一覧に戻る</button>
-      <div class="actions">
-        <button @click="editCourse" class="btn">編集</button>
-        <button @click="deleteCourse" class="btn btn-danger">削除</button>
-      </div>
-    </div>
-    <h1 class="title">{{ modelCourse.title }}</h1>
-    <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" class="theme-image" />
-    <p class="description">{{ modelCourse.description }}</p>
-    <div v-if="modelCourse.gallery_image_urls.length > 0" class="gallery">
-      <h2>ギャラリー画像</h2>
-      <div class="gallery-images">
-        <div v-for="(img, index) in modelCourse.gallery_image_urls" :key="index" class="gallery-image">
-          <img :src="img" alt="ギャラリー画像" />
+    <LoadingScreen v-if="loading" />
+    <div v-else>
+      <div class="header">
+        <button @click="goBack" class="btn">一覧に戻る</button>
+        <div class="actions">
+          <button @click="editCourse" class="btn">編集</button>
+          <button @click="deleteCourse" class="btn btn-danger">削除</button>
         </div>
       </div>
-    </div>
-    <div class="dark-mode-toggle">
-      <button @click="toggleDarkMode" class="btn">
-        {{ darkMode ? '🌚' : '🌞' }}
-      </button>
+      <h1 class="title">{{ modelCourse.title }}</h1>
+      <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" class="theme-image" />
+      <p class="description">{{ modelCourse.description }}</p>
+      <div v-if="modelCourse.gallery_image_urls.length > 0" class="gallery">
+        <h2>ギャラリー画像</h2>
+        <div class="gallery-images">
+          <div v-for="(img, index) in modelCourse.gallery_image_urls" :key="index" class="gallery-image">
+            <img :src="img" alt="ギャラリー画像" />
+          </div>
+        </div>
+      </div>
+      <div class="dark-mode-toggle">
+        <button @click="toggleDarkMode" class="btn">
+          {{ darkMode ? '🌚' : '🌞' }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import LoadingScreen from './LoadingScreen.vue';
+
 export default {
+  components: {
+    LoadingScreen
+  },
   props: ['id'],
   data() {
     return {
       modelCourse: {
         gallery_image_urls: []
       },
-      darkMode: false // ダークモードの状態を管理
+      darkMode: false, // ダークモードの状態を管理
+      loading: true // ローディング状態を管理
     };
   },
   async created() {
+    const startTime = Date.now();
     try {
       const response = await fetch(`/model-courses/${this.id}.json`);
       if (!response.ok) {
@@ -47,6 +57,16 @@ export default {
       this.modelCourse = data.model_course;
     } catch (error) {
       console.error('詳細取得に失敗しました:', error);
+    } finally {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = 1500 - elapsedTime;
+      if (remainingTime > 0) {
+        setTimeout(() => {
+          this.loading = false;
+        }, remainingTime);
+      } else {
+        this.loading = false;
+      }
     }
   },
   methods: {
