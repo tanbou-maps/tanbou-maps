@@ -187,12 +187,13 @@ export default {
         });
 
         if (!response.ok) {
-          throw new Error("更新に失敗しました");
+          const errorData = await response.json();
+          throw new Error(errorData.errors.join(", "));
         }
 
         const data = await response.json();
         alert("モデルコースが更新されました！");
-        this.$router.push("/model-courses");
+        window.location.href = "/model-courses";
       } catch (error) {
         console.error("更新に失敗しました:", error);
         alert("更新に失敗しました。入力内容を確認してください。");
