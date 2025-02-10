@@ -3,8 +3,8 @@
     <div class="header">
       <button @click="goBack" class="btn">一覧に戻る</button>
       <div class="actions">
-        <button @click="editCourse" class="btn">Edit</button>
-        <button @click="deleteCourse" class="btn btn-danger">Delete</button>
+        <button @click="editCourse" class="btn">編集</button>
+        <button @click="deleteCourse" class="btn btn-danger">削除</button>
       </div>
     </div>
     <h1 class="title">{{ modelCourse.title }}</h1>
