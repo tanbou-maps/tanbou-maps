@@ -174,14 +174,18 @@ if (modelCourseEditElement) {
   });
 }
 
-// モデルコース詳細
-const modelCourseShowElement = document.getElementById("model-course-show");
-if (modelCourseShowElement) {
-  import("../components/ModelCourseDetail.vue").then((module) => {
-    const ModelCourseDetail = module.default;
-    createApp(ModelCourseDetail).mount("#model-course-show");
-  });
-}
+import ModelCourseDetail from '../components/ModelCourseDetail.vue';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modelCourseShowElement = document.getElementById('model-course-show');
+  if (modelCourseShowElement) {
+    const app = createApp(ModelCourseDetail, {
+      id: modelCourseShowElement.dataset.id
+    });
+    app.mount('#model-course-show');
+  }
+});
+
 // モデルコース関連ここまで
 
 // お問い合わせフォームコンポーネント

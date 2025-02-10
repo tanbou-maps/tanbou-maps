@@ -1,7 +1,10 @@
 <template>
   <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black']">
     <div class="container mx-auto p-6">
-      <div class="flex justify-end mb-4">
+      <div class="flex justify-between mb-4">
+        <button @click="goToModelCourses" class="px-4 py-2 rounded-lg text-2xl bg-gray-500 text-white hover:bg-blue-600">
+          戻る
+        </button>
         <button @click="toggleDarkMode" class="px-4 py-2 rounded-lg text-2xl" :class="darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'">
           {{ darkMode ? '🌚' : '🌞' }}
         </button>
@@ -20,7 +23,7 @@
         <!-- 詳細文 -->
         <div class="mb-4">
           <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">詳細文 <span class="text-red-500">*</span></label>
-          <textarea v-model="form.description" required maxlength="3000" class="form-textarea mt-1 w-full border rounded-lg p-2"></textarea>
+          <textarea v-model="form.description" required maxlength="3000" class="form-textarea mt-1 w-full border rounded-lg p-2 text-black"></textarea>
           <p v-if="errors.description" class="text-red-500">{{ errors.description }}</p>
         </div>
 
@@ -39,20 +42,21 @@
         <!-- 予算 -->
         <div class="mb-4">
           <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">予算 (円) <span class="text-red-500">*</span></label>
-          <input v-model="form.budget" type="number" required min="0" max="10000000" class="form-input mt-1 w-full border rounded-lg p-2" />
+          <input v-model="form.budget" type="number" placeholder="スライダーは1000刻みです" required min="0" max="500000" class="form-input mt-1 w-full border rounded-lg p-2 text-black" />
+          <input v-model="form.budget" type="range" min="0" max="500000" step="1000" class="w-full mt-2" />
           <p v-if="errors.budget" class="text-red-500">{{ errors.budget }}</p>
         </div>
 
         <!-- ジャンルタグ -->
         <div class="mb-4">
           <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">ジャンルタグ</label>
-          <input v-model="form.genre_tags_input" @input="updateGenreTags" type="text" placeholder="カンマ区切りで入力 (例：観光, グルメ, コスパ, 日帰り)" class="form-input mt-1 w-full border rounded-lg p-2" />
+          <input v-model="form.genre_tags_input" @input="updateGenreTags" type="text" placeholder="カンマ区切りで入力 (例：観光, グルメ, コスパ, 日帰り)" class="form-input mt-1 w-full border rounded-lg p-2 text-black" />
         </div>
 
         <!-- 公開/非公開 -->
         <div class="mb-4">
           <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">公開設定</label>
-          <select v-model="form.is_public" class="form-select mt-1 w-full border rounded-lg p-2">
+          <select v-model="form.is_public" class="form-select mt-1 w-full border rounded-lg p-2 text-black">
             <option value="true">公開</option>
             <option value="false">非公開</option>
           </select>
@@ -61,7 +65,7 @@
         <!-- 季節 -->
         <div class="mb-4">
           <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">季節</label>
-          <select v-model="form.season" class="form-select mt-1 w-full border rounded-lg p-2">
+          <select v-model="form.season" class="form-select mt-1 w-full border rounded-lg p-2 text-black">
             <option disabled value="">選択してください</option>
             <option v-for="option in seasonOptions" :key="option" :value="option">{{ option }}</option>
           </select>
@@ -120,8 +124,8 @@ export default {
       }
       if (!this.form.budget) {
         this.errors.budget = "予算は必須です。";
-      } else if (this.form.budget < 0 || this.form.budget > 10000000) {
-        this.errors.budget = "予算は0円から10,000,000円の間で入力してください。";
+      } else if (this.form.budget < 0 || this.form.budget > 500000) {
+        this.errors.budget = "予算は0円から500,000円の間で入力してください。";
       }
       return Object.keys(this.errors).length === 0;
     },
@@ -173,6 +177,9 @@ export default {
     },
     toggleDarkMode() {
       this.darkMode = !this.darkMode; // ダークモードの切り替え
+    },
+    goToModelCourses() {
+      window.location.href = "/model-courses";
     },
   },
 };
