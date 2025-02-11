@@ -50,6 +50,7 @@ import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 import DeleteAccountModal from "../components/DeleteAccountModal.vue";
+import LoadingScreen from "../components/LoadingScreen.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -189,6 +190,11 @@ if (modelCourseShowElement) {
   });
 }
 // --- model courses end ---
+
+const loadingScreenElement = document.getElementById("loading-screen");
+if (loadingScreenElement) {
+  createApp(LoadingScreen).mount("#loading-screen");
+}
 
 // お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");
