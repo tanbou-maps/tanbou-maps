@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 const links = ref([
   { name: "Manage Spots", url: "/admin/contents/spots" },
-  // { name: "Manage Events", url: "/admin/events/" },
+  { name: "Manage ModelCourses", url: "/admin/contents/modelcourses" },
 ]);
 </script>
 
@@ -33,7 +33,7 @@ const links = ref([
     </div>
 
     <div class="flex w-full flex-grow items-center justify-center">
-      <div class="grid gap-10">
+      <div class="flex flex-row gap-x-10">
         <a
           v-for="(link, index) in links"
           :key="index"
