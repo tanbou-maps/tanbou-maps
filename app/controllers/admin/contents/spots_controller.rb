@@ -6,7 +6,8 @@ class Admin::Contents::SpotsController < Admin::BaseController
     @spots = Spot.order(created_at: :desc)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @spot = Spot.new

@@ -2,28 +2,24 @@
   <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-yellow-50 text-black']"> <!-- ダークモードとライトモードの切り替え -->
     <LoadingScreen v-if="loading" />
     <div v-else class="container mx-auto p-6">
-      <h2 class="text-3xl font-bold mb-6 text-center">モデルコース一覧</h2>
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold">モデルコース一覧</h2>
+        <div class="absolute top-4 right-4">
+          <button @click="toggleDarkMode" class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 text-2xl">
+            {{ darkMode ? '🌚' : '🌞' }}
+          </button>
+        </div>
+      </div>
 
-      <!-- ホーム画面への遷移ボタン -->
       <div class="flex justify-between mb-6">
         <a href="/" class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
           ホームに戻る
         </a>
-
-        <!-- 新規作成ボタン -->
         <a href="/model-courses/new" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
           新規作成
         </a>
       </div>
 
-      <!-- ダークモード切り替えボタン -->
-      <div class="absolute top-4 right-4"> <!-- ボタンを画面右上に設置 -->
-        <button @click="toggleDarkMode" class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 text-2xl">
-          {{ darkMode ? '🌚' : '🌞' }}
-        </button>
-      </div>
-
-      <!-- ソートリンク -->
       <div class="sort-links mb-6 flex flex-wrap justify-center gap-2">
         <button @click="sort('title_asc')" class="sort-button">タイトル順 (昇順)</button>
         <button @click="sort('title_desc')" class="sort-button">タイトル順 (降順)</button>
@@ -37,8 +33,7 @@
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="course in modelCourses" :key="course.id" :class="['shadow-lg rounded-lg overflow-hidden', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
           <a :href="`/model-courses/${course.id}`">
-            <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像"
-              class="w-full h-40 object-cover" />
+            <img v-if="course.theme_image_url" :src="course.theme_image_url" alt="モデルコース画像" class="w-full h-40 object-cover" />
             <div v-else class="w-full h-40 bg-gray-300 flex items-center justify-center">
               <span class="text-gray-600">画像なし</span>
             </div>
@@ -62,12 +57,18 @@ export default {
   components: {
     LoadingScreen
   },
+  props: {
+    searchQuery: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       modelCourses: [],
       loading: true,
-      darkMode: false, // ダークモードの状態を管理
-      sortOrder: 'created_at_desc' // デフォルトのソート順
+      darkMode: false,
+      sortOrder: 'created_at_desc'
     };
   },
   async created() {
@@ -78,7 +79,7 @@ export default {
       this.loading = true;
       const startTime = Date.now();
       try {
-        const response = await fetch(`/model-courses.json?sort=${this.sortOrder}`);
+        const response = await fetch(`/model-courses.json?sort=${this.sortOrder}&search=${this.searchQuery}`);
         if (!response.ok) {
           throw new Error('データ取得に失敗しました');
         }
@@ -113,6 +114,34 @@ export default {
 </script>
 
 <style scoped>
+.search-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  width: 300px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
 .form-input, .form-textarea, .form-select {
   border: 1px solid #ccc;
   padding: 8px;

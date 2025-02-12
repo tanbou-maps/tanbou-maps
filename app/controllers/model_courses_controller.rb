@@ -144,6 +144,8 @@ class ModelCoursesController < ApplicationController
   end
 
   def model_course_params
-    params.require(:model_course).permit(:title, :description, :budget, :is_public, :season,  { genre_tags: [] }, :theme_image, gallery_images: [])
+
+    params.require(:model_course).permit(:title, :description, :budget, :is_public, :season,  {genre_tags: []}, :theme_image, gallery_images: [])
+
   end
 end
