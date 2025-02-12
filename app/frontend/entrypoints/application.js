@@ -31,7 +31,6 @@ console.log(
 // import '~/index.css'
 
 import { createApp } from "vue";
-import router from "../router"; // Vue Router をインポート
 import App from "../components/App.vue"; // Vue アプリのルートコンポーネント
 import "../stylesheets/style.css";
 import AppHeaderComponent from "../components/AppHeaderComponent.vue";
@@ -173,13 +172,12 @@ if (modelCourseNewElement) {
 const modelCourseEditElement = document.getElementById("model-course-edit");
 if (modelCourseEditElement) {
   import("../components/ModelCourseEdit.vue").then((module) => {
-    const ModelCourseForm = module.default;
-    const modelCourseId = modelCourseEditElement.dataset.id;
-    console.log("Editing ModelCourse ID:", modelCourseId);
-    createApp(ModelCourseForm, { id: modelCourseId }).mount(modelCourseEditElement);;
+    const ModelCourseEdit = module.default;
+    createApp(ModelCourseEdit, { id: modelCourseEditElement.dataset.id }).mount(
+      "#model-course-edit",
+    );
   });
 }
-
 
 // モデルコース詳細
 const modelCourseShowElement = document.getElementById("model-course-show");
@@ -187,7 +185,7 @@ if (modelCourseShowElement) {
   import("../components/ModelCourseDetail.vue").then((module) => {
     const ModelCourseDetail = module.default;
     createApp(ModelCourseDetail, {
-      id: modelCourseShowElement.dataset.id
+      id: modelCourseShowElement.dataset.id,
     }).mount("#model-course-show");
   });
 }

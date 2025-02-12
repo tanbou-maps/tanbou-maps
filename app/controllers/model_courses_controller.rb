@@ -7,7 +7,7 @@ class ModelCoursesController < ApplicationController
     @model_courses = ModelCourse.includes(:application_user).order(sort_column + ' ' + sort_direction)
 
     respond_to do |format|
-      format.html { render :index }
+      format.html # HTMLビューを表示
       format.json do
         render json: @model_courses.map { |model_course|
           theme_image_url = model_course.theme_image.attached? ? url_for(model_course.theme_image) : nil
@@ -31,7 +31,7 @@ class ModelCoursesController < ApplicationController
     gallery_image_urls = @model_course.gallery_images.attached? ? @model_course.gallery_images.map { |img| url_for(img) } : []
 
     respond_to do |format|
-      format.html { render :show }
+      format.html # HTMLビューを表示
       format.json do
         render json: {
           model_course: @model_course.as_json(
@@ -45,30 +45,16 @@ class ModelCoursesController < ApplicationController
         }
       end
     end
+  end
+
+  # 新規作成画面
+  def new
+    @model_course = ModelCourse.new
   end
 
   # 編集画面
   def edit
-    respond_to do |format|
-      format.html { render :edit } # 編集ページを表示
-      format.json do
-        theme_image_url = @model_course.theme_image.attached? ? url_for(@model_course.theme_image) : nil
-        gallery_image_urls = @model_course.gallery_images.attached? ? @model_course.gallery_images.map { |img| url_for(img) } : []
-
-        render json: {
-          model_course: @model_course.as_json(
-            only: [:id, :title, :description, :is_public, :budget, :season, :genre_tags],
-            methods: [:genre_tags_array],
-            include: { application_user: { only: [:nickname] } }
-          ).merge(
-            theme_image_url: theme_image_url,
-            gallery_image_urls: gallery_image_urls
-          )
-        }
-      end
-    end
   end
-
 
   # モデルコースの作成
   def create
