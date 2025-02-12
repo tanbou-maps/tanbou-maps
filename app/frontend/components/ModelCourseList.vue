@@ -41,6 +41,7 @@
             <div class="p-4">
               <h3 class="text-xl font-semibold">{{ course.title }}</h3>
               <p class="text-gray-600 text-sm mt-2">{{ truncateDescription(course.description) }}</p>
+              <p class="text-gray-600 text-sm mt-2">作成者: {{ course.application_user.nickname }}</p>
             </div>
           </a>
         </div>

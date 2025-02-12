@@ -99,9 +99,13 @@ class ModelCoursesController < ApplicationController
   end
 
   # モデルコースの削除
-  def destroy
-    @model_course.destroy
-    render json: { message: "モデルコースが削除されました" }, status: :ok
+   def destroy
+    if @model_course.application_user == current_user
+      @model_course.destroy
+      render json: { message: "モデルコースが削除されました" }, status: :ok
+    else
+      render json: { error: "このモデルコースを削除する権限がありません" }, status: :forbidden
+    end
   end
 
   private
@@ -140,6 +144,8 @@ class ModelCoursesController < ApplicationController
   end
 
   def model_course_params
+
     params.require(:model_course).permit(:title, :description, :budget, :is_public, :season,  {genre_tags: []}, :theme_image, gallery_images: [])
+
   end
 end
