@@ -77,23 +77,25 @@ export default {
       window.location.href = `/model-courses/${this.id}/edit`;
     },
     async deleteCourse() {
-      if (confirm('本当に削除しますか？')) {
+      if (confirm("本当にこのモデルコースを削除しますか？")) {
         try {
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
           const response = await fetch(`/model-courses/${this.id}`, {
             method: 'DELETE',
             headers: {
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
             }
           });
-          if (response.ok) {
-            alert('削除されました');
-            this.goBack();
-          } else {
-            alert('削除に失敗しました');
+          if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.error);
+            throw new Error('削除に失敗しました');
           }
+          alert("モデルコースが削除されました");
+          window.location.href = "/model-courses";
         } catch (error) {
-          console.error('削除に失敗しました:', error);
-          alert('削除に失敗しました');
+          console.error("削除エラー:", error);
         }
       }
     },
