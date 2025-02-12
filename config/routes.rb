@@ -20,14 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # モデルコース（最新）
-  resources :model_courses, path: 'model-courses' do
-    member do
-      get :show
-      get :edit
-      patch :regenerate_public_key # 公開キー再発行用ルート
-    end
-  end
+  # モデルコース
+  resources :model_courses, path: 'model-courses', only: %i[index show new create edit update destroy]
 
   # contact
   resources :contacts, only: %i[new create] do
