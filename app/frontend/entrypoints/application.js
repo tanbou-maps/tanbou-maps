@@ -155,7 +155,9 @@ const modelCourseListElement = document.getElementById("model-course-list");
 if (modelCourseListElement) {
   import("../components/ModelCourseList.vue").then((module) => {
     const ModelCourseList = module.default;
-    createApp(ModelCourseList).mount("#model-course-list");
+    createApp(ModelCourseList, {
+      searchQuery: modelCourseListElement.dataset.searchQuery
+    }).mount("#model-course-list");
   });
 }
 

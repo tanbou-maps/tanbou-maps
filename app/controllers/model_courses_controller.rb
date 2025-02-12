@@ -6,6 +6,10 @@ class ModelCoursesController < ApplicationController
     @sort_order = params[:sort] || 'created_at_desc'
     @model_courses = ModelCourse.includes(:application_user).order(sort_column + ' ' + sort_direction)
 
+    if params[:search].present?
+      @model_courses = @model_courses.where("title LIKE ? OR genre_tags LIKE ? OR season LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%", "%#{params[:search]}%")
+    end
+    
     respond_to do |format|
       format.html # HTMLビューを表示
       format.json do
