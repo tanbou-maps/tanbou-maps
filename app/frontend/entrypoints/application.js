@@ -174,7 +174,9 @@ const modelCourseEditElement = document.getElementById("model-course-edit");
 if (modelCourseEditElement) {
   import("../components/ModelCourseEdit.vue").then((module) => {
     const ModelCourseForm = module.default;
-    createApp(ModelCourseForm).mount("#model-course-edit");
+    const modelCourseId = modelCourseEditElement.dataset.id;
+    console.log("Editing ModelCourse ID:", modelCourseId);
+    createApp(ModelCourseForm, { id: modelCourseId }).mount(modelCourseEditElement);;
   });
 }
 

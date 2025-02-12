@@ -1,182 +1,102 @@
 <template>
-  <div :class="['w-full min-h-screen', darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black']">
-    <div class="container mx-auto p-6">
-      <div class="flex justify-between mb-4">
-        <button @click="goToModelCourses" class="px-4 py-2 rounded-lg text-2xl bg-gray-500 text-white hover:bg-blue-600">
-          戻る
-        </button>
-        <button @click="toggleDarkMode" class="px-4 py-2 rounded-lg text-2xl" :class="darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'">
-          {{ darkMode ? '🌚' : '🌞' }}
-        </button>
+  <div class="model-course-edit-container">
+    <h2 class="title">モデルコース編集</h2>
+
+    <form @submit.prevent="updateModelCourse">
+      <div class="form-group">
+        <label for="title">タイトル</label>
+        <input v-model="modelCourse.title" id="title" type="text" class="input-field" required />
       </div>
 
-      <h2 class="text-3xl font-bold mb-6 text-center">モデルコースの編集</h2>
+      <div class="form-group">
+        <label for="description">説明</label>
+        <textarea v-model="modelCourse.description" id="description" class="input-field" rows="3"></textarea>
+      </div>
 
-      <form @submit.prevent="submitForm" :class="['p-6 shadow-md rounded-lg max-w-3xl mx-auto', darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black']">
-        <!-- タイトル -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">タイトル <span class="text-red-500">*</span></label>
-          <input v-model="form.title" type="text" required maxlength="100" class="form-input mt-1 w-full border rounded-lg p-2 text-black" />
-          <p v-if="errors.title" class="text-red-500">{{ errors.title }}</p>
-        </div>
+      <div class="form-group">
+        <label for="budget">予算</label>
+        <input v-model="modelCourse.budget" id="budget" type="number" class="input-field" required />
+      </div>
 
-        <!-- 詳細文 -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">詳細文 <span class="text-red-500">*</span></label>
-          <textarea v-model="form.description" required maxlength="3000" class="form-textarea mt-1 w-full border rounded-lg p-2 text-black"></textarea>
-          <p v-if="errors.description" class="text-red-500">{{ errors.description }}</p>
-        </div>
+      <!-- 既存のテーマ画像を表示 -->
+      <div class="form-group">
+        <label>現在のテーマ画像</label>
+        <img :src="modelCourse.theme_image_url" alt="テーマ画像" class="current-image" v-if="modelCourse.theme_image_url" />
+      </div>
 
-        <!-- テーマ画像 -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">テーマ画像</label>
-          <input type="file" @change="handleThemeImage" class="form-input mt-1 w-full border rounded-lg p-2" />
-        </div>
+      <!-- 新しいテーマ画像をアップロード -->
+      <div class="form-group">
+        <label for="theme_image">新しいテーマ画像</label>
+        <input type="file" @change="handleThemeImage" class="input-field" />
+      </div>
 
-        <!-- ギャラリー画像 (複数可) -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">ギャラリー画像 (複数可)</label>
-          <input type="file" multiple @change="handleGalleryImages" class="form-input mt-1 w-full border rounded-lg p-2" />
+      <!-- 既存のギャラリー画像を表示 -->
+      <div class="form-group">
+        <label>現在のギャラリー画像</label>
+        <div class="gallery">
+          <img v-for="(img, index) in modelCourse.gallery_image_urls" :key="index" :src="img" alt="ギャラリー画像" class="current-image" />
         </div>
+      </div>
 
-        <!-- 予算 -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">予算 (円) <span class="text-red-500">*</span></label>
-          <input v-model="form.budget" type="number" placeholder="スライダーは1000刻みです" required min="0" max="500000" class="form-input mt-1 w-full border rounded-lg p-2 text-black" />
-          <input v-model="form.budget" type="range" min="0" max="500000" step="1000" class="w-full mt-2" />
-          <p v-if="errors.budget" class="text-red-500">{{ errors.budget }}</p>
-        </div>
+      <!-- 新しいギャラリー画像をアップロード -->
+      <div class="form-group">
+        <label for="gallery_images">新しいギャラリー画像</label>
+        <input type="file" multiple @change="handleGalleryImages" class="input-field" />
+      </div>
 
-        <!-- ジャンルタグ -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">ジャンルタグ</label>
-          <input v-model="form.genre_tags_input" @input="updateGenreTags" type="text" placeholder="カンマ区切りで入力 (例：観光, グルメ, コスパ, 日帰り)" class="form-input mt-1 w-full border rounded-lg p-2 text-black" />
-        </div>
-
-        <!-- 公開/非公開 -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">公開設定</label>
-          <select v-model="form.is_public" class="form-select mt-1 w-full border rounded-lg p-2 text-black">
-            <option value="true">公開</option>
-            <option value="false">非公開</option>
-          </select>
-        </div>
-
-        <!-- 季節 -->
-        <div class="mb-4">
-          <label :class="['block', darkMode ? 'text-gray-300' : 'text-black']">季節</label>
-          <select v-model="form.season" class="form-select mt-1 w-full border rounded-lg p-2 text-black">
-            <option disabled value="">選択してください</option>
-            <option v-for="option in seasonOptions" :key="option" :value="option">{{ option }}</option>
-          </select>
-        </div>
-
-        <!-- 送信ボタン -->
-        <div class="text-center">
-          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-            更新する
-          </button>
-        </div>
-      </form>
-    </div>
+      <button type="submit" class="submit-button">更新</button>
+    </form>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['id'], // id プロパティを受け取る
+  props: ["id"],
   data() {
     return {
-      form: {
+      modelCourse: {
         title: "",
         description: "",
         budget: "",
-        genre_tags: [],
-        genre_tags_input: "",
-        is_public: "true",
-        season: "春",
-        theme_image: null,
-        gallery_images: [],
+        theme_image_url: "",
+        gallery_image_urls: [],
       },
-      errors: {},
-      seasonOptions: ["春", "夏", "秋", "冬"],
-      darkMode: false, // ダークモードの状態を管理
+      theme_image: null,
+      gallery_images: [],
     };
   },
   async created() {
     try {
       const response = await fetch(`/model-courses/${this.id}.json`);
-      if (!response.ok) {
-        throw new Error('データ取得に失敗しました');
-      }
+      if (!response.ok) throw new Error("データ取得に失敗しました");
       const data = await response.json();
-      this.form = {
-        title: data.model_course.title,
-        description: data.model_course.description,
-        budget: data.model_course.budget,
-        genre_tags: data.model_course.genre_tags,
-        genre_tags_input: data.model_course.genre_tags.join(', '),
-        is_public: data.model_course.is_public.toString(),
-        season: data.model_course.season,
-        theme_image: null,
-        gallery_images: []
-      };
+      this.modelCourse = data.model_course;
     } catch (error) {
-      console.error('データ取得に失敗しました:', error);
+      console.error("データ取得エラー:", error);
     }
   },
   methods: {
     handleThemeImage(event) {
-      this.form.theme_image = event.target.files[0];
+      this.theme_image = event.target.files[0];
     },
     handleGalleryImages(event) {
-      this.form.gallery_images = Array.from(event.target.files);
+      this.gallery_images = Array.from(event.target.files);
     },
-    updateGenreTags() {
-      this.form.genre_tags = this.form.genre_tags_input.split(",").map(tag => tag.trim());
-    },
-    validateForm() {
-      this.errors = {};
-      if (!this.form.title) {
-        this.errors.title = "タイトルは必須です。";
-      }
-      if (!this.form.description) {
-        this.errors.description = "詳細文は必須です。";
-      } else if (this.form.description.length > 3000) {
-        this.errors.description = "詳細文は3000文字以内で入力してください。";
-      }
-      if (!this.form.budget) {
-        this.errors.budget = "予算は必須です。";
-      } else if (this.form.budget < 0 || this.form.budget > 500000) {
-        this.errors.budget = "予算は0円から500,000円の間で入力してください。";
-      }
-      return Object.keys(this.errors).length === 0;
-    },
-    async submitForm() {
-      if (!this.validateForm()) {
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("model_course[title]", this.form.title);
-      formData.append("model_course[description]", this.form.description);
-      formData.append("model_course[budget]", this.form.budget);
-      formData.append("model_course[is_public]", this.form.is_public);
-      formData.append("model_course[season]", this.form.season);
-
-      this.form.genre_tags.forEach(tag => {
-        formData.append("model_course[genre_tags][]", tag);
-      });
-
-      if (this.form.theme_image) {
-        formData.append("model_course[theme_image]", this.form.theme_image);
-      }
-
-      this.form.gallery_images.forEach((image, index) => {
-        formData.append(`model_course[gallery_images][${index}]`, image);
-      });
-
+    async updateModelCourse() {
       try {
+        const formData = new FormData();
+        formData.append("model_course[title]", this.modelCourse.title);
+        formData.append("model_course[description]", this.modelCourse.description);
+        formData.append("model_course[budget]", this.modelCourse.budget);
+
+        if (this.theme_image) {
+          formData.append("model_course[theme_image]", this.theme_image);
+        }
+
+        this.gallery_images.forEach((image, index) => {
+          formData.append(`model_course[gallery_images][${index}]`, image);
+        });
+
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const response = await fetch(`/model-courses/${this.id}`, {
           method: "PATCH",
@@ -186,33 +106,81 @@ export default {
           body: formData,
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.errors.join(", "));
-        }
-
-        const data = await response.json();
-        alert("モデルコースが更新されました！");
+        if (!response.ok) throw new Error("更新に失敗しました");
+        alert("更新が完了しました");
         window.location.href = "/model-courses";
       } catch (error) {
-        console.error("更新に失敗しました:", error);
-        alert("更新に失敗しました。入力内容を確認してください。");
+        console.error("更新エラー:", error);
+        alert("更新に失敗しました");
       }
-    },
-    toggleDarkMode() {
-      this.darkMode = !this.darkMode; // ダークモードの切り替え
-    },
-    goToModelCourses() {
-      window.location.href = "/model-courses";
     },
   },
 };
 </script>
 
 <style scoped>
-.form-input, .form-textarea, .form-select {
-  border: 1px solid #ccc;
+.model-course-edit-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-field {
   padding: 8px;
-  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.current-image {
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gallery img {
+  max-width: 100px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
 }
 </style>
