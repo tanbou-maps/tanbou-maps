@@ -23,8 +23,9 @@ Rails.application.routes.draw do
 
   # モデルコース（最新）
   resources :model_courses, path: 'model-courses' do
-
     member do
+      get :show
+      get :edit
       patch :regenerate_public_key # 公開キー再発行用ルート
     end
   end
