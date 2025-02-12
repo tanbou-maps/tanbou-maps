@@ -12,6 +12,15 @@
       <h1 class="title">{{ modelCourse.title }}</h1>
       <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" class="theme-image" />
       <p class="description">{{ modelCourse.description }}</p>
+      <p class="budget">予算: {{ modelCourse.budget }}</p>
+      <p class="season">季節: {{ modelCourse.season }}</p>
+      <p class="creator">作成者: {{ modelCourse.application_user.nickname }}</p>
+      <div class="genre-tags">
+        <h2>ジャンルタグ</h2>
+        <ul>
+          <li v-for="tag in modelCourse.genre_tags" :key="tag">{{ tag }}</li>
+        </ul>
+      </div>
       <div v-if="modelCourse.gallery_image_urls.length > 0" class="gallery">
         <h2>ギャラリー画像</h2>
         <div class="gallery-images">
@@ -40,7 +49,9 @@ export default {
   data() {
     return {
       modelCourse: {
-        gallery_image_urls: []
+        gallery_image_urls: [],
+        genre_tags: [],
+        application_user: {}
       },
       darkMode: false, // ダークモードの状態を管理
       loading: true // ローディング状態を管理
@@ -166,6 +177,30 @@ export default {
 .description {
   font-size: 1.2em;
   margin-bottom: 20px;
+}
+
+.budget, .season, .creator {
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+.genre-tags {
+  margin-top: 20px;
+}
+
+.genre-tags ul {
+  list-style: none;
+  padding: 0;
+}
+
+.genre-tags li {
+  display: inline-block;
+  background-color: #f1c40f;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .gallery {

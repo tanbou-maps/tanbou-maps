@@ -22,7 +22,6 @@ class ModelCoursesController < ApplicationController
           gallery_image_urls = model_course.gallery_images.attached? ? model_course.gallery_images.map { |img| url_for(img) } : []
           model_course.as_json(
             only: [:id, :title, :description, :is_public, :budget, :season, :genre_tags],
-            methods: [:genre_tags_array],
             include: { application_user: { only: [:nickname] } }
           ).merge(
             theme_image_url: theme_image_url,
@@ -45,7 +44,6 @@ class ModelCoursesController < ApplicationController
           render json: {
             model_course: @model_course.as_json(
               only: [:id, :title, :description, :is_public, :budget, :season, :genre_tags],
-              methods: [:genre_tags_array],
               include: { application_user: { only: [:nickname] } }
             ).merge(
               theme_image_url: theme_image_url,
@@ -99,7 +97,7 @@ class ModelCoursesController < ApplicationController
   end
 
   # モデルコースの削除
-   def destroy
+  def destroy
     if @model_course.application_user == current_user
       @model_course.destroy
       render json: { message: "モデルコースが削除されました" }, status: :ok

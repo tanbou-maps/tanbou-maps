@@ -20,10 +20,8 @@ class ModelCourse < ApplicationRecord
   validates :season, presence: true
   validates :genre_tags, length: { maximum: 255 }
 
-  # カンマ区切りのタグを配列化
-  def genre_tags_array
-    genre_tags.present? ? genre_tags.split(",").map(&:strip) : []
-  end
+  # ジャンルタグを配列として保存するためのシリアライゼーション
+  serialize :genre_tags, Array
 
   # # **修正: UUID を自動生成**
   # private
