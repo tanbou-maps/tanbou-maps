@@ -46,6 +46,22 @@ class SpotsController < ApplicationController
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
   end
 
+  def destroy
+    @spot = Spot.find(params[:id])
+    if @spot.application_user_id == current_user.id
+      @spot.destroy
+      respond_to do |format|
+        format.html { redirect_to spots_path, notice: 'スポットが削除されました' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to spot_path(@spot), alert: 'スポットの削除に失敗しました' }
+        format.json { render json: { error: 'Unauthorized' }, status: :unauthorized }
+      end
+    end
+  end
+
   def search
     @google_maps_api_key = Rails.application.credentials.google_maps_api[:key]
     @spots = Spot.all
