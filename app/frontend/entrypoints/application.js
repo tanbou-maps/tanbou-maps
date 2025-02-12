@@ -157,16 +157,6 @@ if (reviewDetailElement) {
 }
 // --- reviews end ---
 
-// VueRouter
-document.addEventListener("DOMContentLoaded", () => {
-  const appElement = document.getElementById("app");
-  if (appElement) {
-    const app = createApp(App);
-    app.use(router); // Vue Router を適用
-    app.mount("#app"); // Vue アプリを #app にマウント
-  }
-});
-
 // --- model courses start ---
 // モデルコース一覧
 const modelCourseListElement = document.getElementById("model-course-list");
