@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :profiles, only: %i[show edit update destroy]
 
   # spots
-  resources :spots, only: %i[new create index show] do
+  resources :spots, only: %i[new create index show destroy] do
     resources :reviews, only: %i[index new create show destroy]
     collection do
       get :search

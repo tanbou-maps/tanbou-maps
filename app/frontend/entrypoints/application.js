@@ -50,6 +50,7 @@ import ContentsManagement from "../components/ContentsManagement.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 import DeleteAccountModal from "../components/DeleteAccountModal.vue";
 import LoadingScreen from "../components/LoadingScreen.vue";
+import DeleteSpotModal from "../components/DeleteSpotModal.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -75,6 +76,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ボタンクリックイベントの設定
     const deleteButton = document.getElementById("delete-account-button");
+    if (deleteButton) {
+      deleteButton.addEventListener("click", () => {
+        vm.openModal();
+      });
+    }
+  }
+
+  // Delete Spot Modal
+  const deleteSpotModalElement = document.getElementById("delete-spot-modal");
+  if (deleteSpotModalElement) {
+    const app = createApp(DeleteSpotModal, {
+      spotId: deleteSpotModalElement.dataset.spotId,
+    });
+    const vm = app.mount("#delete-spot-modal");
+
+    // ボタンクリックイベントの設定
+    const deleteButton = document.getElementById("delete-spot-button");
     if (deleteButton) {
       deleteButton.addEventListener("click", () => {
         vm.openModal();
