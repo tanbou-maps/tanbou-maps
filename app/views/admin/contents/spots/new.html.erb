@@ -50,7 +50,7 @@
         </div>
 
         <div class="space-y-4">
-          <%= form.fields_for :detail do |detail_form| %>
+          <%= form.fields_for :spot_detail,@spot.spot_detail do |detail_form| %>
             <h3 class="text-lg font-semibold text-gray-700 mb-3">詳細情報</h3>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
