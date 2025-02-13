@@ -12,11 +12,20 @@
       <h1 class="title">{{ modelCourse.title }}</h1>
       <img v-if="modelCourse.theme_image_url" :src="modelCourse.theme_image_url" alt="テーマ画像" class="theme-image" />
       <p class="description">{{ modelCourse.description }}</p>
+      <p class="budget">予算: {{ modelCourse.budget }}</p>
+      <p class="season">季節: {{ modelCourse.season }}</p>
+      <p class="creator">作成者: {{ modelCourse.application_user.nickname }}</p>
+      <div class="genre-tags">
+        <h2>ジャンルタグ</h2>
+        <ul>
+          <li v-for="tag in modelCourse.genre_tags" :key="tag">{{ tag }}</li>
+        </ul>
+      </div>
       <div v-if="modelCourse.gallery_image_urls.length > 0" class="gallery">
         <h2>ギャラリー画像</h2>
         <div class="gallery-images">
           <div v-for="(img, index) in modelCourse.gallery_image_urls" :key="index" class="gallery-image">
-            <img :src="img" alt="ギャラリー画像" />
+            <img :src="img" alt="ギャラリー画像"  @click="openModal(img)" />
           </div>
         </div>
       </div>
@@ -40,7 +49,9 @@ export default {
   data() {
     return {
       modelCourse: {
-        gallery_image_urls: []
+        gallery_image_urls: [],
+        genre_tags: [],
+        application_user: {}
       },
       darkMode: false, // ダークモードの状態を管理
       loading: true // ローディング状態を管理
@@ -101,6 +112,12 @@ export default {
     },
     toggleDarkMode() {
       this.darkMode = !this.darkMode; // ダークモードの切り替え
+    },
+    openModal(imgUrl) {
+      $.modaal({
+        type: 'image',
+        content_source: imgUrl,
+      });
     }
   }
 };
@@ -108,11 +125,10 @@ export default {
 
 <style scoped>
 .model-course-detail {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -136,6 +152,7 @@ export default {
   background-color: #3498db;
   color: #fff;
   font-size: 1em;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .btn-danger {
@@ -148,6 +165,7 @@ export default {
 
 .btn-danger:hover {
   background-color: #c0392b;
+  transform: scale(1.05);
 }
 
 .title {
@@ -159,6 +177,8 @@ export default {
 .theme-image {
   width: 100%;
   height: auto;
+  max-height: 400px;
+  object-fit: cover;
   margin-bottom: 20px;
   border-radius: 8px;
 }
@@ -166,6 +186,32 @@ export default {
 .description {
   font-size: 1.2em;
   margin-bottom: 20px;
+}
+
+.budget, .season, .creator {
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+.genre-tags {
+  margin-top: 20px;
+}
+
+.genre-tags ul {
+  list-style: none;
+  padding: 0;
+}
+
+.genre-tags li {
+  display: inline-block;
+  background-color: #ffcc00;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: bold;
+  border: 1px solid #d4a017;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .gallery {
@@ -179,9 +225,9 @@ export default {
 }
 
 .gallery-image img {
-  width: 100%;
-  height: auto;
-  max-width: 200px;
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
