@@ -4,11 +4,25 @@
     <div v-else class="container mx-auto p-6">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold">モデルコース一覧</h2>
+        <button @click="openModal" class="help-button">❓</button>
         <div class="absolute top-4 right-4">
           <button @click="toggleDarkMode" class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-800 text-2xl">
             {{ darkMode ? '🌚' : '🌞' }}
           </button>
         </div>
+
+        <Modal v-if="isModalOpen" @close="closeModal">
+        <template #content>
+          <h2>モデルコースの使い方</h2>
+          <p>モデルコースでは、さまざまな旅行プランを閲覧できます。</p>
+          <ul>
+            <li>🔍 コースを検索する</li>
+            <li>💾 お気に入りに追加する</li>
+            <li>✏️ 自分のコースを作成する</li>
+          </ul>
+          <button @click="closeModal" class="close-button">閉じる</button>
+        </template>
+    </Modal>
       </div>
 
       <div class="flex justify-between mb-6">
@@ -53,7 +67,23 @@
 <script>
 import LoadingScreen from './LoadingScreen.vue';
 
+import Modal from "@/components/Modal.vue"; // モーダルコンポーネントをインポート
+
 export default {
+   components: { Modal },
+  data() {
+    return {
+      isModalOpen: false
+    };
+  },
+  methods: {
+    openModal() {
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    }
+  },
   components: {
     LoadingScreen
   },

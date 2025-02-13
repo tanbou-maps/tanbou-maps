@@ -1,5 +1,14 @@
 <div id="model-course-show" data-id="<%= @model_course.id %>"></div>
 
+<!-- jQueryのCDNリンクを追加 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- SwiperとModaalのCDNリンクを追加 -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modaal/0.4.4/css/modaal.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modaal/0.4.4/js/modaal.min.js"></script>
+
 <script type="module">
   import { createApp } from "vue";
   import ModelCourseDetail from "../components/ModelCourseDetail.vue";

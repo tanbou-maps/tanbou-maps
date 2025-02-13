@@ -25,7 +25,7 @@
         <h2>ギャラリー画像</h2>
         <div class="gallery-images">
           <div v-for="(img, index) in modelCourse.gallery_image_urls" :key="index" class="gallery-image">
-            <img :src="img" alt="ギャラリー画像" />
+            <img :src="img" alt="ギャラリー画像"  @click="openModal(img)" />
           </div>
         </div>
       </div>
@@ -112,6 +112,12 @@ export default {
     },
     toggleDarkMode() {
       this.darkMode = !this.darkMode; // ダークモードの切り替え
+    },
+    openModal(imgUrl) {
+      $.modaal({
+        type: 'image',
+        content_source: imgUrl,
+      });
     }
   }
 };
@@ -119,11 +125,10 @@ export default {
 
 <style scoped>
 .model-course-detail {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -147,6 +152,7 @@ export default {
   background-color: #3498db;
   color: #fff;
   font-size: 1em;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .btn-danger {
@@ -159,6 +165,7 @@ export default {
 
 .btn-danger:hover {
   background-color: #c0392b;
+  transform: scale(1.05);
 }
 
 .title {
@@ -170,6 +177,8 @@ export default {
 .theme-image {
   width: 100%;
   height: auto;
+  max-height: 400px;
+  object-fit: cover;
   margin-bottom: 20px;
   border-radius: 8px;
 }
@@ -195,12 +204,14 @@ export default {
 
 .genre-tags li {
   display: inline-block;
-  background-color: #f1c40f;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 4px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  background-color: #ffcc00;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: bold;
+  border: 1px solid #d4a017;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .gallery {
@@ -214,9 +225,9 @@ export default {
 }
 
 .gallery-image img {
-  width: 100%;
-  height: auto;
-  max-width: 200px;
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
