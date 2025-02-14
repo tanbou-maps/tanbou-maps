@@ -10,25 +10,18 @@ Rails.application.routes.draw do
   get 'sign-out', to: 'sessions#destroy'
 
   # profile
-  resources :profiles, only: [:show, :edit, :update, :destroy]
+  resources :profiles, only: %i[show edit update destroy]
 
   # spots
-  resources :spots, only: %i[new create index show] do
+  resources :spots, only: %i[new create index show destroy] do
     resources :reviews, only: %i[index new create show destroy]
     collection do
       get :search
     end
   end
 
-
-  # モデルコース（最新）
-  resources :model_courses, path: 'model-courses' do
-
-    member do
-      patch :regenerate_public_key # 公開キー再発行用ルート
-    end
-  end
-
+  # モデルコース
+  resources :model_courses, path: 'model-courses', only: %i[index show new create edit update destroy]
 
   # contact
   resources :contacts, only: %i[new create] do
@@ -51,7 +44,7 @@ Rails.application.routes.draw do
           delete :delete_photo
         end
       end
-      resources :events, only: %i[index new create edit update destroy]
+      resources :modelcourses, only: %i[index destroy]
     end
     # ユーザー管理
     get 'users', to: 'users/dashboard#index', as: :users_dashboard

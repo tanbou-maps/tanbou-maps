@@ -31,7 +31,6 @@ console.log(
 // import '~/index.css'
 
 import { createApp } from "vue";
-import router from "../router"; // Vue Router をインポート
 import App from "../components/App.vue"; // Vue アプリのルートコンポーネント
 import "../stylesheets/style.css";
 import AppHeaderComponent from "../components/AppHeaderComponent.vue";
@@ -50,6 +49,8 @@ import AdminIndex from "../components/AdminIndex.vue";
 import ContentsManagement from "../components/ContentsManagement.vue";
 import ReviewDetail from "../components/ReviewDetail.vue";
 import DeleteAccountModal from "../components/DeleteAccountModal.vue";
+import LoadingScreen from "../components/LoadingScreen.vue";
+import DeleteSpotModal from "../components/DeleteSpotModal.vue";
 
 document.addEventListener("DOMContentLoaded", () => {
   createApp(AppHeaderComponent).mount("#app-header-component"); // header
@@ -75,6 +76,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ボタンクリックイベントの設定
     const deleteButton = document.getElementById("delete-account-button");
+    if (deleteButton) {
+      deleteButton.addEventListener("click", () => {
+        vm.openModal();
+      });
+    }
+  }
+
+  // Delete Spot Modal
+  const deleteSpotModalElement = document.getElementById("delete-spot-modal");
+  if (deleteSpotModalElement) {
+    const app = createApp(DeleteSpotModal, {
+      spotId: deleteSpotModalElement.dataset.spotId,
+    });
+    const vm = app.mount("#delete-spot-modal");
+
+    // ボタンクリックイベントの設定
+    const deleteButton = document.getElementById("delete-spot-button");
     if (deleteButton) {
       deleteButton.addEventListener("click", () => {
         vm.openModal();
@@ -139,23 +157,15 @@ if (reviewDetailElement) {
 }
 // --- reviews end ---
 
-// VueRouter
-document.addEventListener("DOMContentLoaded", () => {
-  const appElement = document.getElementById("app");
-  if (appElement) {
-    const app = createApp(App);
-    app.use(router); // Vue Router を適用
-    app.mount("#app"); // Vue アプリを #app にマウント
-  }
-});
-
 // --- model courses start ---
 // モデルコース一覧
 const modelCourseListElement = document.getElementById("model-course-list");
 if (modelCourseListElement) {
   import("../components/ModelCourseList.vue").then((module) => {
     const ModelCourseList = module.default;
-    createApp(ModelCourseList).mount("#model-course-list");
+    createApp(ModelCourseList, {
+      searchQuery: modelCourseListElement.dataset.searchQuery
+    }).mount("#model-course-list");
   });
 }
 
@@ -172,11 +182,12 @@ if (modelCourseNewElement) {
 const modelCourseEditElement = document.getElementById("model-course-edit");
 if (modelCourseEditElement) {
   import("../components/ModelCourseEdit.vue").then((module) => {
-    const ModelCourseForm = module.default;
-    createApp(ModelCourseForm).mount("#model-course-edit");
+    const ModelCourseEdit = module.default;
+    createApp(ModelCourseEdit, { id: modelCourseEditElement.dataset.id }).mount(
+      "#model-course-edit",
+    );
   });
 }
-
 
 // モデルコース詳細
 const modelCourseShowElement = document.getElementById("model-course-show");
@@ -184,11 +195,16 @@ if (modelCourseShowElement) {
   import("../components/ModelCourseDetail.vue").then((module) => {
     const ModelCourseDetail = module.default;
     createApp(ModelCourseDetail, {
-      id: modelCourseShowElement.dataset.id
+      id: modelCourseShowElement.dataset.id,
     }).mount("#model-course-show");
   });
 }
 // --- model courses end ---
+
+const loadingScreenElement = document.getElementById("loading-screen");
+if (loadingScreenElement) {
+  createApp(LoadingScreen).mount("#loading-screen");
+}
 
 // お問い合わせフォームコンポーネント
 const contactElement = document.getElementById("contact");

@@ -26,12 +26,22 @@
             <button
               v-if="canAddReview"
               @click="showCreateReviewForm"
-              class="group relative inline-flex items-center overflow-hidden rounded-xl border-2 border-yellow-300 px-8 py-2 text-yellow-300 hover:text-black focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              class="inline-flex min-w-[140px] items-center justify-center whitespace-nowrap rounded-md border border-gray-300 bg-white px-6 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              <span
-                class="duration-400 ease absolute left-0 top-1/2 block h-0 w-full bg-yellow-400 opacity-100 transition-all group-hover:top-0 group-hover:h-full"
-              ></span>
-              <span class="relative">レビューを投稿</span>
+              <svg
+                class="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+              レビューを投稿
             </button>
           </div>
         </div>

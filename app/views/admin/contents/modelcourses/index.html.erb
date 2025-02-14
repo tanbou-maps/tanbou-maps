@@ -1,10 +1,10 @@
 <div class="container mx-auto p-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">
-        <%= link_to 'スポット管理', admin_contents_dashboard_path, class: 'hover:text-yellow-300 transition' %>
+        <%= link_to 'モデルコース管理', admin_contents_dashboard_path, class: 'hover:text-yellow-300 transition' %>
     </h1>
-    <div class="mb-6">
-        <%= link_to '新しいスポットを追加する', new_admin_contents_spot_path, class: 'bg-yellow-300 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-400 transition' %>
-    </div>
+    <!-- <div class="mb-6">
+    <%= link_to '新しいスポットを追加する', new_admin_contents_spot_path, class: 'bg-yellow-300 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-400 transition' %>
+  </div> -->
 
     <!-- signoutボタン -->
     <div class="absolute right-4 top-4">
@@ -19,25 +19,22 @@
         <table class="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden">
             <thead class="bg-gray-100 border-b border-gray-300">
                 <tr>
-                    <th class="px-6 py-3 text-left text-gray-600 font-medium">スポット名</th>
+                    <th class="px-6 py-3 text-left text-gray-600 font-medium">タイトル</th>
                     <th class="px-6 py-3 text-left text-gray-600 font-medium">説明</th>
+                    <th class="px-6 py-3 text-left text-gray-600 font-medium">予算</th>
                     <th class="px-6 py-3 text-left text-gray-600 font-medium">作成日</th>
-                    <th class="px-6 py-3 text-left text-gray-600 font-medium">更新日</th>
                     <th class="px-6 py-3 text-left text-gray-600 font-medium">操作</th>
                 </tr>
             </thead>
             <tbody>
-                <% @spots.each do |spot| %>
+                <% @modelcourses.each do |modelcourse| %>
                 <tr class="border-b hover:bg-gray-50 transition">
-                    <td class="px-6 py-4"><%= spot.name %></td>
-                    <td class="px-6 py-4"><%= truncate(spot.description, length: 50) %></td>
-                    <td class="px-6 py-4"><%= spot.created_at.strftime('%Y-%m-%d') %></td>
-                    <td class="px-6 py-4"><%= spot.updated_at.strftime('%Y-%m-%d') %></td>
+                    <td class="px-6 py-4 font-semibold"><%= modelcourse.title %></td>
+                    <td class="px-6 py-4"><%= truncate(modelcourse.description, length: 50) %></td>
+                    <td class="px-6 py-4"><%= modelcourse.budget.present? ? "#{modelcourse.budget} 円" : "未設定" %></td>
+                    <td class="px-6 py-4"><%= modelcourse.created_at.strftime('%Y-%m-%d') %></td>
                     <td class="px-6 py-4 flex gap-2">
-                        <%= link_to '詳細', admin_contents_spot_path(spot), class: 'bg-gray-200 text-black px-3 py-1 rounded-lg text-sm shadow-md hover:bg-gray-400 transition' %>
-                        <%= link_to '編集', edit_admin_contents_spot_path(spot), class: 'bg-gray-200 text-black px-3 py-1 rounded-lg text-sm shadow-md hover:bg-gray-400 transition' %>
-
-                        <%= form_with url: admin_contents_spot_path(spot), method: :delete, local: true do %>
+                        <%= form_with url: admin_contents_modelcourse_path(modelcourse), method: :delete, local: true do %>
                         <button type="submit" class="bg-gray-200 text-black px-3 py-1 rounded-lg text-sm shadow-md hover:bg-gray-400 transition">
                             削除
                         </button>

@@ -1,90 +1,92 @@
 <div id="app-header-component" data-current-user="<%= current_user.to_json %>"></div>
 
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <%# カバー画像セクション %>
-  <div class="relative w-full h-48 sm:h-64 md:h-80 mb-4 rounded-lg overflow-hidden">
-    <% if @user.cover_image.attached? %>
-      <%= image_tag @user.cover_image, class: "w-full h-full object-cover" %>
-    <% else %>
-      <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-        <span class="text-gray-400 text-xl font-medium">No Image</span>
-      </div>
-    <% end %>
-  </div>
-
-  <%# プロフィール情報セクション %>
-  <div class="flex flex-col sm:flex-row items-start gap-6">
-    <%# アバター画像 %>
-    <div class="relative -mt-16 sm:-mt-20 z-10">
-      <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-        <% if @user.avatar_image.attached? %>
-          <%= image_tag @user.avatar_image, class: "w-full h-full object-cover" %>
-        <% else %>
-          <%# デフォルトのアバター表示 %>
-          <div class="w-full h-full flex items-center justify-center">
-            <div class="text-center">
-              <%# ユーザーのニックネームの頭文字を表示 %>
-              <span class="text-4xl sm:text-5xl font-bold text-gray-400">
-                <%= @user.nickname.first.upcase %>
-              </span>
-            </div>
-          </div>
-        <% end %>
-      </div>
+<div class="min-h-screen bg-gradient-to-t from-blue-50 from-0% via-gray-100 via-50% to-orange-100 to-100%">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <%# カバー画像セクション %>
+    <div class="relative w-full h-48 sm:h-64 md:h-80 mb-4 rounded-lg overflow-hidden">
+      <% if @user.cover_image.attached? %>
+        <%= image_tag @user.cover_image, class: "w-full h-full object-cover" %>
+      <% else %>
+        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+          <span class="text-gray-400 text-xl font-medium">No Image</span>
+        </div>
+      <% end %>
     </div>
 
-    <%# ユーザー情報 %>
-    <div class="flex-1">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900 mb-1"><%= @user.nickname %></h1>
-          <p class="text-sm text-gray-500">@<%= @user.user_id %></p>
+    <%# プロフィール情報セクション %>
+    <div class="flex flex-col sm:flex-row items-start gap-6">
+      <%# アバター画像 %>
+      <div class="relative -mt-16 sm:-mt-20 z-10">
+        <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-white overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+          <% if @user.avatar_image.attached? %>
+            <%= image_tag @user.avatar_image, class: "w-full h-full object-cover" %>
+          <% else %>
+            <%# デフォルトのアバター表示 %>
+            <div class="w-full h-full flex items-center justify-center">
+              <div class="text-center">
+                <%# ユーザーのニックネームの頭文字を表示 %>
+                <span class="text-4xl sm:text-5xl font-bold text-gray-400">
+                  <%= @user.nickname.first.upcase %>
+                </span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%# ユーザー情報 %>
+      <div class="flex-1">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900 mb-1"><%= @user.nickname %></h1>
+            <p class="text-sm text-gray-500">@<%= @user.user_id %></p>
+          </div>
+
+          <%# アクションボタン %>
+          <% if current_user == @user %>
+            <div class="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-0 sm:gap-4 sm:ml-4">
+              <%= link_to edit_profile_path(@user), class: "inline-flex items-center justify-center px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 whitespace-nowrap min-w-[140px]" do %>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                プロフィールを編集
+              <% end %>
+
+              <%# アカウント削除ボタン %>
+              <button
+                type="button"
+                id="delete-account-button"
+                class="inline-flex items-center justify-center px-6 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 whitespace-nowrap min-w-[140px]"
+              >
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+                アカウントを削除
+              </button>
+            </div>
+          <% end %>
         </div>
 
-        <%# アクションボタン %>
-        <% if current_user == @user %>
-          <div class="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-0 sm:gap-4 sm:ml-4">
-            <%= link_to edit_profile_path(@user), class: "inline-flex items-center justify-center px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 whitespace-nowrap min-w-[140px]" do %>
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-              </svg>
-              プロフィールを編集
-            <% end %>
-
-            <%# アカウント削除ボタン %>
-            <button
-              type="button"
-              id="delete-account-button"
-              class="inline-flex items-center justify-center px-6 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 whitespace-nowrap min-w-[140px]"
-            >
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
-              アカウントを削除
-            </button>
-          </div>
-        <% end %>
-      </div>
-
-      <%# アカウントタイプ %>
-      <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-        <%= @user.account_type %>
+        <%# アカウントタイプ %>
+        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+          <%= @user.account_type %>
+        </div>
       </div>
     </div>
-  </div>
 
-  <%# タブセクション（将来的な拡張用） %>
-  <div class="mt-8 border-t border-gray-200">
-    <div class="flex space-x-8 mt-4">
-      <button class="text-sm font-medium text-blue-600 border-b-2 border-blue-600 pb-4">投稿</button>
-      <button class="text-sm font-medium text-gray-500 pb-4">保存したスポット</button>
-      <button class="text-sm font-medium text-gray-500 pb-4">モデルコース</button>
+    <%# タブセクション（将来的な拡張用） %>
+    <div class="mt-8 border-t border-gray-200">
+      <div class="flex space-x-8 mt-4">
+        <button class="text-sm font-medium text-blue-600 border-b-2 border-blue-600 pb-4">投稿</button>
+        <button class="text-sm font-medium text-gray-500 pb-4">保存したスポット</button>
+        <button class="text-sm font-medium text-gray-500 pb-4">モデルコース</button>
+      </div>
     </div>
-  </div>
 
-  <%# コンテンツグリッド（将来的な拡張用） %>
-  <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <%# ここに投稿やスポットのグリッドを表示 %>
+    <%# コンテンツグリッド（将来的な拡張用） %>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <%# ここに投稿やスポットのグリッドを表示 %>
+    </div>
   </div>
 </div>
 
