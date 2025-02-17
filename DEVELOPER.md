@@ -4,6 +4,14 @@
 
 ### 事前準備
 
+まずは
+
+- `Ruby 3.1.6`
+- `Node.js 22.11.0`
+- `PostgreSQL 17.0`
+
+以上の3つのソフトウェアをインストールしてください インストール手順はクライアント環境によって変わるので調べながらインストールを進めてください
+
 `Ruby 3.1.6` がはいっていることを確認
 
 ```bash
@@ -120,6 +128,8 @@ production:
   password: <%= ENV["MY_APP_DATABASE_PASSWORD"] %>
 ```
 
+### Google Maps API を使うための手順
+
 Google Cloud にて Google Maps Platform の API を有効化 して API_KEY を取得する
 
 "bash" を使っている場合:
@@ -152,10 +162,16 @@ google_maps_api:
 bundle exec rails db:create
 ```
 
-テーブルをカラムを `models` を元に生成
+テーブルをカラムを `db\migrate` 元に生成
 
 ```bash
 bundle exec rails db:migrate
+```
+
+管理者用アカウントを `db\seeds.rb` をもとに生成
+
+```bash
+bundle exec rails db:seed
 ```
 
 下記コマンドで正常に開発用ローカルサーバーが立ち上がったら成功
